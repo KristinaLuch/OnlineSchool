@@ -1,0 +1,15 @@
+**/target/
+/target/
+*/target/*
+.classpath
+
+*.jar
+*.war
+*.ear
+
+*.iml
+*.idea
+out/
+
+*.xml
+
