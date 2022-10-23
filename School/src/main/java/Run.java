@@ -1,6 +1,4 @@
-package com;
-
-import com.service.LectureService;
+import service.LectureService;
 
 public class Run {
     public static void main(String[] args) {

@@ -1,9 +1,9 @@
-package com.service;
+package service;
 
-import com.entity.Course;
-import com.entity.Lecture;
-import com.entity.Student;
-import com.entity.Teacher;
+import entity.Course;
+import entity.Lecture;
+import entity.Student;
+import entity.Teacher;
 
 public class CourseService {
 

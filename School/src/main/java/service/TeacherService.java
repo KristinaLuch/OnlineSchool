@@ -1,6 +1,6 @@
-package com.service;
+package service;
 
-import com.entity.Teacher;
+import entity.Teacher;
 
 public class TeacherService {
 
