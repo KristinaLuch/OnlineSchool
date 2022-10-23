@@ -7,5 +7,6 @@ public class Run {
         lectureService.addLecture(1,"1", "1", "1");
         lectureService.addLecture(1,"1", "1", "1");
         System.out.println(lectureService.countLecture);
+        lectureService.addLecture(3,"1", "1", "1");
     }
 }
