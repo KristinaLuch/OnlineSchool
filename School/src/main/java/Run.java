@@ -1,4 +1,5 @@
 import entity.Course;
+import entity.Lecture;
 import service.CourseService;
 import service.LectureService;
 
@@ -12,8 +13,10 @@ public class Run {
         courseService.addLecture(course, lectureService.createLecture("3", "1", "1"));
         courseService.addLecture(course, lectureService.createLecture("4", "1", "1"));
         courseService.addLecture(course, lectureService.createLecture("5", "1", "1"));
+        courseService.addLecture(course, lectureService.createLecture("6", "1", "1"));
 
         System.out.println(course.getLectures().toString());
+        System.out.println("Кількість створених лекцій - "+ Lecture.count);
 
     }
 }

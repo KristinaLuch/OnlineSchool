@@ -4,27 +4,25 @@ import java.util.ArrayList;
 
 public class Course {
 
+    public static int count = 0;
     private int id;
     private ArrayList<Teacher> teachers;
     private ArrayList<Student> students;
     private ArrayList<Lecture> lectures;
 
-    public Course(int id, ArrayList<Teacher> teachers, ArrayList<Student> students, ArrayList<Lecture> lectures) {
-        this.id = id;
+    public Course(ArrayList<Teacher> teachers, ArrayList<Student> students, ArrayList<Lecture> lectures) {
+        this.id = ++count;
         this.teachers = teachers;
         this.students = students;
         this.lectures = lectures;
     }
 
     public Course() {
+        this.id = ++count;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public ArrayList<Teacher> getTeachers() {

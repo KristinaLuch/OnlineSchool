@@ -9,14 +9,8 @@ import java.util.ArrayList;
 
 public class CourseService {
 
-    public int countCourses = 0;
-
     public Course createCourse (){
-        countCourses++;
-        Course course = new Course();
-        int idCourse = countCourses;
-        course.setId(idCourse);
-        return course;
+        return new Course();
     }
 
     public void addLecture(Course course, Lecture lecture){
