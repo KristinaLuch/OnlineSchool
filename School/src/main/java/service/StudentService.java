@@ -6,9 +6,11 @@ public class StudentService {
 
     public int countStudent = 0;
 
-    public void addStudent(int id, String name, String surname){
-        Student student = new Student(id, name, surname);
+    public Student createStudent(String name, String surname){
         countStudent++;
+        int idStudent = countStudent;
+        Student student = new Student(idStudent, name, surname);
+        return student;
     }
 
 }

@@ -6,9 +6,12 @@ public class LectureService {
 
     public int countLecture = 0;
 
-    public void addLecture (int id, String subject, String homework, String materials){
-        Lecture lecture = new Lecture(id, subject, homework, materials);
+    public Lecture createLecture(String subject, String homework, String materials){
         countLecture++;
+        int idCourse = countLecture;
+        Lecture lecture = new Lecture(idCourse, subject, homework, materials);
+
+        return lecture;
     }
 
 }
