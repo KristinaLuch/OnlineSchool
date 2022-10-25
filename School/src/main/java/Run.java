@@ -5,6 +5,8 @@ import service.LectureService;
 
 public class Run {
     public static void main(String[] args) {
+
+
         CourseService courseService = new CourseService();
         LectureService lectureService = new LectureService();
         Course course = courseService.createCourse();
@@ -15,11 +17,9 @@ public class Run {
         courseService.addLecture(course, lectureService.createLecture("5", "1", "1"));
         courseService.addLecture(course, lectureService.createLecture("6", "1", "1"));
 
-        System.out.println(course.getLectures().toString());
+        System.out.println("Ід лекції "+course.getLectures().get(5).idCourse);
         System.out.println("Кількість створених лекцій - "+ Lecture.count);
 
-        System.out.println("HEEEEEEEEEELP");
-        System.out.println("i dont understand");
 
     }
 }

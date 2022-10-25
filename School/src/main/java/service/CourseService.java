@@ -21,7 +21,6 @@ public class CourseService {
         lecture.idCourse = course.getId();
         lectures.add(lecture);
         course.setLectures(lectures);
-
     }
 
 }
