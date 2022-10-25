@@ -18,5 +18,8 @@ public class Run {
         System.out.println(course.getLectures().toString());
         System.out.println("Кількість створених лекцій - "+ Lecture.count);
 
+        System.out.println("HEEEEEEEEEELP");
+        System.out.println("i dont understand");
+
     }
 }
