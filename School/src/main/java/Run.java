@@ -17,7 +17,7 @@ public class Run {
         courseService.addLecture(course, lectureService.createLecture("5", "1", "1"));
         courseService.addLecture(course, lectureService.createLecture("6", "1", "1"));
 
-        System.out.println("Ід лекції "+course.getLectures().get(5).idCourse);
+        System.out.println("Ід курсу 6 лекції -"+course.getLectures().get(5).idCourse);
         System.out.println("Кількість створених лекцій - "+ Lecture.count);
 
 
