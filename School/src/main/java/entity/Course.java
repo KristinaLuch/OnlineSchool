@@ -48,4 +48,14 @@ public class Course {
     public void setLectures(ArrayList<Lecture> lectures) {
         this.lectures = lectures;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", teachers=" + teachers +
+                ", students=" + students +
+                ", lectures=" + lectures +
+                '}';
+    }
 }

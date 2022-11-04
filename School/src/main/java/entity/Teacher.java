@@ -14,4 +14,18 @@ public class Teacher {
         this.surname = surname;
         this.subject = subject;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", subject='" + subject + '\'' +
+                '}';
+    }
 }

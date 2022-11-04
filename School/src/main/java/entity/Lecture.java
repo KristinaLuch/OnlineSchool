@@ -6,22 +6,29 @@ public class Lecture {
 
     public static int count = 0;
     private String subject;
-    private String homework;
-    private String materials;
+    private Homework homework;
+    private Materials materials;
 
     public int idCourse;
 
-    public Lecture(String subject, String homework, String materials) {
-        this.id = ++count;
+    public Lecture(String subject, Homework homework, Materials materials) {
         this.subject = subject;
         this.homework = homework;
         this.materials = materials;
+        this.id = ++count;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
     public String toString() {
         return "Lecture{" +
-                "subject='" + subject + '\'' +
+                "id=" + id +
+                ", subject='" + subject + '\'' +
+                ", homework=" + homework +
+                ", materials=" + materials +
                 ", idCourse=" + idCourse +
                 '}';
     }
