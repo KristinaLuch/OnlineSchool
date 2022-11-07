@@ -27,17 +27,5 @@ public class Main {
 
         commandService.startApp();
 
-//        Course course = courseService.create();
-//        courseService.addLecture(course, lectureService.createLecture("1", "1", "1"));
-//        courseService.addLecture(course, lectureService.createLecture("2", "1", "1"));
-//        courseService.addLecture(course, lectureService.createLecture("3", "1", "1"));
-//        courseService.addLecture(course, lectureService.createLecture("4", "1", "1"));
-//        courseService.addLecture(course, lectureService.createLecture("5", "1", "1"));
-//        courseService.addLecture(course, lectureService.createLecture("6", "1", "1"));
-//
-//        System.out.println("Ід курсу 6 лекції -"+course.getLectures().get(5).idCourse);
-//        System.out.println("Кількість створених лекцій - "+ Lecture.count);
-
-
     }
 }
