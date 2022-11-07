@@ -10,14 +10,14 @@ public class CourseRep {
         this.courses = new Course[10];
     }
 
-    public boolean add(Course course){
-        if (course == null){
+    public boolean add(Course course) {
+        if (course == null) {
             return false;
         }
-        for (int i = 0; i<courses.length; i++) {
+        for (int i = 0; i < courses.length; i++) {
             if (courses[i] == null) {
                 courses[i] = course;
-                if(i == courses.length-1){
+                if (i == courses.length - 1) {
                     increase();
                 }
                 break;
@@ -26,31 +26,31 @@ public class CourseRep {
         return true;
     }
 
-    private void increase(){
-        int newLength = (courses.length*3)/2+1;
+    private void increase() {
+        int newLength = (courses.length * 3) / 2 + 1;
         Course[] tmp = new Course[newLength];
-        for (int i = 0; i<courses.length; i++){
+        for (int i = 0; i < courses.length; i++) {
             tmp[i] = courses[i];
         }
         courses = tmp;
     }
 
-    public Course get(int id){
-        if(id < 0){
+    public Course get(int id) {
+        if (id < 0) {
             return null;
         }
-        if (id == courses[id].getId()){
+        if (id == courses[id].getId()) {
             return courses[id];
         } //if id == i
-        for (int i = 0; i<courses.length; i++){
-            if (courses[i].getId() == id){
+        for (int i = 0; i < courses.length; i++) {
+            if (courses[i].getId() == id) {
                 return courses[i];
             }
         }
         return null;
     }
 
-    public Course[] getAll(){
+    public Course[] getAll() {
         return courses;
     }
 

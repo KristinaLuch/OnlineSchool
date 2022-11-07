@@ -1,10 +1,8 @@
 package service;
 
-import entity.Homework;
 import entity.Materials;
 import repository.MaterialsRep;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MaterialService {

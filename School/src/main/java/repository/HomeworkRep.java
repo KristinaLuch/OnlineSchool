@@ -9,14 +9,14 @@ public class HomeworkRep {
         this.homeworks = new Homework[10];
     }
 
-    public boolean add(Homework homework){
-        if (homework == null){
+    public boolean add(Homework homework) {
+        if (homework == null) {
             return false;
         }
-        for (int i = 0; i<homeworks.length; i++) {
+        for (int i = 0; i < homeworks.length; i++) {
             if (homeworks[i] == null) {
                 homeworks[i] = homework;
-                if(i == homeworks.length-1){
+                if (i == homeworks.length - 1) {
                     increase();
                 }
                 break;
@@ -25,32 +25,32 @@ public class HomeworkRep {
         return true;
     }
 
-    private void increase(){
-        int newLength = (homeworks.length*3)/2+1;
+    private void increase() {
+        int newLength = (homeworks.length * 3) / 2 + 1;
         System.out.println(newLength);
         Homework[] tmp = new Homework[newLength];
-        for (int i = 0; i<homeworks.length; i++){
+        for (int i = 0; i < homeworks.length; i++) {
             tmp[i] = homeworks[i];
         }
         homeworks = tmp;
     }
 
-    public Homework get(int id){
-        if(id < 0){
+    public Homework get(int id) {
+        if (id < 0) {
             return null;
         }
-        if (id == homeworks[id].getId()){
+        if (id == homeworks[id].getId()) {
             return homeworks[id];
         } //if id == i
-        for (int i = 0; i<homeworks.length; i++){
-            if (homeworks[i].getId() == id){
+        for (int i = 0; i < homeworks.length; i++) {
+            if (homeworks[i].getId() == id) {
                 return homeworks[i];
             }
         }
         return null;
     }
 
-    public Homework[] getAll(){
+    public Homework[] getAll() {
         return homeworks;
     }
 

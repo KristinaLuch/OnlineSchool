@@ -1,10 +1,8 @@
 package service;
 
-import entity.Student;
 import entity.Teacher;
 import repository.TeacherRep;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TeacherService {
@@ -21,7 +19,7 @@ public class TeacherService {
         this.scanner = scanner;
     }
 
-    public Teacher create(){
+    public Teacher create() {
 
         System.out.println(PRINT_SUBJECT);
         String subject = scanner.next();

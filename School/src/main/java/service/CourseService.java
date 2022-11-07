@@ -9,7 +9,7 @@ import repository.CourseRep;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CourseService{
+public class CourseService {
 
     public CourseRep courses;
     private Scanner scanner;
@@ -27,7 +27,7 @@ public class CourseService{
         this.teacherService = teacherService;
     }
 
-    public Course create(){
+    public Course create() {
         Course course = new Course();
         addLectures(course);
         addTeachers(course);
@@ -36,8 +36,8 @@ public class CourseService{
         return course;
     }
 
-    private void addLectures(Course course){
-        while (true){
+    private void addLectures(Course course) {
+        while (true) {
             System.out.println("Please, add lectures. \n" +
                     "If you want to create new lecture enter 1, \n" +
                     "finish adding lectures enter 2");
@@ -57,8 +57,8 @@ public class CourseService{
         }
     }
 
-    private void addTeachers(Course course){
-        while (true){
+    private void addTeachers(Course course) {
+        while (true) {
             System.out.println("Please, add teachers. \n" +
                     "If you want to create new teachers enter 1, \n" +
                     "finish adding teachers enter 2");
@@ -67,7 +67,7 @@ public class CourseService{
                 case "1":
                     Teacher teacher = teacherService.create();
                     ArrayList<Teacher> teachers = course.getTeachers();
-                    if (teachers == null){
+                    if (teachers == null) {
                         teachers = new ArrayList<>();
                     }
                     teachers.add(teacher);
@@ -82,8 +82,8 @@ public class CourseService{
         }
     }
 
-    private void addStudents(Course course){
-        while (true){
+    private void addStudents(Course course) {
+        while (true) {
             System.out.println("Please, add students. \n" +
                     "If you want to create new students enter 1, \n" +
                     "finish adding students enter 2");
@@ -92,7 +92,7 @@ public class CourseService{
                 case "1":
                     Student student = studentService.create();
                     ArrayList<Student> students = course.getStudents();
-                    if (students == null){
+                    if (students == null) {
                         students = new ArrayList<>();
                     }
                     students.add(student);
@@ -106,9 +106,10 @@ public class CourseService{
             }
         }
     }
-    public void addLectureToList(Course course, Lecture lecture){
+
+    public void addLectureToList(Course course, Lecture lecture) {
         ArrayList<Lecture> lectures = course.getLectures();
-        if(lectures == null){
+        if (lectures == null) {
             lectures = new ArrayList<Lecture>();
         }
         lecture.idCourse = course.getId();

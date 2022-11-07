@@ -1,8 +1,6 @@
-import entity.*;
 import repository.*;
 import service.*;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {

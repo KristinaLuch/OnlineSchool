@@ -10,14 +10,14 @@ public class StudentRep {
         this.students = new Student[10];
     }
 
-    public boolean add(Student student){
-        if (student == null){
+    public boolean add(Student student) {
+        if (student == null) {
             return false;
         }
-        for (int i = 0; i<students.length; i++) {
+        for (int i = 0; i < students.length; i++) {
             if (students[i] == null) {
                 students[i] = student;
-                if(i == students.length-1){
+                if (i == students.length - 1) {
                     increase();
                 }
                 break;
@@ -26,31 +26,31 @@ public class StudentRep {
         return true;
     }
 
-    private void increase(){
-        int newLength = (students.length*3)/2+1;
+    private void increase() {
+        int newLength = (students.length * 3) / 2 + 1;
         Student[] tmp = new Student[newLength];
-        for (int i = 0; i<students.length; i++){
+        for (int i = 0; i < students.length; i++) {
             tmp[i] = students[i];
         }
         students = tmp;
     }
 
-    public Student get(int id){
-        if(id < 0){
+    public Student get(int id) {
+        if (id < 0) {
             return null;
         }
-        if (id == students[id].getId()){
+        if (id == students[id].getId()) {
             return students[id];
         } //if id == i
-        for (int i = 0; i<students.length; i++){
-            if (students[i].getId() == id){
+        for (int i = 0; i < students.length; i++) {
+            if (students[i].getId() == id) {
                 return students[i];
             }
         }
         return null;
     }
 
-    public Student[] getAll(){
+    public Student[] getAll() {
         return students;
     }
 
