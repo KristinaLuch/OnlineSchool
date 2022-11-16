@@ -1,20 +1,20 @@
-package service;
+package service.school;
 
-import entity.Student;
+import models.Student;
+import models.Teacher;
 import repository.StudentRep;
 
 import java.util.Scanner;
 
-public class StudentService {
+public class StudentService extends SchoolService {
 
     public static final String PRINT_NAME = "Print student`s name";
     public static final String PRINT_SURNAME = "Print student`s surname";
-
-    private StudentRep students;
+    
     private Scanner scanner;
 
-    public StudentService(StudentRep students, Scanner scanner) {
-        this.students = students;
+    public StudentService(StudentRep schoolRep, Scanner scanner) {
+        this.schoolRep = schoolRep;
         this.scanner = scanner;
     }
 
@@ -25,7 +25,7 @@ public class StudentService {
         System.out.println(PRINT_SURNAME);
         String surname = scanner.next();
         Student student = new Student(name, surname);
-        students.add(student);
+        schoolRep.add(student);
         return student;
     }
 

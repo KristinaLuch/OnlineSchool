@@ -1,26 +1,21 @@
-package service;
+package service.school;
 
-import entity.Course;
-import entity.Lecture;
-import entity.Student;
-import entity.Teacher;
+import models.*;
 import repository.CourseRep;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class CourseService {
-
-    public CourseRep courses;
+public class CourseService extends SchoolService {
     private Scanner scanner;
-
     private LectureService lectureService;
     private StudentService studentService;
     private TeacherService teacherService;
 
-    public CourseService(CourseRep courses, Scanner scanner, LectureService lectureService,
+    public CourseService(CourseRep schoolRep, Scanner scanner, LectureService lectureService,
                          StudentService studentService, TeacherService teacherService) {
-        this.courses = courses;
+        this.schoolRep = schoolRep;
         this.scanner = scanner;
         this.lectureService = lectureService;
         this.studentService = studentService;
@@ -32,6 +27,7 @@ public class CourseService {
         addLectures(course);
         addTeachers(course);
         addStudents(course);
+        schoolRep.add(course);
         System.out.println(course);
         return course;
     }
@@ -52,6 +48,7 @@ public class CourseService {
                     return;
                 default:
                     System.out.println("Wrong command");
+                    addLectures(course);
                     break;
             }
         }
@@ -66,7 +63,7 @@ public class CourseService {
             switch (response) {
                 case "1":
                     Teacher teacher = teacherService.create();
-                    ArrayList<Teacher> teachers = course.getTeachers();
+                    List<Teacher> teachers = course.getTeachers();
                     if (teachers == null) {
                         teachers = new ArrayList<>();
                     }
@@ -91,7 +88,7 @@ public class CourseService {
             switch (response) {
                 case "1":
                     Student student = studentService.create();
-                    ArrayList<Student> students = course.getStudents();
+                    List<Student> students = course.getStudents();
                     if (students == null) {
                         students = new ArrayList<>();
                     }
@@ -108,7 +105,7 @@ public class CourseService {
     }
 
     public void addLectureToList(Course course, Lecture lecture) {
-        ArrayList<Lecture> lectures = course.getLectures();
+        List<Lecture> lectures = course.getLectures();
         if (lectures == null) {
             lectures = new ArrayList<Lecture>();
         }

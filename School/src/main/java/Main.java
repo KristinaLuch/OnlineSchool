@@ -1,5 +1,6 @@
 import repository.*;
 import service.*;
+import service.school.*;
 
 import java.util.Scanner;
 
@@ -14,7 +15,6 @@ public class Main {
          MaterialsRep materials = new MaterialsRep();
          StudentRep students = new StudentRep();
          TeacherRep teachers = new TeacherRep();
-
 
         MaterialService materialService = new MaterialService(materials, scanner);
         HomeworkService homeworkService = new HomeworkService(homeworks, scanner);

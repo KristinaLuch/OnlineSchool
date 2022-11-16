@@ -1,22 +1,21 @@
-package service;
+package service.school;
 
-import entity.Homework;
-import entity.Lecture;
-import entity.Materials;
+import models.Homework;
+import models.Lecture;
+import models.Materials;
 import repository.LectureRep;
 
 import java.util.Scanner;
 
-public class LectureService {
-
-    public LectureRep lectures;
+public class LectureService extends SchoolService {
+    
     private Scanner scanner;
     private HomeworkService homeworkService;
     private MaterialService materialService;
     private static final String PRINT_SUBJECT = "Print subject";
 
-    public LectureService(LectureRep lectures, Scanner scanner, HomeworkService homeworkService, MaterialService materialService) {
-        this.lectures = lectures;
+    public LectureService(LectureRep schoolRep, Scanner scanner, HomeworkService homeworkService, MaterialService materialService) {
+        this.schoolRep = schoolRep;
         this.scanner = scanner;
         this.homeworkService = homeworkService;
         this.materialService = materialService;
@@ -28,10 +27,15 @@ public class LectureService {
         Homework homework = homeworkService.create();
         Materials materials = materialService.crete();
         Lecture lecture = new Lecture(subject, homework, materials);
-        lectures.add(lecture);
+        schoolRep.add(lecture);
         System.out.println("Lecture created. " + lecture);
         return lecture;
+    }
 
+    public void addLectureToRep(Lecture lecture){
+        homeworkService.addToRep(lecture.getHomework());
+        materialService.addToRep(lecture.getMaterials());
+        schoolRep.add(lecture);
     }
 
 }

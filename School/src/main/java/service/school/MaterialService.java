@@ -1,20 +1,18 @@
-package service;
+package service.school;
 
-import entity.Materials;
+import models.Materials;
 import repository.MaterialsRep;
 
 import java.util.Scanner;
 
-public class MaterialService {
+public class MaterialService extends SchoolService {
 
     private static final String PRINT_MATERIALS= "Print materials";
 
-    public MaterialsRep materialsRep;
-
     private Scanner scanner;
 
-    public MaterialService(MaterialsRep materialsRep, Scanner scanner) {
-        this.materialsRep = materialsRep;
+    public MaterialService(MaterialsRep schoolRep, Scanner scanner) {
+        this.schoolRep = schoolRep;
         this.scanner = scanner;
     }
 
@@ -26,7 +24,7 @@ public class MaterialService {
 
         Materials materials = new Materials(materialsString);
 
-        materialsRep.add(materials);
+        schoolRep.add(materials);
 
         return materials;
     }

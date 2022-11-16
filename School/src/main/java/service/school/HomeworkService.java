@@ -1,18 +1,17 @@
-package service;
+package service.school;
 
-import entity.Homework;
+import models.Homework;
 import repository.HomeworkRep;
 
 import java.util.Scanner;
 
-public class HomeworkService {
+public class HomeworkService extends SchoolService{
 
     private static final String PRINT_HOMEWORK = "Print homework";
-    public HomeworkRep homeworks;
     private Scanner scanner;
 
-    public HomeworkService(HomeworkRep homeworks, Scanner scanner) {
-        this.homeworks = homeworks;
+    public HomeworkService(HomeworkRep schoolRep, Scanner scanner) {
+        this.schoolRep = schoolRep;
         this.scanner = scanner;
     }
 
@@ -20,7 +19,7 @@ public class HomeworkService {
         System.out.println(PRINT_HOMEWORK);
         String homeworkString = scanner.next();
         Homework homework = new Homework(homeworkString);
-        homeworks.add(homework);
+        schoolRep.add(homework);
         return homework;
     }
 }

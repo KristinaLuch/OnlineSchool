@@ -1,6 +1,8 @@
-package entity;
+package models;
 
-public class Teacher {
+import java.util.Objects;
+
+public class Teacher extends SchoolEntity {
 
     public static int count = 0;
     private int id;
@@ -27,5 +29,17 @@ public class Teacher {
                 ", surname='" + surname + '\'' +
                 ", subject='" + subject + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Teacher teacher)) return false;
+        return id == teacher.id && Objects.equals(name, teacher.name) && Objects.equals(surname, teacher.surname) && Objects.equals(subject, teacher.subject);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, subject);
     }
 }

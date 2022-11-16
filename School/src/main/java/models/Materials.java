@@ -1,9 +1,11 @@
-package entity;
+package models;
 
-public class Materials {
+import java.util.Objects;
+
+public class Materials extends SchoolEntity {
 
     public static int count = 0;
-    private int id;
+    //private int id;
     private String materials;
 
     public Materials(String materials) {
@@ -29,5 +31,17 @@ public class Materials {
                 "id=" + id +
                 ", materials='" + materials + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Materials materials1)) return false;
+        return Objects.equals(materials, materials1.materials);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(materials);
     }
 }
