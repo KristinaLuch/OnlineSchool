@@ -5,7 +5,7 @@ import models.Materials;
 public class MaterialsRep extends SchoolRep {
 
     public MaterialsRep() {
-        this.schoolEntities = new Materials[10];
+        this.schoolObjects = new Materials[10];
     }
 
 }

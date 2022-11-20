@@ -59,7 +59,7 @@ public class CommandService {
         startCreate();
         System.out.println(START);
         while (play){
-            if (Lecture.count == 8){
+            if (Lecture.getCount() == 8){
                 System.out.println("You already created 8 lectures. Stop it! I'm done");
                 break;
             }
@@ -97,8 +97,8 @@ public class CommandService {
                 return;
             case RESPONSE_LECTURE:
                 Lecture lecture = lectureService.create();
-                System.out.println("Lecture of course (id) "+lecture.idCourse);
-                System.out.println("Number of lectures - "+Lecture.count);
+                System.out.println("Lecture of course (id) "+lecture.getIdCourse());
+                System.out.println("Number of lectures - "+Lecture.getCount());
                 return;
             case RESPONSE_STUDENT:
                 studentService.create();
@@ -166,6 +166,7 @@ public class CommandService {
         courseService.addLectureToList(course, lecture3);
         courseService.addToRep(course);
         System.out.println(course + "\n");
+
     }
 
 }

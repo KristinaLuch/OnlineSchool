@@ -18,7 +18,7 @@ public class Main {
 
         MaterialService materialService = new MaterialService(materials, scanner);
         HomeworkService homeworkService = new HomeworkService(homeworks, scanner);
-        LectureService lectureService = new LectureService(lectures, scanner, homeworkService, materialService);
+        LectureService lectureService = new LectureService(lectures, scanner, homeworkService, materialService, courses);
         StudentService studentService = new StudentService(students, scanner);
         TeacherService teacherService = new TeacherService(teachers, scanner);
         CourseService courseService = new CourseService(courses, scanner, lectureService, studentService, teacherService);

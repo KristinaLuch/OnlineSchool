@@ -2,15 +2,19 @@ package models;
 
 import java.util.Objects;
 
-public class Materials extends SchoolEntity {
+public class Materials extends SchoolObject {
 
-    public static int count = 0;
+    private static int count = 0;
     //private int id;
     private String materials;
 
     public Materials(String materials) {
         this.materials = materials;
         this.id = ++count;
+    }
+
+    public static int getCount() {
+        return count;
     }
 
     public String getMaterials() {

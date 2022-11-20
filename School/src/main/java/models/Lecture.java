@@ -2,13 +2,13 @@ package models;
 
 import java.util.Objects;
 
-public class Lecture extends SchoolEntity {
+public class Lecture extends SchoolObject {
 
     //private int id;
 
-    public static int count = 0;
+    private static int count = 0;
 
-    public int idCourse;
+    private int idCourse;
     private String subject;
     private Homework homework;
     private Materials materials;
@@ -20,8 +20,20 @@ public class Lecture extends SchoolEntity {
         this.id = ++count;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public int getIdCourse() {
+        return idCourse;
+    }
+
+    public void setIdCourse(int idCourse) {
+        this.idCourse = idCourse;
     }
 
     public String getSubject() {
@@ -70,4 +82,5 @@ public class Lecture extends SchoolEntity {
     public int hashCode() {
         return Objects.hash(idCourse, subject, homework, materials);
     }
+
 }

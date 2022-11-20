@@ -2,9 +2,9 @@ package models;
 
 import java.util.Objects;
 
-public class Homework extends SchoolEntity {
+public class Homework extends SchoolObject {
 
-    public static int count = 0;
+    private static int count = 0;
     private int id;
     private String homework;
 
@@ -23,6 +23,10 @@ public class Homework extends SchoolEntity {
 
     public int getId() {
         return id;
+    }
+
+    public static int getCount() {
+        return count;
     }
 
     @Override

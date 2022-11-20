@@ -2,12 +2,10 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class Course extends SchoolEntity {
+public class Course extends SchoolObject {
 
-    public static int count = 0;
-    //private int id;
+    private static int count = 0;
     private List<Teacher> teachers;
     private List<Student> students;
     private List<Lecture> lectures;
@@ -51,6 +49,10 @@ public class Course extends SchoolEntity {
         this.lectures = lectures;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -61,16 +63,5 @@ public class Course extends SchoolEntity {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Course course = (Course) o;
-        return Objects.equals(teachers, course.teachers) && Objects.equals(students, course.students) && Objects.equals(lectures, course.lectures);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(teachers, students, lectures);
-    }
 }

@@ -5,7 +5,7 @@ import models.Homework;
 public class HomeworkRep extends SchoolRep{
 
     public HomeworkRep() {
-        this.schoolEntities = new Homework[10];
+        this.schoolObjects = new Homework[10];
     }
 
 

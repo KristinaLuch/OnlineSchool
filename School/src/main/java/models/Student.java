@@ -2,9 +2,9 @@ package models;
 
 import java.util.Objects;
 
-public class Student extends SchoolEntity {
+public class Student extends SchoolObject {
 
-    public static int count = 0;
+    private static int count = 0;
     private int id;
     private String name;
     private String surname;
@@ -17,6 +17,26 @@ public class Student extends SchoolEntity {
 
     public int getId() {
         return id;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     @Override

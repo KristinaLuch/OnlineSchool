@@ -1,7 +1,6 @@
 package service.school;
 
-import models.SchoolEntity;
-import models.Student;
+import models.SchoolObject;
 import repository.SchoolRep;
 
 public abstract class SchoolService {
@@ -9,7 +8,7 @@ public abstract class SchoolService {
     protected SchoolRep schoolRep;
 
     public void printAll(){
-        SchoolEntity[] entitiesToPrint = schoolRep.getAll();
+        SchoolObject[] entitiesToPrint = schoolRep.getAll();
         if (entitiesToPrint == null||entitiesToPrint.length == 0){
             System.out.println("You haven't created anything yet");
         }
@@ -20,7 +19,7 @@ public abstract class SchoolService {
         }
     }
 
-    public void addToRep(SchoolEntity schoolEntity){
-        schoolRep.add(schoolEntity);
+    public void addToRep(SchoolObject schoolObject){
+        schoolRep.add(schoolObject);
     }
 }

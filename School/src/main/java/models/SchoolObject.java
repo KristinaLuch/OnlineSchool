@@ -1,9 +1,8 @@
 package models;
 
-public class SchoolEntity {
+public class SchoolObject {
 
     protected int id;
-
     public int getId() {
         return id;
     }

@@ -40,7 +40,7 @@ public class CourseService extends SchoolService {
             String response = scanner.next();
             switch (response) {
                 case "1":
-                    Lecture lecture = lectureService.create();
+                    Lecture lecture = lectureService.createLectureInCourse(course.getId());
                     addLectureToList(course, lecture);
                     System.out.println("Lecture added");
                     break;
@@ -109,7 +109,7 @@ public class CourseService extends SchoolService {
         if (lectures == null) {
             lectures = new ArrayList<Lecture>();
         }
-        lecture.idCourse = course.getId();
+        lecture.setIdCourse(course.getId());
         lectures.add(lecture);
         course.setLectures(lectures);
     }
