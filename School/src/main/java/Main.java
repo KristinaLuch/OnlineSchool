@@ -13,17 +13,16 @@ public class Main {
          LectureRep lectures = new LectureRep();
          HomeworkRep homeworks = new HomeworkRep();
          MaterialsRep materials = new MaterialsRep();
-         StudentRep students = new StudentRep();
-         TeacherRep teachers = new TeacherRep();
+         PersonRep persons = new PersonRep();
 
         MaterialService materialService = new MaterialService(materials, scanner);
         HomeworkService homeworkService = new HomeworkService(homeworks, scanner);
-        LectureService lectureService = new LectureService(lectures, scanner, homeworkService, materialService, courses);
-        StudentService studentService = new StudentService(students, scanner);
-        TeacherService teacherService = new TeacherService(teachers, scanner);
-        CourseService courseService = new CourseService(courses, scanner, lectureService, studentService, teacherService);
+        LectureService lectureService = new LectureService(lectures, scanner, homeworkService, materialService, courses, persons);
+        PersonService personService = new PersonService(persons, scanner);
 
-        CommandService commandService = new CommandService(scanner, courseService, lectureService, studentService, teacherService);
+        CourseService courseService = new CourseService(courses, scanner, lectureService, personService);
+
+        CommandService commandService = new CommandService(scanner, courseService, lectureService, personService, courses, lectures, persons);
 
         commandService.startApp();
 

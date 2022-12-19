@@ -80,5 +80,16 @@ public abstract class SchoolRep {
         schoolObjects = tmp;
     }
 
+    public void printAll(){
+        
+        if (schoolObjects == null||schoolObjects.length == 0){
+            System.out.println("You haven't created anything yet");
+        }
+        for (int i = 0; i<schoolObjects.length; i++){
+            if(schoolObjects[i] != null) {
+                System.out.println("id = " +schoolObjects[i].getId() + " - "+schoolObjects[i]);
+            }
+        }
+    }
 
 }

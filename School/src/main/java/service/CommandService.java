@@ -1,13 +1,12 @@
 package service;
 
-import models.Course;
-import models.Homework;
-import models.Lecture;
-import models.Materials;
+import models.*;
+import repository.CourseRep;
+import repository.SchoolRep;
 import service.school.CourseService;
 import service.school.LectureService;
-import service.school.StudentService;
-import service.school.TeacherService;
+import service.school.PersonService;
+
 
 import java.util.Scanner;
 
@@ -17,42 +16,46 @@ public class CommandService {
     private CourseService courseService;
     private LectureService lectureService;
 
-    private StudentService studentService;
-    private TeacherService teacherService;
+    private PersonService personService;
+
+    private SchoolRep courseRep;
+    private SchoolRep lectureRep;
+    private SchoolRep personRep;
 
 //    private static final String START = "Print \"course\", \"lecture\", \"student\", \"teacher\" for create. \n" +
 //            "Print \"exit\" for exit";
 
-    private static final String START = "Print \"create\", \"read\" or \"exit\"";
+    private static final String START = "Print \"create\", \"read\", \"read_by_id\" or \"exit\"";
 
     private static final String PRINT_COMMAND = "Print command:";
     private static final String RESPONSE_CREATE = "create";
     private static final String RESPONSE_READ = "read";
+    private static final String RESPONSE_READ_BY_ID = "read_by_id";
 
-    private static final String COMMAND_CREATE = "Print \"course\", \"lecture\", \"student\", \"teacher\" for create,\n " +
+    private static final String COMMAND_CREATE = "Print \"course\", \"lecture\", \"person\" for create,\n " +
             "\"back\" to return to the main menu, \"exit\" to end the program";
 
-    private static final String COMMAND_READ = "Print \"course\", \"lecture\", \"student\", \"teacher\" for read\n " +
+    private static final String COMMAND_READ = "Print \"course\", \"lecture\", \"person\" for read\n " +
             "\"back\" to return to the main menu, \"exit\" to end the program";
 
 
     private static final String RESPONSE_COURSE = "course";
     private static final String RESPONSE_LECTURE = "lecture";
-    private static final String RESPONSE_STUDENT = "student";
-    private static final String RESPONSE_TEACHER = "teacher";
-
+    private static final String RESPONSE_PERSON = "person";
     private static final String RESPONSE_BACK = "back";
     private static final String RESPONSE_EXIT = "exit";
     private static final String ANSWER_WRONG_RESPONSE = "Wrong response! ";
 
     private boolean play = true;
 
-    public CommandService(Scanner scanner, CourseService courseService, LectureService lectureService, StudentService service, TeacherService teacherService) {
+    public CommandService(Scanner scanner, CourseService courseService, LectureService lectureService, PersonService personService, SchoolRep courseRep, SchoolRep lectureRep, SchoolRep personRep) {
         this.scanner = scanner;
         this.courseService = courseService;
         this.lectureService = lectureService;
-        this.studentService = service;
-        this.teacherService = teacherService;
+        this.personService = personService;
+        this.courseRep = courseRep;
+        this.lectureRep = lectureRep;
+        this.personRep = personRep;
     }
 
     public void startApp(){
@@ -78,6 +81,9 @@ public class CommandService {
             case RESPONSE_READ:
                 readCommand();
                 return;
+            case RESPONSE_READ_BY_ID:
+                readByIdCommand();
+                return;
             case RESPONSE_EXIT:
                 System.out.println("Well, it's your choice");
                 play = false;
@@ -100,13 +106,10 @@ public class CommandService {
                 System.out.println("Lecture of course (id) "+lecture.getIdCourse());
                 System.out.println("Number of lectures - "+Lecture.getCount());
                 return;
-            case RESPONSE_STUDENT:
-                studentService.create();
-                System.out.println("Student created");
-                return;
-            case RESPONSE_TEACHER:
-                teacherService.create();
-                System.out.println("Teacher created");
+            case RESPONSE_PERSON:
+                Person person = personService.create();
+                personRep.add(person);
+                System.out.println("Person created");
                 return;
             case RESPONSE_BACK:
                 System.out.println("Main menu");
@@ -125,16 +128,50 @@ public class CommandService {
         String response = scanner.next();
         switch (response){
             case RESPONSE_COURSE:
-                courseService.printAll();
+                courseRep.printAll();
                 return;
             case RESPONSE_LECTURE:
-                lectureService.printAll();
+                lectureRep.printAll();
                 return;
-            case RESPONSE_STUDENT:
-                studentService.printAll();
+            case RESPONSE_PERSON:
+                personRep.printAll();
                 return;
-            case RESPONSE_TEACHER:
-                teacherService.printAll();
+            case RESPONSE_BACK:
+                System.out.println("Main menu");
+                return;
+            case RESPONSE_EXIT:
+                System.out.println("Well, it's your choice");
+                play = false;
+                return;
+            default:
+                System.out.println(ANSWER_WRONG_RESPONSE);
+        }
+    }
+
+    private void readByIdCommand(){
+        System.out.println(COMMAND_READ);
+        String response = scanner.next();
+        System.out.println("Print id:");
+        int response2;
+        try {
+            response2 = Integer.parseInt(scanner.next());
+        } catch (Exception ex){
+            System.out.println("Wrong id");
+            return;
+        }
+
+        switch (response){
+            case RESPONSE_COURSE:
+                Course course = (Course) courseRep.getById(response2);
+                System.out.println(course);
+                return;
+            case RESPONSE_LECTURE:
+                SchoolObject lecture = lectureRep.getById(response2);
+                System.out.println(lecture);
+                return;
+            case RESPONSE_PERSON:
+                SchoolObject person = personRep.getById(response2);
+                System.out.println(person);
                 return;
             case RESPONSE_BACK:
                 System.out.println("Main menu");

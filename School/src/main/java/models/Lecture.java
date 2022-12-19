@@ -13,6 +13,8 @@ public class Lecture extends SchoolObject {
     private Homework homework;
     private Materials materials;
 
+    private int personId;
+
     public Lecture(String subject, Homework homework, Materials materials) {
         this.subject = subject;
         this.homework = homework;
@@ -60,14 +62,23 @@ public class Lecture extends SchoolObject {
         this.materials = materials;
     }
 
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
     @Override
     public String toString() {
         return "Lecture{" +
-                "id=" + id +
-                ", idCourse=" + idCourse +
+                "idCourse=" + idCourse +
                 ", subject='" + subject + '\'' +
                 ", homework=" + homework +
                 ", materials=" + materials +
+                ", personId=" + personId +
+                ", id=" + id +
                 '}';
     }
 

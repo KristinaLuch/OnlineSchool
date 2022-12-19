@@ -6,14 +6,12 @@ import java.util.List;
 public class Course extends SchoolObject {
 
     private static int count = 0;
-    private List<Teacher> teachers;
-    private List<Student> students;
+    private List<Person> persons;
     private List<Lecture> lectures;
 
-    public Course(ArrayList<Teacher> teachers, ArrayList<Student> students, ArrayList<Lecture> lectures) {
+    public Course(ArrayList<Person> persons, ArrayList<Lecture> lectures) {
         this.id = ++count;
-        this.teachers = teachers;
-        this.students = students;
+        this.persons = persons;
         this.lectures = lectures;
     }
 
@@ -25,21 +23,6 @@ public class Course extends SchoolObject {
         return id;
     }
 
-    public List<Teacher> getTeachers() {
-        return teachers;
-    }
-
-    public void setTeachers(List<Teacher> teachers) {
-        this.teachers = teachers;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
 
     public List<Lecture> getLectures() {
         return lectures;
@@ -53,15 +36,20 @@ public class Course extends SchoolObject {
         return count;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
-                "id=" + id +
-                ", teachers=" + teachers +
-                ", students=" + students +
+                "persons=" + persons +
                 ", lectures=" + lectures +
+                ", id=" + id +
                 '}';
     }
-
-
 }
