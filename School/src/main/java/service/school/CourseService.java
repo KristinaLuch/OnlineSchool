@@ -17,6 +17,8 @@ public class CourseService extends SchoolService {
 
     private ConversationService conversationService;
 
+    public static final String PRINT_COURSE_NAME = "Please, print course name";
+
     public static final String PRINT_ADD_LECTURES = "Please, add lectures. \n" +
             "If you want to create new lecture enter 1, \n" +
             "finish adding lectures enter 2";
@@ -41,10 +43,12 @@ public class CourseService extends SchoolService {
 
     public Course create() {
         Course course = new Course();
+        String name = conversationService.getResponse(PRINT_COURSE_NAME, ValidationType.NAME);
+        course.setName(name);
         addLectures(course);
         addPearson(course);
         schoolRep.add(course);
-        System.out.println(course);
+        conversationService.print(course.toString());
         return course;
     }
 

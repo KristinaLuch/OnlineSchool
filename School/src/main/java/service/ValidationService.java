@@ -1,9 +1,6 @@
 package service;
-
 import constants.ValidationType;
-
 import java.util.regex.Pattern;
-
 public class ValidationService {
 
     public static final String REGEX_CORRECT_EMAIL = "^[a-zA-Z0-9+_\\.-]{1,32}+@[a-zA-Z0-9-]{1,32}\\.[a-zA-Z0-9-]{2,6}+$";

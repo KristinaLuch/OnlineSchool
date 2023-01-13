@@ -20,7 +20,6 @@ public class HomeworkService extends SchoolService{
 
     public Homework create() {
 
-        System.out.println(PRINT_HOMEWORK);
         String homeworkString = conversationService.getResponse(PRINT_HOMEWORK, ValidationType.DESCRIPTION);
         Homework homework = new Homework(homeworkString);
         schoolRep.add(homework);

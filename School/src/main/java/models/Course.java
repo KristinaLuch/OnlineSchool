@@ -10,10 +10,10 @@ public class Course extends SchoolObject {
     private List<Lecture> lectures;
 
     public Course(String name, List<Person> persons, List<Lecture> lectures) {
-        this.name = name;
-        this.persons = persons;
-        this.lectures = lectures;
         this.id = ++count;
+        this.name = name;
+        this.lectures = lectures;
+        this.persons = persons;
     }
 
     public Course() {
@@ -22,6 +22,10 @@ public class Course extends SchoolObject {
 
     public int getId() {
         return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Lecture> getLectures() {
@@ -47,9 +51,10 @@ public class Course extends SchoolObject {
     @Override
     public String toString() {
         return "Course{" +
-                "persons=" + persons +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", lectures=" + lectures +
-                ", id=" + id +
+                ", persons=" + persons +
                 '}';
     }
 }
