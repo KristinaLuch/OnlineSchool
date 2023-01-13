@@ -1,22 +1,42 @@
 package service.school;
 
+import constants.ValidationType;
 import models.*;
 import repository.CourseRep;
+import repository.SchoolRep;
+import service.ConversationService;
 
+import java.io.FilterOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class CourseService extends SchoolService {
-    private Scanner scanner;
     private LectureService lectureService;
     private PersonService personService;
 
-    public CourseService(CourseRep schoolRep, Scanner scanner, LectureService lectureService, PersonService personService) {
-        this.schoolRep = schoolRep;
-        this.scanner = scanner;
+    private ConversationService conversationService;
+
+    public static final String PRINT_ADD_LECTURES = "Please, add lectures. \n" +
+            "If you want to create new lecture enter 1, \n" +
+            "finish adding lectures enter 2";
+
+    public static final String PRINT_ADD_PERSON = "Please, add persons. \n" +
+            "If you want to create new person enter 1, \n" +
+            "finish adding persons enter 2";
+
+    public static final String LECTURE_ADDED = "Lecture added";
+
+    public static final String WRONG_COMMAND = "Wrong command";
+
+    public static final String CASE_1 = "1";
+    public static final String CASE_2 = "2";
+
+    public CourseService(CourseRep schoolRep, LectureService lectureService, PersonService personService, ConversationService conversationService) {
+        super(schoolRep);
         this.lectureService = lectureService;
         this.personService = personService;
+        this.conversationService = conversationService;
     }
 
     public Course create() {
@@ -30,20 +50,17 @@ public class CourseService extends SchoolService {
 
     private void addLectures(Course course) {
         while (true) {
-            System.out.println("Please, add lectures. \n" +
-                    "If you want to create new lecture enter 1, \n" +
-                    "finish adding lectures enter 2");
-            String response = scanner.next();
+            String response = conversationService.getResponse(PRINT_ADD_LECTURES, ValidationType.ANYTHING);
             switch (response) {
-                case "1":
+                case CASE_1:
                     Lecture lecture = lectureService.createLectureInCourse(course.getId());
                     addLectureToList(course, lecture);
-                    System.out.println("Lecture added");
+                    conversationService.print(LECTURE_ADDED);
                     break;
-                case "2":
+                case CASE_2:
                     return;
                 default:
-                    System.out.println("Wrong command");
+                    conversationService.print(WRONG_COMMAND);
                     addLectures(course);
                     break;
             }
@@ -52,12 +69,9 @@ public class CourseService extends SchoolService {
 
     private void addPearson(Course course) {
         while (true) {
-            System.out.println("Please, add persons. \n" +
-                    "If you want to create new person enter 1, \n" +
-                    "finish adding persons enter 2");
-            String response = scanner.next();
+            String response = conversationService.getResponse(PRINT_ADD_PERSON, ValidationType.ANYTHING);
             switch (response) {
-                case "1":
+                case CASE_1:
                     Person person = personService.create();
                     person.setCourseID(course.getId());
                     List<Person> persons = course.getPersons();
@@ -67,10 +81,10 @@ public class CourseService extends SchoolService {
                     persons.add(person);
                     System.out.println("Teacher added");
                     break;
-                case "2":
+                case CASE_2:
                     return;
                 default:
-                    System.out.println("Wrong command");
+                    System.out.println(WRONG_COMMAND);
                     break;
             }
         }

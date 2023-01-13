@@ -1,7 +1,10 @@
 package service.school;
 
+import constants.ValidationType;
 import models.Materials;
 import repository.MaterialsRep;
+import repository.SchoolRep;
+import service.ConversationService;
 
 import java.util.Scanner;
 
@@ -9,18 +12,17 @@ public class MaterialService extends SchoolService {
 
     private static final String PRINT_MATERIALS= "Print materials";
 
-    private Scanner scanner;
+    private ConversationService conversationService;
 
-    public MaterialService(MaterialsRep schoolRep, Scanner scanner) {
-        this.schoolRep = schoolRep;
-        this.scanner = scanner;
+    public MaterialService(SchoolRep schoolRep, ConversationService conversationService) {
+        super(schoolRep);
+        this.conversationService = conversationService;
     }
 
     public Materials crete(){
 
-        System.out.println(PRINT_MATERIALS);
 
-        String materialsString = scanner.next();
+        String materialsString = conversationService.getResponse(PRINT_MATERIALS, ValidationType.DESCRIPTION);
 
         Materials materials = new Materials(materialsString);
 

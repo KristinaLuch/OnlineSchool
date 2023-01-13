@@ -1,30 +1,33 @@
 package service.school;
 
-import constants.Role;
+import constants.ValidationType;
+import models.Role;
 import models.*;
 import repository.CourseRep;
-import repository.LectureRep;
 import repository.PersonRep;
+import repository.SchoolRep;
+import service.ConversationService;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class LectureService extends SchoolService {
     
-    private Scanner scanner;
+    private ConversationService conversationService;
     private HomeworkService homeworkService;
     private MaterialService materialService;
     private CourseRep courseRep;
-
     private PersonRep personRep;
 
-    private static final String PRINT_SUBJECT = "Print subject";
+    private static final String PRINT_LECTURE_NAME = "Print lecture name";
+
+    private static final String PRINT_LECTURE_DESCRIPTION = "Print description";
     private static final String PRINT_ID_COURSE = "Print id course. If course don`t have id print 0";
 
-    public LectureService(LectureRep lectureRep, Scanner scanner, HomeworkService homeworkService, MaterialService materialService,
-        CourseRep courseRep, PersonRep personRep) {
-        this.schoolRep = lectureRep;
-        this.scanner = scanner;
+    public static final String LECTURE_CREATED = "Lecture created. ";
+
+    public LectureService(SchoolRep schoolRep, ConversationService conversationService, HomeworkService homeworkService, MaterialService materialService, CourseRep courseRep, PersonRep personRep) {
+        super(schoolRep);
+        this.conversationService = conversationService;
         this.homeworkService = homeworkService;
         this.materialService = materialService;
         this.courseRep = courseRep;
@@ -43,7 +46,7 @@ public class LectureService extends SchoolService {
             course.setLectures(lectures);
         }
         addLectureToRep(lecture);
-        System.out.println("Lecture created. " + lecture);
+        conversationService.print(LECTURE_CREATED + lecture);
         return lecture;
     }
 
@@ -54,53 +57,51 @@ public class LectureService extends SchoolService {
             lecture.setIdCourse(courseId);
         }
         addLectureToRep(lecture);
-        System.out.println("Lecture created. " + lecture);
+        conversationService.print(LECTURE_CREATED + lecture);
         return lecture;
     }
 
     private Lecture createWithoutIdCourse(){
-        System.out.println(PRINT_SUBJECT);
-        String subject = scanner.next();
+        String name = conversationService.getResponse(PRINT_LECTURE_NAME, ValidationType.NAME);
+        String description = conversationService.getResponse(PRINT_LECTURE_DESCRIPTION, ValidationType.DESCRIPTION);
         Homework homework = homeworkService.create();
         Materials materials = materialService.crete();
-        Lecture lecture = new Lecture(subject, homework, materials);
+        Lecture lecture = new Lecture(name, description, homework, materials);
         lecture = addPerson(lecture);
         return lecture;
     }
 
     private Lecture addPerson(Lecture lecture){
-        System.out.println("Do you want add teacher?");
-        String response = scanner.next();
-        if (response.equalsIgnoreCase("yes")){
-            Person person = addedPerson();
-            if(person == null){
-                System.out.println("A value less than 0, is not a number or the id of a non-existing object");
-                addPerson(lecture);
+        String response;
+        while (true) {
+            response = conversationService.getResponse("Do you want add teacher?", ValidationType.ANYTHING);
+            if (response.equalsIgnoreCase("yes")) {
+                Person person = addedPerson();
+                if (person == null) {
+                    conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
+                    continue;
+                } else {
+                    lecture.setPersonId(person.getId());
+                    return lecture;
+                }
+            } else if (response.equalsIgnoreCase("no")) {
+                return lecture;
+            } else {
+                conversationService.print("Print yes or no");
+                return addPerson(lecture);
             }
-            lecture.setPersonId(person.getId());
-            return lecture;
-        } else if (response.equalsIgnoreCase("no")) {
-            return lecture;
-        }
-        else {
-            System.out.println("Print yes or no");
-            return addPerson(lecture);
         }
     }
 
     private Person addedPerson(){
-        System.out.println("Print teacher`s peron id");
         Person person = null;
-        int id = 0;
-        try {
-            id = scanner.nextInt();
-        } catch (Exception e)
-        {
+        String idStr = conversationService.getResponse("Print teacher`s peron id", ValidationType.DIGIT);
+        if (idStr == null){
             return null;
         }
-
+        int id = Integer.parseInt(idStr);
         if(id <= 0){
-            System.out.println("Number must be greater than 0");
+            conversationService.print("Number must be greater than 0");
             return null;
         }
         person = (Person) personRep.getById(id);
@@ -110,23 +111,22 @@ public class LectureService extends SchoolService {
                 return person;
             }
             else {
-                System.out.println("Person must be a teacher");
+                conversationService.print("Person must be a teacher");
                 return null;
             }
         }
-
         return null;
     }
 
     private Course getCourseFromId(){
+        String courseIdstr;
         int courseId;
         Course course;
         boolean isInt;
         while (true) {
-            System.out.println(PRINT_ID_COURSE);
-            isInt = scanner.hasNextInt();
-            if(isInt){
-                courseId = scanner.nextInt();
+            courseIdstr = conversationService.getResponse(PRINT_ID_COURSE, ValidationType.DIGIT);
+            if(courseIdstr != null){
+                courseId = Integer.parseInt(courseIdstr);
                 if (courseId == 0){
                     return null;
                 }
@@ -139,8 +139,7 @@ public class LectureService extends SchoolService {
 
             }
             else {
-                System.out.println("Wrong symbols! Print id course = 0, if lectures don`t have course");
-                scanner.next();
+                conversationService.print("Wrong symbols! Print id course = 0, if lectures don`t have course");
             }
         }
     }

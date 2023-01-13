@@ -1,7 +1,5 @@
 package models;
 
-import constants.Role;
-
 public class Person extends SchoolObject{
 
     private int courseID;

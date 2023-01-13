@@ -1,4 +1,4 @@
-package constants;
+package models;
 
 public enum Role {
 

@@ -3,23 +3,68 @@ package models;
 import java.util.Objects;
 
 public class Lecture extends SchoolObject {
-
-    //private int id;
-
     private static int count = 0;
-
     private int idCourse;
-    private String subject;
+    private int personId;
+    private String name;
+    private String description;
     private Homework homework;
     private Materials materials;
 
-    private int personId;
 
-    public Lecture(String subject, Homework homework, Materials materials) {
-        this.subject = subject;
+    public Lecture(String name, String description, int idCourse, Homework homework, Materials materials, int personId) {
+        this.name = name;
+        this.description = description;
+        this.idCourse = idCourse;
+        this.homework = homework;
+        this.materials = materials;
+        this.personId = personId;
+        this.id = ++count;
+    }
+
+    public Lecture(String name, String description, Homework homework, Materials materials, int personId) {
+        this.name = name;
+        this.description = description;
+        this.homework = homework;
+        this.materials = materials;
+        this.personId = personId;
+        this.id = ++count;
+    }
+
+   public Lecture(String name, String description, int idCourse, Homework homework, Materials materials) {
+       this.name = name;
+       this.description = description;
+       this.idCourse = idCourse;
+       this.homework = homework;
+       this.materials = materials;
+       this.id = ++count;
+   }
+
+    public Lecture(String name, String description, Homework homework, Materials materials) {
+        this.name = name;
+        this.description = description;
         this.homework = homework;
         this.materials = materials;
         this.id = ++count;
+    }
+
+    public Lecture() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public static int getCount() {
@@ -36,14 +81,6 @@ public class Lecture extends SchoolObject {
 
     public void setIdCourse(int idCourse) {
         this.idCourse = idCourse;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public Homework getHomework() {
@@ -73,25 +110,14 @@ public class Lecture extends SchoolObject {
     @Override
     public String toString() {
         return "Lecture{" +
-                "idCourse=" + idCourse +
-                ", subject='" + subject + '\'' +
+                "id=" + id +
+                ", idCourse=" + idCourse +
+                ", personId=" + personId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", homework=" + homework +
                 ", materials=" + materials +
-                ", personId=" + personId +
                 ", id=" + id +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Lecture lecture)) return false;
-        return idCourse == lecture.idCourse && Objects.equals(subject, lecture.subject) && Objects.equals(homework, lecture.homework) && Objects.equals(materials, lecture.materials);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idCourse, subject, homework, materials);
-    }
-
 }

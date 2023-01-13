@@ -192,9 +192,12 @@ public class CommandService {
         Homework homework2 = new Homework("2 hw");
         Homework homework3 = new Homework("3 hw");
         Materials materials1 = new Materials("materials");
-        Lecture lecture1 = new Lecture("math", homework1, materials1);
-        Lecture lecture2 = new Lecture("history", homework2, materials1);
-        Lecture lecture3 = new Lecture("literature", homework3, materials1);
+        Lecture lecture7 = new Lecture();
+        Lecture lecture1 = new Lecture("math", "\n" +
+                "For those who are not humanitarian", course.getId(), homework1, materials1);
+        Lecture lecture2 = new Lecture("history", "\n" +
+                "Dates and events", course.getId(), homework2, materials1);
+        Lecture lecture3 = new Lecture("literature", "Where do you think the person thought, although he may not have thought", course.getId(), homework3, materials1);
         lectureService.addLectureToRep(lecture1);
         lectureService.addLectureToRep(lecture2);
         lectureService.addLectureToRep(lecture3);
@@ -203,7 +206,6 @@ public class CommandService {
         courseService.addLectureToList(course, lecture3);
         courseService.addToRep(course);
         System.out.println(course + "\n");
-
     }
 
 }

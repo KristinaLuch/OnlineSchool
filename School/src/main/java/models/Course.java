@@ -1,18 +1,19 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Course extends SchoolObject {
 
     private static int count = 0;
+    private String name;
     private List<Person> persons;
     private List<Lecture> lectures;
 
-    public Course(ArrayList<Person> persons, ArrayList<Lecture> lectures) {
-        this.id = ++count;
+    public Course(String name, List<Person> persons, List<Lecture> lectures) {
+        this.name = name;
         this.persons = persons;
         this.lectures = lectures;
+        this.id = ++count;
     }
 
     public Course() {
@@ -22,7 +23,6 @@ public class Course extends SchoolObject {
     public int getId() {
         return id;
     }
-
 
     public List<Lecture> getLectures() {
         return lectures;

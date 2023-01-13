@@ -1,9 +1,12 @@
 package service.school;
 
 
-import constants.Role;
+import constants.ValidationType;
+import models.Role;
 import models.Person;
 import repository.PersonRep;
+import repository.SchoolRep;
+import service.ConversationService;
 
 import java.util.Scanner;
 
@@ -21,35 +24,32 @@ public class PersonService extends SchoolService {
     public static final String PRINT_PHONE_NUMBER = "Print phone number";
     public static final String PRINT_EMAIL = "Print e-mail";
 
-    
-    private PersonRep schoolRep;
-    private Scanner scanner;
+    private ConversationService conversationService;
 
-    public PersonService(PersonRep schoolRep, Scanner scanner) {
-        this.schoolRep = schoolRep;
-        this.scanner = scanner;
+    public PersonService(SchoolRep schoolRep, ConversationService conversationService) {
+        super(schoolRep);
+        this.conversationService = conversationService;
     }
 
     public Person create(){
         Role role = getRole();
-        System.out.println(PRINT_FIRSTNAME);
-        String firstName = scanner.next();
-        System.out.println(PRINT_LASTNAME);
-        String lastName = scanner.next();
-        System.out.println(PRINT_PHONE_NUMBER);
-        String phone = scanner.next();
-        System.out.println(PRINT_EMAIL);
-        String email = scanner.next();
+        String firstName = conversationService.getResponse(PRINT_FIRSTNAME, ValidationType.NAME);
+        String lastName = conversationService.getResponse(PRINT_LASTNAME, ValidationType.NAME);
+        String phone = conversationService.getResponse(PRINT_PHONE_NUMBER, ValidationType.PHONE);
+        String email = conversationService.getResponse(PRINT_EMAIL, ValidationType.EMAIL);
         Person person = new Person(role, firstName, lastName, phone, email);
 //        schoolRep.add(person);
-        System.out.println(person);
+        conversationService.print(person.toString());
         return person;
     }
 
     private Role getRole(){
 
-        System.out.println(PRINT_ROLE);
-        String roleAnswer = scanner.next();
+        String roleAnswer = conversationService.getResponse(PRINT_ROLE, ValidationType.NAME);
+        if (roleAnswer == null){
+            System.out.println("Wrong command(null)");
+            return getRole();
+        }
         if (roleAnswer.equalsIgnoreCase(ANSWER_ROLE_TEACHER)) {
             return Role.TEACHER;
         }

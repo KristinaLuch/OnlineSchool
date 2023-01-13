@@ -9,18 +9,20 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-         CourseRep courses = new CourseRep();
-         LectureRep lectures = new LectureRep();
-         HomeworkRep homeworks = new HomeworkRep();
-         MaterialsRep materials = new MaterialsRep();
-         PersonRep persons = new PersonRep();
+        CourseRep courses = new CourseRep();
+        LectureRep lectures = new LectureRep();
+        HomeworkRep homeworks = new HomeworkRep();
+        MaterialsRep materials = new MaterialsRep();
+        PersonRep persons = new PersonRep();
 
-        MaterialService materialService = new MaterialService(materials, scanner);
-        HomeworkService homeworkService = new HomeworkService(homeworks, scanner);
-        LectureService lectureService = new LectureService(lectures, scanner, homeworkService, materialService, courses, persons);
-        PersonService personService = new PersonService(persons, scanner);
+        ValidationService validationService = new ValidationService();
+        ConversationService conversationService = new ConversationService(scanner, validationService);
+        MaterialService materialService = new MaterialService(materials, conversationService);
+        HomeworkService homeworkService = new HomeworkService(homeworks, conversationService);
+        LectureService lectureService = new LectureService(lectures, conversationService, homeworkService, materialService, courses, persons);
+        PersonService personService = new PersonService(persons, conversationService);
 
-        CourseService courseService = new CourseService(courses, scanner, lectureService, personService);
+        CourseService courseService = new CourseService(courses, lectureService, personService, conversationService);
 
         CommandService commandService = new CommandService(scanner, courseService, lectureService, personService, courses, lectures, persons);
 
