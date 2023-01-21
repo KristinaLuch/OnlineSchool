@@ -1,31 +1,25 @@
 package repository;
 
-import models.Course;
-import models.Lecture;
+
 import models.SchoolObject;
 
-import java.util.Arrays;
 
-public abstract class SchoolRep {
-    protected SchoolObject[] schoolObjects;
+public class SchoolRep{
+    protected Rep<SchoolObject> schoolObjects;
+
+    public SchoolRep(Rep<SchoolObject> schoolObjects) {
+        this.schoolObjects = schoolObjects;
+    }
 
     public SchoolObject[] getAll() {
-        return schoolObjects;
+        return schoolObjects.toArray();
     }
 
     public boolean add(SchoolObject schoolObject) {
         if (schoolObject == null) {
             return false;
         }
-        for (int i = 0; i < schoolObjects.length; i++) {
-            if (schoolObjects[i] == null) {
-                schoolObjects[i] = schoolObject;
-                if (i == schoolObjects.length - 1) {
-                    increase();
-                }
-                break;
-            }
-        }
+        schoolObjects.add(schoolObject);
         return true;
     }
 
@@ -33,61 +27,41 @@ public abstract class SchoolRep {
         if (id <= 0) {
             return null;
         }
-
-        for (int i = 0; i < schoolObjects.length; i++) {
-            if (schoolObjects[i] == null){
-                continue;
-            }
-            if (schoolObjects[i].getId() == id) {
-                return schoolObjects[i];
+        SchoolObject findObj;
+        for (int i = 0; i < schoolObjects.size(); i++) {
+             findObj = schoolObjects.get(i);
+            if (findObj.getId() == id) {
+                return findObj;
             }
         }
         return null;
     }
+
     public boolean deleteById(int id) {
         if (id <= 0) {
             return false;
         }
-        for (int i = 0; i < schoolObjects.length; i++) {
-            if (schoolObjects[i].getId() == id) {
-                schoolObjects[i] = null;
-                defragmentation();
+        int indObj;
+        for (int i = 0; i < schoolObjects.size(); i++) {
+            indObj = schoolObjects.get(i).getId();
+            if (indObj == id) {
+                schoolObjects.remove(i);
                 return true;
             }
         }
         return false;
 }
 
-    private void defragmentation() {
-        for (int i = 0; i < schoolObjects.length; i++) {
-            if (schoolObjects[i] == null) {
-                for (int j = i; j < schoolObjects.length; j++) {
-                    if (schoolObjects[j] != null) {
-                        schoolObjects[i] = schoolObjects[j];
-                        schoolObjects[j] = null;
-                    }
-                }
-            }
-        }
-    }
-
-    private void increase() {
-        int newLength = (schoolObjects.length * 3) / 2 + 1;
-        SchoolObject[] tmp = new Course[newLength];
-        for (int i = 0; i < schoolObjects.length; i++) {
-            tmp[i] = schoolObjects[i];
-        }
-        schoolObjects = tmp;
-    }
-
     public void printAll(){
         
-        if (schoolObjects == null||schoolObjects.length == 0){
+        if (schoolObjects == null||schoolObjects.size() == 0){
             System.out.println("You haven't created anything yet");
         }
-        for (int i = 0; i<schoolObjects.length; i++){
-            if(schoolObjects[i] != null) {
-                System.out.println("id = " +schoolObjects[i].getId() + " - "+schoolObjects[i]);
+        SchoolObject obj;
+        for (int i = 0; i<schoolObjects.size(); i++){
+            obj = schoolObjects.get(i);
+            if(obj != null) {
+                System.out.println("id = " +obj.getId() + " - "+obj);
             }
         }
     }

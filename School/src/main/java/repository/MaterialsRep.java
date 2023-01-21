@@ -1,11 +1,10 @@
 package repository;
 
 import models.Materials;
+import models.SchoolObject;
 
 public class MaterialsRep extends SchoolRep {
-
-    public MaterialsRep() {
-        this.schoolObjects = new Materials[10];
+    public MaterialsRep(Rep<SchoolObject> schoolObjects) {
+        super(schoolObjects);
     }
-
 }

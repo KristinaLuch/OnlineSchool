@@ -1,12 +1,11 @@
 package repository;
 
 import models.Homework;
+import models.SchoolObject;
 
 public class HomeworkRep extends SchoolRep{
 
-    public HomeworkRep() {
-        this.schoolObjects = new Homework[10];
+    public HomeworkRep(Rep<SchoolObject> schoolObjects) {
+        super(schoolObjects);
     }
-
-
 }

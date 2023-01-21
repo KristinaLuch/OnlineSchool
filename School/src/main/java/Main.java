@@ -1,3 +1,4 @@
+import models.Course;
 import repository.*;
 import service.*;
 import service.school.*;
@@ -9,11 +10,11 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        CourseRep courses = new CourseRep();
-        LectureRep lectures = new LectureRep();
-        HomeworkRep homeworks = new HomeworkRep();
-        MaterialsRep materials = new MaterialsRep();
-        PersonRep persons = new PersonRep();
+        CourseRep courses = new CourseRep(new Rep<>());
+        LectureRep lectures = new LectureRep(new Rep<>());
+        HomeworkRep homeworks = new HomeworkRep(new Rep<>());
+        MaterialsRep materials = new MaterialsRep(new Rep<>());
+        PersonRep persons = new PersonRep(new Rep<>());
 
         ValidationService validationService = new ValidationService();
         ConversationService conversationService = new ConversationService(scanner, validationService);
@@ -24,7 +25,8 @@ public class Main {
 
         CourseService courseService = new CourseService(courses, lectureService, personService, conversationService);
 
-        CommandService commandService = new CommandService(scanner, courseService, lectureService, personService, courses, lectures, persons);
+        CommandService commandService = new CommandService(scanner, courseService, lectureService,
+                personService, courses, lectures, persons, conversationService);
 
         commandService.startApp();
 
