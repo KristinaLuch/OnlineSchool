@@ -1,18 +1,20 @@
 package models;
 
+import java.util.Arrays;
 import java.util.Objects;
 
-public class Lecture extends SchoolObject {
+public class Lecture {
     private static int count = 0;
+    private int id;
     private int idCourse;
     private int personId;
     private String name;
     private String description;
-    private Homework homework;
+    private Homework[] homework;
     private Materials materials;
 
 
-    public Lecture(String name, String description, int idCourse, Homework homework, Materials materials, int personId) {
+    public Lecture(String name, String description, int idCourse, Homework[] homework, Materials materials, int personId) {
         this.name = name;
         this.description = description;
         this.idCourse = idCourse;
@@ -22,7 +24,7 @@ public class Lecture extends SchoolObject {
         this.id = ++count;
     }
 
-    public Lecture(String name, String description, Homework homework, Materials materials, int personId) {
+    public Lecture(String name, String description, Homework[] homework, Materials materials, int personId) {
         this.name = name;
         this.description = description;
         this.homework = homework;
@@ -31,7 +33,7 @@ public class Lecture extends SchoolObject {
         this.id = ++count;
     }
 
-   public Lecture(String name, String description, int idCourse, Homework homework, Materials materials) {
+   public Lecture(String name, String description, int idCourse, Homework[] homework, Materials materials) {
        this.name = name;
        this.description = description;
        this.idCourse = idCourse;
@@ -40,7 +42,7 @@ public class Lecture extends SchoolObject {
        this.id = ++count;
    }
 
-    public Lecture(String name, String description, Homework homework, Materials materials) {
+    public Lecture(String name, String description, Homework[] homework, Materials materials) {
         this.name = name;
         this.description = description;
         this.homework = homework;
@@ -49,6 +51,7 @@ public class Lecture extends SchoolObject {
     }
 
     public Lecture() {
+        this.id = ++count;
     }
 
     public String getName() {
@@ -83,11 +86,11 @@ public class Lecture extends SchoolObject {
         this.idCourse = idCourse;
     }
 
-    public Homework getHomework() {
+    public Homework[] getHomework() {
         return homework;
     }
 
-    public void setHomework(Homework homework) {
+    public void setHomework(Homework[] homework) {
         this.homework = homework;
     }
 
@@ -115,9 +118,8 @@ public class Lecture extends SchoolObject {
                 ", personId=" + personId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", homework=" + homework +
+                ", homework=" + Arrays.toString(homework) +
                 ", materials=" + materials +
-                ", id=" + id +
                 '}';
     }
 }

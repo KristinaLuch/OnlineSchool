@@ -3,15 +3,14 @@ package service.school;
 import constants.ValidationType;
 import models.*;
 import repository.CourseRep;
-import repository.SchoolRep;
-import service.ConversationService;
+import service.conversation.ConversationService;
 
-import java.io.FilterOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class CourseService extends SchoolService {
+public class CourseService {
+
+    private CourseRep courseRep;
     private LectureService lectureService;
     private PersonService personService;
 
@@ -34,8 +33,8 @@ public class CourseService extends SchoolService {
     public static final String CASE_1 = "1";
     public static final String CASE_2 = "2";
 
-    public CourseService(CourseRep schoolRep, LectureService lectureService, PersonService personService, ConversationService conversationService) {
-        super(schoolRep);
+    public CourseService(CourseRep courseRep, LectureService lectureService, PersonService personService, ConversationService conversationService) {
+        this.courseRep = courseRep;
         this.lectureService = lectureService;
         this.personService = personService;
         this.conversationService = conversationService;
@@ -47,7 +46,7 @@ public class CourseService extends SchoolService {
         course.setName(name);
         addLectures(course);
         addPearson(course);
-        schoolRep.add(course);
+        courseRep.add(course);
         conversationService.print(course.toString());
         return course;
     }
@@ -103,6 +102,33 @@ public class CourseService extends SchoolService {
         lecture.setIdCourse(course.getId());
         lectures.add(lecture);
         course.setLectures(lectures);
+    }
+
+    public boolean addLecture(Course course, Lecture lecture) {
+        if (lecture == null||course == null){
+            return false;
+        }
+        List<Lecture> lectures = course.getLectures();
+        lectures.add(lecture);
+        course.setLectures(lectures);
+        return true;
+    }
+
+    public boolean addPerson(Course course, Person person) {
+        if (person == null||course == null){
+            return false;
+        }
+        List<Person> persons = course.getPersons();
+        persons.add(person);
+        course.setPersons(persons);
+        return true;
+    }
+
+    public void addToRep(Course course){
+        if (course == null){
+            return;
+        }
+        courseRep.add(course);
     }
 
 }

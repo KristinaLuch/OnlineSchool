@@ -5,6 +5,7 @@ import models.*;
 import repository.CourseRep;
 import repository.LectureRep;
 import repository.PersonRep;
+import service.conversation.ConversationService;
 import service.school.CourseService;
 import service.school.LectureService;
 import service.school.PersonService;
@@ -174,15 +175,15 @@ public class CommandService {
 
         switch (response){
             case RESPONSE_COURSE:
-                Course course = (Course) courseRep.getById(response2);
+                Course course = (Course) courseRep.get(response2);
                 System.out.println(course);
                 return;
             case RESPONSE_LECTURE:
-                SchoolObject lecture = lectureRep.getById(response2);
+                Lecture lecture = lectureRep.get(response2);
                 System.out.println(lecture);
                 return;
             case RESPONSE_PERSON:
-                SchoolObject person = personRep.getById(response2);
+                Person person = personRep.get(response2);
                 System.out.println(person);
                 return;
             case RESPONSE_BACK:
@@ -205,15 +206,15 @@ public class CommandService {
 
         switch (response){
             case RESPONSE_COURSE:
-                courseRep.deleteById(response2);
+                courseRep.delete(response2);
                 conversationService.print(DELETED);
                 return;
             case RESPONSE_LECTURE:
-                lectureRep.deleteById(response2);
+                lectureRep.delete(response2);
                 conversationService.print(DELETED);
                 return;
             case RESPONSE_PERSON:
-                personRep.deleteById(response2);
+                personRep.delete(response2);
                 conversationService.print(DELETED);
                 return;
             case RESPONSE_BACK:
@@ -231,16 +232,39 @@ public class CommandService {
     private void startCreate(){
         System.out.println("Created one course with three lectures: ");
         Course course = new Course();
-        Homework homework1 = new Homework("1 hw");
-        Homework homework2 = new Homework("2 hw");
-        Homework homework3 = new Homework("3 hw");
+        course.setName("for zero");
         Materials materials1 = new Materials("materials");
-        Lecture lecture7 = new Lecture();
-        Lecture lecture1 = new Lecture("math", "\n" +
-                "For those who are not humanitarian", course.getId(), homework1, materials1);
-        Lecture lecture2 = new Lecture("history", "\n" +
-                "Dates and events", course.getId(), homework2, materials1);
-        Lecture lecture3 = new Lecture("literature", "Where do you think the person thought, although he may not have thought", course.getId(), homework3, materials1);
+
+        Lecture lecture1 = new Lecture();
+        lecture1.setName("math");
+        lecture1.setDescription("For those who are not humanitarian");
+        lecture1.setIdCourse(course.getId());
+        lecture1.setMaterials(materials1);
+        Homework homework1 = new Homework(lecture1.getId(), "1 hw");
+        Homework[] homeworks1 = new Homework[1];
+        homeworks1[0] = homework1;
+        lecture1.setHomework(homeworks1);
+
+        Lecture lecture2 = new Lecture();
+        lecture2.setName("history");
+        lecture2.setDescription("Dates and events");
+        lecture2.setIdCourse(course.getId());
+        lecture2.setMaterials(materials1);
+        Homework homework2 = new Homework(lecture2.getId(), "2 hw");
+        Homework[] homeworks2 = new Homework[1];
+        homeworks2[0] = homework2;
+        lecture2.setHomework(homeworks2);
+
+        Lecture lecture3 = new Lecture();
+        lecture3.setName("literature");
+        lecture3.setDescription("Where do you think the person thought, although he may not have thought");
+        lecture3.setIdCourse(course.getId());
+        lecture3.setMaterials(materials1);
+        Homework homework3 = new Homework(lecture3.getId(), "3 hw");
+        Homework[] homeworks3 = new Homework[1];
+        homeworks3[0] = homework3;
+        lecture3.setHomework(homeworks3);
+
         lectureService.addLectureToRep(lecture1);
         lectureService.addLectureToRep(lecture2);
         lectureService.addLectureToRep(lecture3);

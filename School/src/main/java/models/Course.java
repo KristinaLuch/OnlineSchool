@@ -1,9 +1,11 @@
 package models;
 
 import java.util.List;
+import java.util.Objects;
 
-public class Course extends SchoolObject {
+public class Course{
 
+    private int id;
     private static int count = 0;
     private String name;
     private List<Person> persons;
@@ -46,6 +48,18 @@ public class Course extends SchoolObject {
 
     public void setPersons(List<Person> persons) {
         this.persons = persons;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course course)) return false;
+        return id == course.id && Objects.equals(name, course.name) && Objects.equals(persons, course.persons) && Objects.equals(lectures, course.lectures);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, persons, lectures);
     }
 
     @Override

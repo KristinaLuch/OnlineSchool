@@ -5,12 +5,9 @@ import constants.ValidationType;
 import models.Role;
 import models.Person;
 import repository.PersonRep;
-import repository.SchoolRep;
-import service.ConversationService;
+import service.conversation.ConversationService;
 
-import java.util.Scanner;
-
-public class PersonService extends SchoolService {
+public class PersonService {
 
     public static final String PRINT_FIRSTNAME = "Print person`s firstname";
     public static final String PRINT_LASTNAME = "Print person`s lastname";
@@ -24,10 +21,12 @@ public class PersonService extends SchoolService {
     public static final String PRINT_PHONE_NUMBER = "Print phone number";
     public static final String PRINT_EMAIL = "Print e-mail";
 
+    private PersonRep personRep;
+
     private ConversationService conversationService;
 
-    public PersonService(SchoolRep schoolRep, ConversationService conversationService) {
-        super(schoolRep);
+    public PersonService(PersonRep personRep, ConversationService conversationService) {
+        this.personRep = personRep;
         this.conversationService = conversationService;
     }
 
@@ -61,6 +60,13 @@ public class PersonService extends SchoolService {
             System.out.println("Wrong command");
             return getRole();
         }
+    }
+
+    public void addToRep(Person person){
+        if (person == null){
+            return;
+        }
+        personRep.add(person);
     }
 
 }

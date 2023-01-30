@@ -1,6 +1,6 @@
 package models;
 
-public class Person extends SchoolObject{
+public class Person {
 
     private int courseID;
 

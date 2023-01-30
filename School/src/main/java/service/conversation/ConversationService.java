@@ -1,6 +1,7 @@
-package service;
+package service.conversation;
 
 import constants.ValidationType;
+import service.ValidationService;
 
 import java.util.Scanner;
 
@@ -25,5 +26,7 @@ public class ConversationService {
     public void print(String text){
         System.out.println(text);
     }
+
+
 
 }

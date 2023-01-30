@@ -4,14 +4,16 @@ import constants.ValidationType;
 import models.Role;
 import models.*;
 import repository.CourseRep;
+import repository.LectureRep;
 import repository.PersonRep;
-import repository.SchoolRep;
-import service.ConversationService;
+import service.conversation.ConversationService;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class LectureService extends SchoolService {
-    
+public class LectureService {
+
+    private LectureRep lectureRep;
     private ConversationService conversationService;
     private HomeworkService homeworkService;
     private MaterialService materialService;
@@ -25,8 +27,10 @@ public class LectureService extends SchoolService {
 
     public static final String LECTURE_CREATED = "Lecture created. ";
 
-    public LectureService(SchoolRep schoolRep, ConversationService conversationService, HomeworkService homeworkService, MaterialService materialService, CourseRep courseRep, PersonRep personRep) {
-        super(schoolRep);
+    public LectureService(LectureRep lectureRep, ConversationService conversationService,
+                          HomeworkService homeworkService, MaterialService materialService,
+                          CourseRep courseRep, PersonRep personRep) {
+        this.lectureRep = lectureRep;
         this.conversationService = conversationService;
         this.homeworkService = homeworkService;
         this.materialService = materialService;
@@ -62,13 +66,49 @@ public class LectureService extends SchoolService {
     }
 
     private Lecture createWithoutIdCourse(){
+        Lecture lecture = new Lecture();
         String name = conversationService.getResponse(PRINT_LECTURE_NAME, ValidationType.NAME);
         String description = conversationService.getResponse(PRINT_LECTURE_DESCRIPTION, ValidationType.DESCRIPTION);
-        Homework homework = homeworkService.create();
         Materials materials = materialService.crete();
-        Lecture lecture = new Lecture(name, description, homework, materials);
+        lecture.setName(name);
+        lecture.setDescription(description);
+        lecture.setMaterials(materials);
+        lecture = addHomeworks(lecture);
         lecture = addPerson(lecture);
         return lecture;
+    }
+
+    private Lecture addHomeworks(Lecture lecture){
+        String response;
+        Homework [] homeworks;
+        Homework [] tmp;
+        while (true) {
+            response = conversationService.getResponse("Do you want add homework?", ValidationType.ANYTHING);
+            if (response.equalsIgnoreCase("yes")) {
+                Homework homework = homeworkService.create(lecture.getId());
+                if (homework == null) {
+                    conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
+                    continue;
+                } else {
+                    homeworks = lecture.getHomework();
+                    if(homeworks == null||homeworks.length == 0){
+                        homeworks = new Homework[1];
+                        homeworks[0] = homework;
+                        lecture.setHomework(homeworks);
+                    } else {
+                        tmp = Arrays.copyOf(homeworks, homeworks.length+1);
+                        tmp[homeworks.length] = homework;
+                        homeworks = tmp;
+                        lecture.setHomework(homeworks);
+                    }
+                }
+            } else if (response.equalsIgnoreCase("no")) {
+                return lecture;
+            } else {
+                conversationService.print("Print yes or no");
+                return addPerson(lecture);
+            }
+        }
     }
 
     private Lecture addPerson(Lecture lecture){
@@ -104,7 +144,7 @@ public class LectureService extends SchoolService {
             conversationService.print("Number must be greater than 0");
             return null;
         }
-        person = (Person) personRep.getById(id);
+        person = personRep.get(id);
 
         if(person != null){
             if (person.getRole() == Role.TEACHER){
@@ -130,8 +170,8 @@ public class LectureService extends SchoolService {
                 if (courseId == 0){
                     return null;
                 }
-                if (courseRep.getById(courseId) != null){
-                    course = (Course) courseRep.getById(courseId);
+                if (courseRep.get(courseId) != null){
+                    course = (Course) courseRep.get(courseId);
                     return course;
                 } else {
                     System.out.println("\nCourse does not exist \n");
@@ -145,9 +185,17 @@ public class LectureService extends SchoolService {
     }
 
     public void addLectureToRep(Lecture lecture){
-        homeworkService.addToRep(lecture.getHomework());
         materialService.addToRep(lecture.getMaterials());
-        schoolRep.add(lecture);
+        lectureRep.add(lecture);
+
+        Homework[] homeworks = lecture.getHomework();
+        if (homeworks == null|| homeworks.length == 0) {
+            return;
+        }else {
+            for (int i = 0; i < homeworks.length; i++) {
+                homeworkService.addToRep(homeworks[i]);
+            }
+        }
     }
 
 }

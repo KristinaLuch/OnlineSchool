@@ -2,10 +2,10 @@ package models;
 
 import java.util.Objects;
 
-public class Materials extends SchoolObject {
+public class Materials {
 
     private static int count = 0;
-    //private int id;
+    private int id;
     private String materials;
 
     public Materials(String materials) {

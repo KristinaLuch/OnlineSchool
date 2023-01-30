@@ -3,19 +3,18 @@ package service.school;
 import constants.ValidationType;
 import models.Materials;
 import repository.MaterialsRep;
-import repository.SchoolRep;
-import service.ConversationService;
+import service.conversation.ConversationService;
 
-import java.util.Scanner;
-
-public class MaterialService extends SchoolService {
+public class MaterialService{
 
     private static final String PRINT_MATERIALS= "Print materials";
 
+    private MaterialsRep materialsRep;
+
     private ConversationService conversationService;
 
-    public MaterialService(SchoolRep schoolRep, ConversationService conversationService) {
-        super(schoolRep);
+    public MaterialService(MaterialsRep materialsRep, ConversationService conversationService) {
+        this.materialsRep = materialsRep;
         this.conversationService = conversationService;
     }
 
@@ -26,8 +25,15 @@ public class MaterialService extends SchoolService {
 
         Materials materials = new Materials(materialsString);
 
-        schoolRep.add(materials);
+        materialsRep.add(materials);
 
         return materials;
+    }
+
+    public void addToRep(Materials materials){
+        if (materials == null){
+            return;
+        }
+        materialsRep.add(materials);
     }
 }

@@ -33,6 +33,7 @@ public class Rep<E>{
         return (E) elements[index];
     }
 
+
     public void add (E element){
         if(element == null){
             return;

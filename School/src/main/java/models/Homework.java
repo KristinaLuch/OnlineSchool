@@ -2,23 +2,26 @@ package models;
 
 import java.util.Objects;
 
-public class Homework extends SchoolObject {
+public class Homework {
 
     private static int count = 0;
     private int id;
-    private String homework;
 
-    public Homework(String homework) {
-        this.homework = homework;
+    private int lectureId;
+    private String task;
+
+    public Homework(int lectureId, String task) {
+        this.lectureId = lectureId;
+        this.task = task;
         this.id = ++count;
     }
 
-    public String getHomework() {
-        return homework;
+    public String getTask() {
+        return task;
     }
 
-    public void setHomework(String homework) {
-        this.homework = homework;
+    public void setTask(String task) {
+        this.task = task;
     }
 
     public int getId() {
@@ -29,11 +32,19 @@ public class Homework extends SchoolObject {
         return count;
     }
 
+    public int getLectureId() {
+        return lectureId;
+    }
+
+    public void setLectureId(int lectureId) {
+        this.lectureId = lectureId;
+    }
+
     @Override
     public String toString() {
         return "Homework{" +
                 "id=" + id +
-                ", homework='" + homework + '\'' +
+                ", homework='" + task + '\'' +
                 '}';
     }
 
@@ -41,11 +52,11 @@ public class Homework extends SchoolObject {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Homework homework1)) return false;
-        return id == homework1.id && Objects.equals(homework, homework1.homework);
+        return id == homework1.id && Objects.equals(task, homework1.task);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, homework);
+        return Objects.hash(id, task);
     }
 }
