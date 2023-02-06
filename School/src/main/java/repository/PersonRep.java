@@ -1,7 +1,7 @@
 package repository;
 
 
-import models.Lecture;
+import exceptions.EntityNotFoundException;
 import models.Person;
 
 public class PersonRep implements IPersonRep{
@@ -22,9 +22,9 @@ public class PersonRep implements IPersonRep{
     }
 
     @Override
-    public boolean update(int id, Person newPerson) {
+    public boolean update(int id, Person newPerson) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         Person findPerson;
         int index;
@@ -36,13 +36,13 @@ public class PersonRep implements IPersonRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public Person get(int id) {
+    public Person get(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return null;
+            throw new EntityNotFoundException();
         }
         Person findObj;
         for (int i = 0; i < persons.size(); i++) {
@@ -51,12 +51,12 @@ public class PersonRep implements IPersonRep{
                 return findObj;
             }
         }
-        return null;
+        throw new EntityNotFoundException();
     }
 
-    public boolean delete(int id) {
+    public boolean delete(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         int indObj;
         for (int i = 0; i < persons.size(); i++) {
@@ -66,7 +66,7 @@ public class PersonRep implements IPersonRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override

@@ -1,7 +1,10 @@
 package service.school;
 
 import constants.ValidationType;
-import models.*;
+import exceptions.IncorrectSymbolException;
+import models.Course;
+import models.Lecture;
+import models.Person;
 import repository.CourseRep;
 import service.conversation.ConversationService;
 
@@ -63,7 +66,11 @@ public class CourseService {
                 case CASE_2:
                     return;
                 default:
-                    conversationService.print(WRONG_COMMAND);
+                    try {
+                        throw new IncorrectSymbolException(WRONG_COMMAND);
+                    } catch (IncorrectSymbolException e) {
+                        e.printStackTrace();
+                    }
                     addLectures(course);
                     break;
             }
@@ -82,12 +89,16 @@ public class CourseService {
                         persons = new ArrayList<>();
                     }
                     persons.add(person);
-                    System.out.println("Teacher added");
+                    System.out.println("Person added");
                     break;
                 case CASE_2:
                     return;
                 default:
-                    System.out.println(WRONG_COMMAND);
+                    try {
+                        throw new IncorrectSymbolException(WRONG_COMMAND);
+                    } catch (IncorrectSymbolException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
         }
@@ -97,21 +108,11 @@ public class CourseService {
     public void addLectureToList(Course course, Lecture lecture) {
         List<Lecture> lectures = course.getLectures();
         if (lectures == null) {
-            lectures = new ArrayList<Lecture>();
+            lectures = new ArrayList<>();
         }
         lecture.setIdCourse(course.getId());
         lectures.add(lecture);
         course.setLectures(lectures);
-    }
-
-    public boolean addLecture(Course course, Lecture lecture) {
-        if (lecture == null||course == null){
-            return false;
-        }
-        List<Lecture> lectures = course.getLectures();
-        lectures.add(lecture);
-        course.setLectures(lectures);
-        return true;
     }
 
     public boolean addPerson(Course course, Person person) {

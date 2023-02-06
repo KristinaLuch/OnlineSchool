@@ -1,7 +1,8 @@
 package service.school;
 
 import constants.ValidationType;
-import models.Role;
+import exceptions.EntityNotFoundException;
+import exceptions.IncorrectSymbolException;
 import models.*;
 import repository.CourseRep;
 import repository.LectureRep;
@@ -13,12 +14,12 @@ import java.util.List;
 
 public class LectureService {
 
-    private LectureRep lectureRep;
-    private ConversationService conversationService;
-    private HomeworkService homeworkService;
-    private MaterialService materialService;
-    private CourseRep courseRep;
-    private PersonRep personRep;
+    private final LectureRep lectureRep;
+    private final  ConversationService conversationService;
+    private final  HomeworkService homeworkService;
+    private final  MaterialService materialService;
+    private final  CourseRep courseRep;
+    private final  PersonRep personRep;
 
     private static final String PRINT_LECTURE_NAME = "Print lecture name";
 
@@ -144,7 +145,12 @@ public class LectureService {
             conversationService.print("Number must be greater than 0");
             return null;
         }
-        person = personRep.get(id);
+
+        try {
+            person = personRep.get(id);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
 
         if(person != null){
             if (person.getRole() == Role.TEACHER){
@@ -162,7 +168,6 @@ public class LectureService {
         String courseIdstr;
         int courseId;
         Course course;
-        boolean isInt;
         while (true) {
             courseIdstr = conversationService.getResponse(PRINT_ID_COURSE, ValidationType.DIGIT);
             if(courseIdstr != null){
@@ -170,16 +175,19 @@ public class LectureService {
                 if (courseId == 0){
                     return null;
                 }
-                if (courseRep.get(courseId) != null){
-                    course = (Course) courseRep.get(courseId);
+                try {
+                    course = courseRep.get(courseId);
                     return course;
-                } else {
-                    System.out.println("\nCourse does not exist \n");
+                } catch (EntityNotFoundException e) {
+                    e.printStackTrace();
                 }
-
             }
             else {
-                conversationService.print("Wrong symbols! Print id course = 0, if lectures don`t have course");
+                try {
+                    throw new IncorrectSymbolException("Wrong symbols! Print id course = 0, if lectures don`t have course");
+                } catch (IncorrectSymbolException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -189,12 +197,8 @@ public class LectureService {
         lectureRep.add(lecture);
 
         Homework[] homeworks = lecture.getHomework();
-        if (homeworks == null|| homeworks.length == 0) {
-            return;
-        }else {
-            for (int i = 0; i < homeworks.length; i++) {
-                homeworkService.addToRep(homeworks[i]);
-            }
+        for (Homework homework : homeworks) {
+            homeworkService.addToRep(homework);
         }
     }
 

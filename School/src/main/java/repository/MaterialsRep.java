@@ -1,6 +1,6 @@
 package repository;
 
-import models.Lecture;
+import exceptions.EntityNotFoundException;
 import models.Materials;
 
 public class MaterialsRep implements IMaterialsRep{
@@ -20,9 +20,9 @@ public class MaterialsRep implements IMaterialsRep{
     }
 
     @Override
-    public boolean update(int id, Materials newMaterials) {
+    public boolean update(int id, Materials newMaterials) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         Materials findMaterials;
         int index;
@@ -34,13 +34,13 @@ public class MaterialsRep implements IMaterialsRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public Materials get(int id) {
+    public Materials get(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return null;
+            throw new EntityNotFoundException();
         }
         Materials findObj;
         for (int i = 0; i < materialsRep.size(); i++) {
@@ -49,13 +49,13 @@ public class MaterialsRep implements IMaterialsRep{
                 return findObj;
             }
         }
-        return null;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         int indObj;
         for (int i = 0; i < materialsRep.size(); i++) {
@@ -65,7 +65,7 @@ public class MaterialsRep implements IMaterialsRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override

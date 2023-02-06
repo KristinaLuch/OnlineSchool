@@ -1,18 +1,17 @@
 package repository;
 
+import exceptions.EntityNotFoundException;
 import models.Course;
-import models.Lecture;
-import models.Person;
 
 public interface ICourseRep {
 
     boolean add(Course course);
 
-    boolean update (int id, Course newCourse);
+    boolean update (int id, Course newCourse) throws EntityNotFoundException;
 
-    boolean delete (int id);
+    boolean delete (int id) throws EntityNotFoundException;
 
-    Course get(int id);
+    Course get(int id) throws EntityNotFoundException;
 
     Rep<Course> getAll();
 

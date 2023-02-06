@@ -1,5 +1,8 @@
 package service;
+
 import constants.ValidationType;
+import exceptions.ValidationException;
+
 import java.util.regex.Pattern;
 public class ValidationService {
 
@@ -8,28 +11,24 @@ public class ValidationService {
     public static final String REGEX_CORRECT_NAME= "[A-Za-z]{2,20}";
     public static final int DESCRIPTION_MAX_SYMBOLS = 80;
 
-    public boolean isCorrectResponse(String response, ValidationType type){
+    public boolean isCorrectResponse(String response, ValidationType type) throws ValidationException {
         boolean isCorrect;
+
         switch (type){
             case NAME -> {
                 isCorrect = isCorrectName(response);
-                break;
             }
             case EMAIL -> {
                 isCorrect = isCorrectEmail(response);
-                break;
             }
             case PHONE -> {
                 isCorrect = isCorrectPhone(response);
-                break;
             }
             case DESCRIPTION -> {
                 isCorrect = isCorrectDescription(response);
-                break;
             }
             case DIGIT -> {
                 isCorrect = isDigitPositiveNotZero(response);
-                break;
             }
             case ANYTHING -> {
                 if (response.isBlank()){
@@ -42,7 +41,9 @@ public class ValidationService {
                 return false;
             }
         }
-        return isCorrect;
+        if (!isCorrect)
+            throw new ValidationException(type.errorMessage);
+        return true;
     }
 
     public boolean isCorrectName(String name){

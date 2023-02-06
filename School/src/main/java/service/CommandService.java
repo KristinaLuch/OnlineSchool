@@ -1,6 +1,8 @@
 package service;
 
 import constants.ValidationType;
+import exceptions.EntityNotFoundException;
+import exceptions.IncorrectSymbolException;
 import models.*;
 import repository.CourseRep;
 import repository.LectureRep;
@@ -10,7 +12,6 @@ import service.school.CourseService;
 import service.school.LectureService;
 import service.school.PersonService;
 
-
 import java.util.Scanner;
 
 public class CommandService {
@@ -18,19 +19,16 @@ public class CommandService {
     private Scanner scanner;
     private CourseService courseService;
     private LectureService lectureService;
-
     private ConversationService conversationService;
     private PersonService personService;
     private CourseRep courseRep;
     private LectureRep lectureRep;
     private PersonRep personRep;
     private static final String START = "Print \"create\", \"read\", \"read_by_id\", \"delete_by_id\" or \"exit\"";
-
     private static final String PRINT_COMMAND = "Print command:";
     private static final String RESPONSE_CREATE = "create";
     private static final String RESPONSE_READ = "read";
     private static final String RESPONSE_READ_BY_ID = "read_by_id";
-
     private static final String RESPONSE_DELETE_BY_ID = "delete_by_id";
 
     private static final String COMMAND_CREATE = "Print \"course\", \"lecture\", \"person\" for create,\n " +
@@ -47,11 +45,15 @@ public class CommandService {
     private static final String RESPONSE_PERSON = "person";
     private static final String RESPONSE_BACK = "back";
     private static final String RESPONSE_EXIT = "exit";
-
     public static final String DELETED = "Deleted success";
     private static final String ANSWER_WRONG_RESPONSE = "Wrong response! ";
-
     public static final String PRINT_ID = "Print id: ";
+
+    public static final String CREATED_MAX_LECTURES = "You already created 8 lectures. Stop it! I'm done";
+
+    public static final String MAIN_MENU = "Main menu";
+
+    public static final String EXIT_MESSAGE = "Well, it's your choice";
 
     private boolean play = true;
 
@@ -65,7 +67,7 @@ public class CommandService {
         this.courseRep = courseRep;
         this.lectureRep = lectureRep;
         this.personRep = personRep;
-        this.courseService = courseService;
+        this.conversationService = conversationService;
     }
 
     public void startApp(){
@@ -73,16 +75,20 @@ public class CommandService {
         System.out.println(START);
         while (play){
             if (Lecture.getCount() == 8){
-                System.out.println("You already created 8 lectures. Stop it! I'm done");
+                System.out.println(CREATED_MAX_LECTURES);
                 break;
             }
             System.out.println(PRINT_COMMAND);
             String response = scanner.next();
-            select(response);
+            try {
+                select(response);
+            } catch (IncorrectSymbolException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void select(String response){
+    private void select(String response) throws IncorrectSymbolException {
 
         switch (response){
             case RESPONSE_CREATE:
@@ -92,23 +98,31 @@ public class CommandService {
                 readCommand();
                 return;
             case RESPONSE_READ_BY_ID:
-                readByIdCommand();
+                try {
+                    readByIdCommand();
+                } catch (EntityNotFoundException e) {
+                    e.printStackTrace();
+                }
                 return;
             case RESPONSE_DELETE_BY_ID:
-                deleteByIdCommand();
+                try {
+                    deleteByIdCommand();
+                } catch (EntityNotFoundException e) {
+                    e.printStackTrace();
+                }
                 return;
             case RESPONSE_EXIT:
-                System.out.println("Well, it's your choice");
+                System.out.println(EXIT_MESSAGE);
                 play = false;
                 return;
             default:
-                System.out.println(ANSWER_WRONG_RESPONSE);
+                throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+
         }
     }
 
     private void createCommand(){
-        System.out.println(COMMAND_CREATE);
-        String response = scanner.next();
+        String response = conversationService.getResponse(COMMAND_CREATE, ValidationType.ANYTHING);
         switch (response){
             case RESPONSE_COURSE:
                 courseService.create();
@@ -125,14 +139,18 @@ public class CommandService {
                 System.out.println("Person created");
                 return;
             case RESPONSE_BACK:
-                System.out.println("Main menu");
+                System.out.println(MAIN_MENU);
                 return;
             case RESPONSE_EXIT:
-                System.out.println("Well, it's your choice");
+                System.out.println(EXIT_MESSAGE);
                 play = false;
                 return;
             default:
-                System.out.println(ANSWER_WRONG_RESPONSE);
+                try {
+                    throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+                } catch (IncorrectSymbolException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
@@ -150,32 +168,27 @@ public class CommandService {
                 personRep.printAll();
                 return;
             case RESPONSE_BACK:
-                System.out.println("Main menu");
+                System.out.println(MAIN_MENU);
                 return;
             case RESPONSE_EXIT:
-                System.out.println("Well, it's your choice");
+                System.out.println(EXIT_MESSAGE);
                 play = false;
                 return;
             default:
-                System.out.println(ANSWER_WRONG_RESPONSE);
+        }  try {
+            throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+        } catch (IncorrectSymbolException e) {
+            e.printStackTrace();
         }
     }
 
-    private void readByIdCommand(){
-        System.out.println(COMMAND_READ);
-        String response = scanner.next();
-        System.out.println("Print id:");
-        int response2;
-        try {
-            response2 = Integer.parseInt(scanner.next());
-        } catch (Exception ex){
-            System.out.println("Wrong id");
-            return;
-        }
-
+    private void readByIdCommand() throws EntityNotFoundException {
+        String response = conversationService.getResponse(COMMAND_READ, ValidationType.ANYTHING);
+        int response2 = Integer.parseInt(conversationService.getResponse("Print id:", ValidationType.DIGIT));
         switch (response){
             case RESPONSE_COURSE:
-                Course course = (Course) courseRep.get(response2);
+                Course course = null;
+                    course = courseRep.get(response2);
                 System.out.println(course);
                 return;
             case RESPONSE_LECTURE:
@@ -187,19 +200,22 @@ public class CommandService {
                 System.out.println(person);
                 return;
             case RESPONSE_BACK:
-                System.out.println("Main menu");
+                System.out.println(MAIN_MENU);
                 return;
             case RESPONSE_EXIT:
-                System.out.println("Well, it's your choice");
+                System.out.println(EXIT_MESSAGE);
                 play = false;
                 return;
             default:
-                System.out.println(ANSWER_WRONG_RESPONSE);
+                try {
+                    throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+                } catch (IncorrectSymbolException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
-    private void deleteByIdCommand(){
-        conversationService.print(COMMAND_DELETE);
+    private void deleteByIdCommand() throws EntityNotFoundException {
         String response = conversationService.getResponse(COMMAND_DELETE, ValidationType.ANYTHING);
 
         int response2 = Integer.parseInt(conversationService.getResponse(PRINT_ID, ValidationType.DIGIT));
@@ -218,14 +234,18 @@ public class CommandService {
                 conversationService.print(DELETED);
                 return;
             case RESPONSE_BACK:
-                System.out.println("Main menu");
+                System.out.println(MAIN_MENU);
                 return;
             case RESPONSE_EXIT:
-                System.out.println("Well, it's your choice");
+                System.out.println(EXIT_MESSAGE);
                 play = false;
                 return;
             default:
-                System.out.println(ANSWER_WRONG_RESPONSE);
+                try {
+                    throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+                } catch (IncorrectSymbolException e) {
+                    e.printStackTrace();
+                }
         }
     }
 

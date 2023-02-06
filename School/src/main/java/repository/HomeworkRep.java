@@ -1,7 +1,7 @@
 package repository;
 
+import exceptions.EntityNotFoundException;
 import models.Homework;
-import models.Lecture;
 
 public class HomeworkRep implements IHomeworkRep{
     protected Rep<Homework> homeworks;
@@ -20,9 +20,9 @@ public class HomeworkRep implements IHomeworkRep{
     }
 
     @Override
-    public boolean update(int id, Homework newHomework) {
+    public boolean update(int id, Homework newHomework) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         Homework findHomework;
         int index;
@@ -34,13 +34,13 @@ public class HomeworkRep implements IHomeworkRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public Homework get(int id) {
+    public Homework get(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return null;
+            throw new EntityNotFoundException();
         }
         Homework findObj;
         for (int i = 0; i < homeworks.size(); i++) {
@@ -49,13 +49,13 @@ public class HomeworkRep implements IHomeworkRep{
                 return findObj;
             }
         }
-        return null;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         int indObj;
         for (int i = 0; i < homeworks.size(); i++) {
@@ -65,7 +65,7 @@ public class HomeworkRep implements IHomeworkRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override

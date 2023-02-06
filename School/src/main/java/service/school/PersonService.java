@@ -1,9 +1,8 @@
 package service.school;
 
-
 import constants.ValidationType;
-import models.Role;
 import models.Person;
+import models.Role;
 import repository.PersonRep;
 import service.conversation.ConversationService;
 
@@ -21,9 +20,8 @@ public class PersonService {
     public static final String PRINT_PHONE_NUMBER = "Print phone number";
     public static final String PRINT_EMAIL = "Print e-mail";
 
-    private PersonRep personRep;
-
-    private ConversationService conversationService;
+    private final PersonRep personRep;
+    private final ConversationService conversationService;
 
     public PersonService(PersonRep personRep, ConversationService conversationService) {
         this.personRep = personRep;
@@ -37,8 +35,8 @@ public class PersonService {
         String phone = conversationService.getResponse(PRINT_PHONE_NUMBER, ValidationType.PHONE);
         String email = conversationService.getResponse(PRINT_EMAIL, ValidationType.EMAIL);
         Person person = new Person(role, firstName, lastName, phone, email);
-//        schoolRep.add(person);
         conversationService.print(person.toString());
+        personRep.add(person);
         return person;
     }
 
@@ -60,13 +58,6 @@ public class PersonService {
             System.out.println("Wrong command");
             return getRole();
         }
-    }
-
-    public void addToRep(Person person){
-        if (person == null){
-            return;
-        }
-        personRep.add(person);
     }
 
 }

@@ -9,9 +9,9 @@ public class MaterialService{
 
     private static final String PRINT_MATERIALS= "Print materials";
 
-    private MaterialsRep materialsRep;
+    private final MaterialsRep materialsRep;
 
-    private ConversationService conversationService;
+    private final ConversationService conversationService;
 
     public MaterialService(MaterialsRep materialsRep, ConversationService conversationService) {
         this.materialsRep = materialsRep;
@@ -19,7 +19,6 @@ public class MaterialService{
     }
 
     public Materials crete(){
-
 
         String materialsString = conversationService.getResponse(PRINT_MATERIALS, ValidationType.DESCRIPTION);
 

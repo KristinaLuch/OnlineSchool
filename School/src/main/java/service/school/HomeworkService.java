@@ -9,8 +9,8 @@ public class HomeworkService {
 
     private static final String PRINT_HOMEWORK = "Print homework";
 
-    private HomeworkRep homeworkRep;
-    private ConversationService conversationService;
+    private final HomeworkRep homeworkRep;
+    private final ConversationService conversationService;
 
     public HomeworkService(HomeworkRep homeworkRep, ConversationService conversationService) {
         this.homeworkRep = homeworkRep;

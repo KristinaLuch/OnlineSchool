@@ -1,6 +1,7 @@
 import models.Course;
 import repository.*;
-import service.*;
+import service.CommandService;
+import service.ValidationService;
 import service.conversation.ConversationService;
 import service.school.*;
 
@@ -11,7 +12,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        CourseRep courses = new CourseRep(new Rep<Course>());
+        CourseRep courses = new CourseRep(new Rep<>());
         LectureRep lectures = new LectureRep(new Rep<>());
         HomeworkRep homeworks = new HomeworkRep(new Rep<>());
         MaterialsRep materials = new MaterialsRep(new Rep<>());

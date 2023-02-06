@@ -1,6 +1,6 @@
 package repository;
 
-import models.Course;
+import exceptions.EntityNotFoundException;
 import models.Lecture;
 
 public class LectureRep implements ILectureRep{
@@ -21,9 +21,9 @@ public class LectureRep implements ILectureRep{
     }
 
     @Override
-    public boolean update(int id, Lecture newLecture) {
+    public boolean update(int id, Lecture newLecture) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         Lecture findLecture;
         int index;
@@ -35,13 +35,13 @@ public class LectureRep implements ILectureRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         int indObj;
         for (int i = 0; i < lectures.size(); i++) {
@@ -51,13 +51,13 @@ public class LectureRep implements ILectureRep{
                 return true;
             }
         }
-        return false;
+       throw new EntityNotFoundException();
     }
 
     @Override
-    public Lecture get(int id) {
+    public Lecture get(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return null;
+            throw new EntityNotFoundException();
         }
         Lecture findObj;
         for (int i = 0; i < lectures.size(); i++) {
@@ -66,7 +66,7 @@ public class LectureRep implements ILectureRep{
                 return findObj;
             }
         }
-        return null;
+        throw new EntityNotFoundException();
     }
 
     @Override

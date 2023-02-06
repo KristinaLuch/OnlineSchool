@@ -1,7 +1,6 @@
 package models;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Lecture {
     private static int count = 0;
@@ -12,43 +11,6 @@ public class Lecture {
     private String description;
     private Homework[] homework;
     private Materials materials;
-
-
-    public Lecture(String name, String description, int idCourse, Homework[] homework, Materials materials, int personId) {
-        this.name = name;
-        this.description = description;
-        this.idCourse = idCourse;
-        this.homework = homework;
-        this.materials = materials;
-        this.personId = personId;
-        this.id = ++count;
-    }
-
-    public Lecture(String name, String description, Homework[] homework, Materials materials, int personId) {
-        this.name = name;
-        this.description = description;
-        this.homework = homework;
-        this.materials = materials;
-        this.personId = personId;
-        this.id = ++count;
-    }
-
-   public Lecture(String name, String description, int idCourse, Homework[] homework, Materials materials) {
-       this.name = name;
-       this.description = description;
-       this.idCourse = idCourse;
-       this.homework = homework;
-       this.materials = materials;
-       this.id = ++count;
-   }
-
-    public Lecture(String name, String description, Homework[] homework, Materials materials) {
-        this.name = name;
-        this.description = description;
-        this.homework = homework;
-        this.materials = materials;
-        this.id = ++count;
-    }
 
     public Lecture() {
         this.id = ++count;

@@ -1,10 +1,7 @@
 package repository;
 
+import exceptions.EntityNotFoundException;
 import models.Course;
-import models.Lecture;
-import models.Person;
-
-import java.util.List;
 
 public class CourseRep implements ICourseRep{
 
@@ -24,9 +21,9 @@ public class CourseRep implements ICourseRep{
     }
 
     @Override
-    public boolean update(int id, Course newCourse) {
+    public boolean update(int id, Course newCourse) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         Course findCourse;
         int index;
@@ -38,13 +35,13 @@ public class CourseRep implements ICourseRep{
                return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public Course get(int id) {
+    public Course get(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return null;
+            throw new EntityNotFoundException();
         }
         Course findObj;
         for (int i = 0; i < courses.size(); i++) {
@@ -53,13 +50,13 @@ public class CourseRep implements ICourseRep{
                 return findObj;
             }
         }
-        return null;
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(int id) throws EntityNotFoundException {
         if (id <= 0) {
-            return false;
+            throw new EntityNotFoundException();
         }
         int indObj;
         for (int i = 0; i < courses.size(); i++) {
@@ -69,7 +66,7 @@ public class CourseRep implements ICourseRep{
                 return true;
             }
         }
-        return false;
+        throw new EntityNotFoundException();
     }
 
     @Override
