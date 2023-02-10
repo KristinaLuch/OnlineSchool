@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Course{
 
-    private int id;
+    private Integer id;
     private static int count = 0;
     private String name;
     private List<Person> persons;

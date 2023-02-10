@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Lecture {
     private static int count = 0;
-    private int id;
+    private Integer id;
     private int idCourse;
     private int personId;
     private String name;

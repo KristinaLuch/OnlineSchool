@@ -7,9 +7,7 @@ public class Person {
     private Role role;
 
     private static int count = 0;
-
-    private int id;
-
+    private Integer id;
     private String firstname;
     private String lastname;
     private String phone;

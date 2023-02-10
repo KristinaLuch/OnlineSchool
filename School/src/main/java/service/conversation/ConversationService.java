@@ -7,8 +7,8 @@ import service.ValidationService;
 import java.util.Scanner;
 
 public class ConversationService {
-    private Scanner scanner;
-    private ValidationService validationService;
+    private final Scanner scanner;
+    private final ValidationService validationService;
 
     public ConversationService(Scanner scanner, ValidationService validationService) {
         this.scanner = scanner;

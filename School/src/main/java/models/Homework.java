@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Homework {
 
     private static int count = 0;
-    private int id;
+    private Integer id;
 
     private int lectureId;
     private String task;

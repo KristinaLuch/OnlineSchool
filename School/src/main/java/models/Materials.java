@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Materials {
 
     private static int count = 0;
-    private int id;
+    private Integer id;
     private String materials;
 
     public Materials(String materials) {
