@@ -4,6 +4,8 @@ import exceptions.EntityNotFoundException;
 import models.Lecture;
 import models.Person;
 
+import java.util.ArrayList;
+
 public interface IPersonRep {
 
     boolean add(Person person);
@@ -14,6 +16,6 @@ public interface IPersonRep {
 
     Person get(int id) throws EntityNotFoundException;
 
-    Rep<Person> getAll();
+    ArrayList<Person> getAll();
 
 }

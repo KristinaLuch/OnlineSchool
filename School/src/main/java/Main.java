@@ -5,6 +5,7 @@ import service.ValidationService;
 import service.conversation.ConversationService;
 import service.school.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -12,11 +13,11 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        CourseRep courses = new CourseRep(new Rep<>());
-        LectureRep lectures = new LectureRep(new Rep<>());
-        HomeworkRep homeworks = new HomeworkRep(new Rep<>());
-        MaterialsRep materials = new MaterialsRep(new Rep<>());
-        PersonRep persons = new PersonRep(new Rep<>());
+        CourseRep courses = new CourseRep(new ArrayList<>());
+        LectureRep lectures = new LectureRep(new ArrayList<>());
+        HomeworkRep homeworks = new HomeworkRep(new ArrayList<>());
+        MaterialsRep materials = new MaterialsRep(new ArrayList<>());
+        PersonRep persons = new PersonRep(new ArrayList<>());
 
         ValidationService validationService = new ValidationService();
         ConversationService conversationService = new ConversationService(scanner, validationService);

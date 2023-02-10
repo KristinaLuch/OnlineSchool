@@ -4,11 +4,13 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Person;
 
+import java.util.ArrayList;
+
 public class PersonRep implements IPersonRep{
 
-    protected Rep<Person> persons;
+    protected ArrayList<Person> persons;
 
-    public PersonRep(Rep<Person> persons) {
+    public PersonRep(ArrayList<Person> persons) {
         this.persons = persons;
     }
 
@@ -70,7 +72,7 @@ public class PersonRep implements IPersonRep{
     }
 
     @Override
-    public Rep<Person> getAll() {
+    public ArrayList<Person> getAll() {
         return persons;
     }
 

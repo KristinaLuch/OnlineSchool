@@ -3,6 +3,8 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Course;
 
+import java.util.ArrayList;
+
 public interface ICourseRep {
 
     boolean add(Course course);
@@ -13,7 +15,7 @@ public interface ICourseRep {
 
     Course get(int id) throws EntityNotFoundException;
 
-    Rep<Course> getAll();
+    ArrayList<Course> getAll();
 
 
 }

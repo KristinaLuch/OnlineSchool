@@ -3,6 +3,8 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Materials;
 
+import java.util.ArrayList;
+
 public interface IMaterialsRep {
 
     boolean add(Materials materials);
@@ -13,6 +15,6 @@ public interface IMaterialsRep {
 
     Materials get(int id) throws EntityNotFoundException;
 
-    Rep<Materials> getAll();
+    ArrayList<Materials> getAll();
 
 }

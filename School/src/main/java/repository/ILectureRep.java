@@ -3,6 +3,8 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Lecture;
 
+import java.util.ArrayList;
+
 public interface ILectureRep {
 
     boolean add(Lecture lecture);
@@ -13,5 +15,5 @@ public interface ILectureRep {
 
     Lecture get(int id) throws EntityNotFoundException;
 
-    Rep<Lecture> getAll();
+    ArrayList<Lecture> getAll();
 }

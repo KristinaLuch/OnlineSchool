@@ -3,10 +3,12 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Homework;
 
-public class HomeworkRep implements IHomeworkRep{
-    protected Rep<Homework> homeworks;
+import java.util.ArrayList;
 
-    public HomeworkRep(Rep<Homework> homeworks) {
+public class HomeworkRep implements IHomeworkRep{
+    protected ArrayList<Homework> homeworks;
+
+    public HomeworkRep(ArrayList<Homework> homeworks) {
         this.homeworks = homeworks;
     }
 
@@ -69,7 +71,7 @@ public class HomeworkRep implements IHomeworkRep{
     }
 
     @Override
-    public Rep<Homework> getAll() {
+    public ArrayList<Homework> getAll() {
         return homeworks;
     }
 

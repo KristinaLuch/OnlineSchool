@@ -3,11 +3,13 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Lecture;
 
+import java.util.ArrayList;
+
 public class LectureRep implements ILectureRep{
 
-    protected Rep<Lecture> lectures;
+    protected ArrayList<Lecture> lectures;
 
-    public LectureRep(Rep<Lecture> lectures) {
+    public LectureRep(ArrayList<Lecture> lectures) {
         this.lectures = lectures;
     }
 
@@ -70,7 +72,7 @@ public class LectureRep implements ILectureRep{
     }
 
     @Override
-    public Rep<Lecture> getAll() {
+    public ArrayList<Lecture> getAll() {
         return lectures;
     }
 

@@ -1,7 +1,6 @@
 package iterator;
 
 import exceptions.EntityNotFoundException;
-import repository.Rep;
 
 public class SimpleIterator<E> {
 

@@ -3,10 +3,12 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Materials;
 
-public class MaterialsRep implements IMaterialsRep{
-    protected Rep<Materials> materialsRep;
+import java.util.ArrayList;
 
-    public MaterialsRep(Rep<Materials> materialsRep) {
+public class MaterialsRep implements IMaterialsRep{
+    protected ArrayList<Materials> materialsRep;
+
+    public MaterialsRep(ArrayList<Materials> materialsRep) {
         this.materialsRep = materialsRep;
     }
 
@@ -69,7 +71,7 @@ public class MaterialsRep implements IMaterialsRep{
     }
 
     @Override
-    public Rep<Materials> getAll() {
+    public ArrayList<Materials> getAll() {
         return materialsRep;
     }
 

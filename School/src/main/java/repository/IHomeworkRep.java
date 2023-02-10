@@ -3,6 +3,8 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.Homework;
 
+import java.util.ArrayList;
+
 public interface IHomeworkRep {
 
     boolean add(Homework homework);
@@ -13,6 +15,6 @@ public interface IHomeworkRep {
 
     Homework get(int id) throws EntityNotFoundException;
 
-    Rep<Homework> getAll();
+    ArrayList<Homework> getAll();
     
 }
