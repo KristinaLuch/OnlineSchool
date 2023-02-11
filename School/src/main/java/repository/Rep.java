@@ -1,5 +1,6 @@
 package repository;
 
+import exceptions.EntityNotFoundException;
 import iterator.SimpleIterator;
 import java.util.Arrays;
 
@@ -108,15 +109,11 @@ public class Rep<E>{
         return Arrays.toString(objToStr);
     }
 
-    public void findAll(){
-        System.out.println("Только черти знают, что должен делать этот метод, " +
-                "\n потому что в задании ничего не написано");
-        System.out.println("Совсем. Даже типа возвращаемых данных нет! А класс, возвращающий итератор у меня есть." +
-                "\n С логичным названием. А не \"найти все\"");
-        System.out.println("Что от нас требуют совершенно неясно. Поэтому я просто оставлю это здесь.");
-        System.out.println("И напишу самое логичное для этого класса:");
-        System.out.println("НАШЕЛ");
-
+    public void findAll() throws EntityNotFoundException {
+        SimpleIterator<E> simpleIterator = new SimpleIterator<>(this);
+        while (simpleIterator.hasNext()){
+            System.out.println(simpleIterator.next());
+        }
     }
 
     public SimpleIterator<E> simpleIterator(){
