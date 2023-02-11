@@ -1,8 +1,8 @@
-package models;
+package models.school_object;
 
 import java.util.Objects;
 
-public class Homework {
+public class Homework implements SchoolObject {
 
     private static int count = 0;
     private Integer id;

@@ -4,15 +4,18 @@ import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import models.*;
+import models.school_object.*;
 import repository.CourseRep;
 import repository.LectureRep;
 import repository.PersonRep;
 import service.conversation.ConversationService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
-public class LectureService {
+public class LectureService implements SchoolService{
 
     private final LectureRep lectureRep;
     private final  ConversationService conversationService;
@@ -39,7 +42,7 @@ public class LectureService {
         this.personRep = personRep;
     }
 
-    public Lecture create() {
+    public SchoolObject create() {
         int courseId;
         Course course = getCourseFromId();
         Lecture lecture = createWithoutIdCourse();
@@ -51,8 +54,29 @@ public class LectureService {
             course.setLectures(lectures);
         }
         addLectureToRep(lecture);
+        System.out.println("Lecture of course (id) "+lecture.getIdCourse());
+        System.out.println("Number of lectures - "+Lecture.getCount());
         conversationService.print(LECTURE_CREATED + lecture);
         return lecture;
+    }
+
+    @Override
+    public void read_by_id(int id) throws EntityNotFoundException {
+        System.out.println(lectureRep.get(id));
+    }
+
+    @Override
+    public void readAll() {
+        ArrayList<Lecture> lectures = lectureRep.getAll();
+        for (Lecture lecture : lectures) {
+            System.out.println(lecture);
+        }
+    }
+
+    @Override
+    public boolean delete(int id) throws EntityNotFoundException {
+        lectureRep.delete(id);
+        return true;
     }
 
 
@@ -81,7 +105,7 @@ public class LectureService {
 
     private Lecture addHomeworks(Lecture lecture){
         String response;
-        Homework [] homeworks;
+        Homework[] homeworks;
         Homework [] tmp;
         while (true) {
             response = conversationService.getResponse("Do you want add homework?", ValidationType.ANYTHING);
@@ -116,20 +140,23 @@ public class LectureService {
         String response;
         while (true) {
             response = conversationService.getResponse("Do you want add teacher?", ValidationType.ANYTHING);
-            if (response.equalsIgnoreCase("yes")) {
-                Person person = addedPerson();
-                if (person == null) {
-                    conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
-                    continue;
-                } else {
-                    lecture.setPersonId(person.getId());
+            Person person;
+
+            switch (response){
+                case "yes":
+                    person = addedPerson();
+                    if (person == null) {
+                        conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
+                        addPerson(lecture);
+                    } else {
+                        lecture.setPersonId(person.getId());
+                        return lecture;
+                    }
+                case "no":
                     return lecture;
-                }
-            } else if (response.equalsIgnoreCase("no")) {
-                return lecture;
-            } else {
-                conversationService.print("Print yes or no");
-                return addPerson(lecture);
+                default:
+                    conversationService.print("Print yes or no");
+                    return addPerson(lecture);
             }
         }
     }

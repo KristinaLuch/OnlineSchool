@@ -1,6 +1,8 @@
-package models;
+package models.school_object;
 
-public class Person {
+import models.Role;
+
+public class Person implements SchoolObject {
 
     private int courseID;
 

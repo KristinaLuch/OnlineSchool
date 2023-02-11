@@ -2,7 +2,7 @@ package repository;
 
 
 import exceptions.EntityNotFoundException;
-import models.Person;
+import models.school_object.Person;
 
 import java.util.ArrayList;
 

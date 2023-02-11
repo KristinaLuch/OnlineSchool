@@ -1,7 +1,7 @@
 package service.school;
 
 import constants.ValidationType;
-import models.Homework;
+import models.school_object.Homework;
 import repository.HomeworkRep;
 import service.conversation.ConversationService;
 

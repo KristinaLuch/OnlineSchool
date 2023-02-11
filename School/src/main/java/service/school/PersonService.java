@@ -1,12 +1,16 @@
 package service.school;
 
 import constants.ValidationType;
-import models.Person;
+import exceptions.EntityNotFoundException;
+import models.school_object.Person;
 import models.Role;
+import models.school_object.SchoolObject;
 import repository.PersonRep;
 import service.conversation.ConversationService;
 
-public class PersonService {
+import java.util.ArrayList;
+
+public class PersonService implements SchoolService{
 
     public static final String PRINT_FIRSTNAME = "Print person`s firstname";
     public static final String PRINT_LASTNAME = "Print person`s lastname";
@@ -28,7 +32,7 @@ public class PersonService {
         this.conversationService = conversationService;
     }
 
-    public Person create(){
+    public SchoolObject create(){
         Role role = getRole();
         String firstName = conversationService.getResponse(PRINT_FIRSTNAME, ValidationType.NAME);
         String lastName = conversationService.getResponse(PRINT_LASTNAME, ValidationType.NAME);
@@ -37,7 +41,25 @@ public class PersonService {
         Person person = new Person(role, firstName, lastName, phone, email);
         conversationService.print(person.toString());
         personRep.add(person);
+        System.out.println("Person created");
         return person;
+    }
+
+    @Override
+    public void read_by_id(int id) throws EntityNotFoundException {
+        System.out.println(personRep.get(id));
+    }
+
+    @Override
+    public void readAll() {
+        ArrayList<Person> persons = personRep.getAll();
+        persons.forEach(System.out::println);
+    }
+
+    @Override
+    public boolean delete(int id) throws EntityNotFoundException {
+        personRep.delete(id);
+        return true;
     }
 
     private Role getRole(){

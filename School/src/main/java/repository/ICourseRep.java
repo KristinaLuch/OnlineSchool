@@ -1,7 +1,7 @@
 package repository;
 
 import exceptions.EntityNotFoundException;
-import models.Course;
+import models.school_object.Course;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,5 @@ public interface ICourseRep {
     Course get(int id) throws EntityNotFoundException;
 
     ArrayList<Course> getAll();
-
 
 }

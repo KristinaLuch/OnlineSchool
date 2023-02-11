@@ -1,7 +1,7 @@
 package service.school;
 
 import constants.ValidationType;
-import models.Materials;
+import models.school_object.Materials;
 import repository.MaterialsRep;
 import service.conversation.ConversationService;
 

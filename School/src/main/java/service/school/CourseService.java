@@ -1,17 +1,19 @@
 package service.school;
 
 import constants.ValidationType;
+import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
-import models.Course;
-import models.Lecture;
-import models.Person;
+import models.school_object.Course;
+import models.school_object.Lecture;
+import models.school_object.Person;
+import models.school_object.SchoolObject;
 import repository.CourseRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseService {
+public class CourseService implements SchoolService{
 
     private CourseRep courseRep;
     private LectureService lectureService;
@@ -43,7 +45,7 @@ public class CourseService {
         this.conversationService = conversationService;
     }
 
-    public Course create() {
+    public SchoolObject create() {
         Course course = new Course();
         String name = conversationService.getResponse(PRINT_COURSE_NAME, ValidationType.NAME);
         course.setName(name);
@@ -51,7 +53,24 @@ public class CourseService {
         addPearson(course);
         courseRep.add(course);
         conversationService.print(course.toString());
+        System.out.println("Course created");
         return course;
+    }
+
+    @Override
+    public void read_by_id(int id) throws EntityNotFoundException {
+        Course course = courseRep.get(id);
+        System.out.println(course);
+    }
+
+    @Override
+    public void readAll() {
+        System.out.println(courseRep.getAll());
+    }
+
+    @Override
+    public boolean delete(int id) throws EntityNotFoundException {
+        return courseRep.delete(id);
     }
 
     private void addLectures(Course course) {
@@ -82,7 +101,7 @@ public class CourseService {
             String response = conversationService.getResponse(PRINT_ADD_PERSON, ValidationType.ANYTHING);
             switch (response) {
                 case CASE_1:
-                    Person person = personService.create();
+                    Person person = (Person) personService.create();
                     person.setCourseID(course.getId());
                     List<Person> persons = course.getPersons();
                     if (persons == null) {

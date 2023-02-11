@@ -3,7 +3,7 @@ package service;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
-import models.*;
+import models.school_object.*;
 import repository.CourseRep;
 import repository.LectureRep;
 import repository.PersonRep;
@@ -11,6 +11,7 @@ import service.conversation.ConversationService;
 import service.school.CourseService;
 import service.school.LectureService;
 import service.school.PersonService;
+import service.school.SchoolService;
 
 import java.util.Scanner;
 
@@ -24,25 +25,20 @@ public class CommandService {
     private CourseRep courseRep;
     private LectureRep lectureRep;
     private PersonRep personRep;
-    private static final String START = "Print \"create\", \"read\", \"read_by_id\", \"delete_by_id\" or \"exit\"";
+    private static final String START = "Select \"1\" for course, \"2\" for lecture, \"3\" for person, " +
+            "\n\"4\" for additional_materials\" or \"exit\"";
     private static final String PRINT_COMMAND = "Print command:";
     private static final String RESPONSE_CREATE = "create";
-    private static final String RESPONSE_READ = "read";
-    private static final String RESPONSE_READ_BY_ID = "read_by_id";
-    private static final String RESPONSE_DELETE_BY_ID = "delete_by_id";
+    private static final String RESPONSE_READ_ALL = "read_all";
+    private static final String RESPONSE_READ_BY_ID = "read";
+    private static final String RESPONSE_DELETE_BY_ID = "delete";
 
-    private static final String COMMAND_CREATE = "Print \"course\", \"lecture\", \"person\" for create,\n " +
+    private static final String SELECT_COMMAND = "Print \"create\", \"read\", \"read_all\", \"delete\"" +
             "\"back\" to return to the main menu, \"exit\" to end the program";
-
-    private static final String COMMAND_READ = "Print \"course\", \"lecture\", \"person\" for read\n " +
-            "\"back\" to return to the main menu, \"exit\" to end the program";
-
-    private static final String COMMAND_DELETE = "Print \"course\", \"lecture\", \"person\" for delete\n " +
-            "\"back\" to return to the main menu, \"exit\" to end the program";
-
-    private static final String RESPONSE_COURSE = "course";
-    private static final String RESPONSE_LECTURE = "lecture";
-    private static final String RESPONSE_PERSON = "person";
+    private static final String RESPONSE_COURSE = "1";
+    private static final String RESPONSE_LECTURE = "2";
+    private static final String RESPONSE_PERSON = "3";
+    private static final String RESPONSE_ADD_MATERIALS = "4";
     private static final String RESPONSE_BACK = "back";
     private static final String RESPONSE_EXIT = "exit";
     public static final String DELETED = "Deleted success";
@@ -78,38 +74,65 @@ public class CommandService {
                 System.out.println(CREATED_MAX_LECTURES);
                 break;
             }
-            System.out.println(PRINT_COMMAND);
-            String response = scanner.next();
+            String response = conversationService.getResponse(PRINT_COMMAND, ValidationType.ANYTHING);
+            SchoolService environment;
             try {
-                select(response);
+                environment = selectEnvironment(response);
+                selectCommand(environment);
+
             } catch (IncorrectSymbolException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void select(String response) throws IncorrectSymbolException {
+    private SchoolService selectEnvironment(String response) throws IncorrectSymbolException {
 
         switch (response){
+            case RESPONSE_COURSE:
+                return courseService;
+            case RESPONSE_LECTURE:
+                return lectureService;
+            case RESPONSE_PERSON:
+                return personService;
+//            case RESPONSE_ADD_MATERIALS:
+//                return;
+            case RESPONSE_EXIT:
+                System.out.println(EXIT_MESSAGE);
+                System.exit(0);
+            default:
+                throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+
+        }
+    }
+
+    private void selectCommand(SchoolService environment) throws IncorrectSymbolException {
+        String response = conversationService.getResponse(SELECT_COMMAND, ValidationType.ANYTHING);
+        switch (response){
             case RESPONSE_CREATE:
-                createCommand();
-                return;
-            case RESPONSE_READ:
-                readCommand();
+                environment.create();
                 return;
             case RESPONSE_READ_BY_ID:
+                int idRead = Integer.parseInt( conversationService.getResponse(PRINT_ID, ValidationType.DIGIT));
                 try {
-                    readByIdCommand();
+                    environment.read_by_id(idRead);
                 } catch (EntityNotFoundException e) {
                     e.printStackTrace();
                 }
                 return;
+            case RESPONSE_READ_ALL:
+                environment.readAll();
+                return;
             case RESPONSE_DELETE_BY_ID:
+                int idDel = Integer.parseInt(conversationService.getResponse(PRINT_ID, ValidationType.DIGIT));
                 try {
-                    deleteByIdCommand();
+                    environment.delete(idDel);
                 } catch (EntityNotFoundException e) {
                     e.printStackTrace();
                 }
+                return;
+            case RESPONSE_BACK:
+                System.out.println(MAIN_MENU);
                 return;
             case RESPONSE_EXIT:
                 System.out.println(EXIT_MESSAGE);
@@ -118,134 +141,6 @@ public class CommandService {
             default:
                 throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
 
-        }
-    }
-
-    private void createCommand(){
-        String response = conversationService.getResponse(COMMAND_CREATE, ValidationType.ANYTHING);
-        switch (response){
-            case RESPONSE_COURSE:
-                courseService.create();
-                System.out.println("Course created");
-                return;
-            case RESPONSE_LECTURE:
-                Lecture lecture = lectureService.create();
-                System.out.println("Lecture of course (id) "+lecture.getIdCourse());
-                System.out.println("Number of lectures - "+Lecture.getCount());
-                return;
-            case RESPONSE_PERSON:
-                Person person = personService.create();
-                personRep.add(person);
-                System.out.println("Person created");
-                return;
-            case RESPONSE_BACK:
-                System.out.println(MAIN_MENU);
-                return;
-            case RESPONSE_EXIT:
-                System.out.println(EXIT_MESSAGE);
-                play = false;
-                return;
-            default:
-                try {
-                    throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
-                } catch (IncorrectSymbolException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
-
-    private void readCommand(){
-        System.out.println(COMMAND_READ);
-        String response = scanner.next();
-        switch (response){
-            case RESPONSE_COURSE:
-                courseRep.printAll();
-                return;
-            case RESPONSE_LECTURE:
-                lectureRep.printAll();
-                return;
-            case RESPONSE_PERSON:
-                personRep.printAll();
-                return;
-            case RESPONSE_BACK:
-                System.out.println(MAIN_MENU);
-                return;
-            case RESPONSE_EXIT:
-                System.out.println(EXIT_MESSAGE);
-                play = false;
-                return;
-            default:
-        }  try {
-            throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
-        } catch (IncorrectSymbolException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void readByIdCommand() throws EntityNotFoundException {
-        String response = conversationService.getResponse(COMMAND_READ, ValidationType.ANYTHING);
-        int response2 = Integer.parseInt(conversationService.getResponse("Print id:", ValidationType.DIGIT));
-        switch (response){
-            case RESPONSE_COURSE:
-                Course course = null;
-                    course = courseRep.get(response2);
-                System.out.println(course);
-                return;
-            case RESPONSE_LECTURE:
-                Lecture lecture = lectureRep.get(response2);
-                System.out.println(lecture);
-                return;
-            case RESPONSE_PERSON:
-                Person person = personRep.get(response2);
-                System.out.println(person);
-                return;
-            case RESPONSE_BACK:
-                System.out.println(MAIN_MENU);
-                return;
-            case RESPONSE_EXIT:
-                System.out.println(EXIT_MESSAGE);
-                play = false;
-                return;
-            default:
-                try {
-                    throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
-                } catch (IncorrectSymbolException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
-
-    private void deleteByIdCommand() throws EntityNotFoundException {
-        String response = conversationService.getResponse(COMMAND_DELETE, ValidationType.ANYTHING);
-
-        int response2 = Integer.parseInt(conversationService.getResponse(PRINT_ID, ValidationType.DIGIT));
-
-        switch (response){
-            case RESPONSE_COURSE:
-                courseRep.delete(response2);
-                conversationService.print(DELETED);
-                return;
-            case RESPONSE_LECTURE:
-                lectureRep.delete(response2);
-                conversationService.print(DELETED);
-                return;
-            case RESPONSE_PERSON:
-                personRep.delete(response2);
-                conversationService.print(DELETED);
-                return;
-            case RESPONSE_BACK:
-                System.out.println(MAIN_MENU);
-                return;
-            case RESPONSE_EXIT:
-                System.out.println(EXIT_MESSAGE);
-                play = false;
-                return;
-            default:
-                try {
-                    throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
-                } catch (IncorrectSymbolException e) {
-                    e.printStackTrace();
-                }
         }
     }
 

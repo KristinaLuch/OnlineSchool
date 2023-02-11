@@ -1,6 +1,8 @@
-package models;
+package models.school_object;
 
-public class AdditionalMaterials {
+import models.ResourceType;
+
+public class AdditionalMaterials implements SchoolObject {
 
     private final Integer id;
 

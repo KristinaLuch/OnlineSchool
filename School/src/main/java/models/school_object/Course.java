@@ -1,9 +1,9 @@
-package models;
+package models.school_object;
 
 import java.util.List;
 import java.util.Objects;
 
-public class Course{
+public class Course implements SchoolObject {
 
     private Integer id;
     private static int count = 0;

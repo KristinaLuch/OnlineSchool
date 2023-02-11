@@ -1,7 +1,7 @@
 package repository;
 
 import exceptions.EntityNotFoundException;
-import models.Materials;
+import models.school_object.Materials;
 
 import java.util.ArrayList;
 
