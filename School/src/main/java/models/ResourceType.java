@@ -2,10 +2,15 @@ package models;
 
 public enum ResourceType {
 
-    URL,
+    URL("url"),
 
-    VIDEO,
+    VIDEO("video"),
 
-    BOOK
+    BOOK("book");
 
+    public final String typeMessage;
+
+    ResourceType(String typeMessage) {
+        this.typeMessage = typeMessage;
+    }
 }

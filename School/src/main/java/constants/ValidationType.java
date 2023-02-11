@@ -6,7 +6,7 @@ public enum ValidationType {
     PHONE("Incorrect phone. Please, print your phone number with \"+\" and country code"),
     DESCRIPTION("Incorrect data. Maximum number of symbols - 80"),
     DIGIT("It's not a number"),
-    ANYTHING("");
+    ANYTHING("Answer must be bigger than 0 symbols");
 
     public final String errorMessage;
 

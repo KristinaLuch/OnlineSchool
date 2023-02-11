@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class CourseRep implements ICourseRep{
 
-    protected ArrayList<Course> courses;
+    private ArrayList<Course> courses;
 
     public CourseRep(ArrayList<Course> courses) {
         this.courses = courses;

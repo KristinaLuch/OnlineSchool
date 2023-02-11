@@ -17,6 +17,7 @@ public class Main {
         HomeworkRep homeworks = new HomeworkRep(new ArrayList<>());
         MaterialsRep materials = new MaterialsRep(new ArrayList<>());
         PersonRep persons = new PersonRep(new ArrayList<>());
+        AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new ArrayList<>());
 
         ValidationService validationService = new ValidationService();
         ConversationService conversationService = new ConversationService(scanner, validationService);
@@ -24,11 +25,12 @@ public class Main {
         HomeworkService homeworkService = new HomeworkService(homeworks, conversationService);
         LectureService lectureService = new LectureService(lectures, conversationService, homeworkService, materialService, courses, persons);
         PersonService personService = new PersonService(persons, conversationService);
+        AdditionalMaterialsService additionalMaterialsService = new AdditionalMaterialsService(conversationService, additionalMaterialsRep, lectures);
 
         CourseService courseService = new CourseService(courses, lectureService, personService, conversationService);
 
-        CommandService commandService = new CommandService(scanner, courseService, lectureService,
-                personService, courses, lectures, persons, conversationService);
+        CommandService commandService = new CommandService(conversationService, courseService, lectureService,
+                personService, additionalMaterialsService);
 
         commandService.startApp();
 

@@ -65,7 +65,10 @@ public class CourseService implements SchoolService{
 
     @Override
     public void readAll() {
-        System.out.println(courseRep.getAll());
+        ArrayList<Course> courses = courseRep.getAll();
+        for (Course course : courses) {
+            System.out.println(course);
+        }
     }
 
     @Override

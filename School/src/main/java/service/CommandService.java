@@ -8,23 +8,28 @@ import repository.CourseRep;
 import repository.LectureRep;
 import repository.PersonRep;
 import service.conversation.ConversationService;
-import service.school.CourseService;
-import service.school.LectureService;
-import service.school.PersonService;
-import service.school.SchoolService;
+import service.school.*;
 
 import java.util.Scanner;
 
 public class CommandService {
 
-    private Scanner scanner;
+    private ConversationService conversationService;
     private CourseService courseService;
     private LectureService lectureService;
-    private ConversationService conversationService;
     private PersonService personService;
-    private CourseRep courseRep;
-    private LectureRep lectureRep;
-    private PersonRep personRep;
+    private AdditionalMaterialsService additionalMaterialsService;
+
+    public CommandService(ConversationService conversationService, CourseService courseService,
+                          LectureService lectureService, PersonService personService,
+                          AdditionalMaterialsService additionalMaterialsService) {
+        this.conversationService = conversationService;
+        this.courseService = courseService;
+        this.lectureService = lectureService;
+        this.personService = personService;
+        this.additionalMaterialsService = additionalMaterialsService;
+    }
+
     private static final String START = "Select \"1\" for course, \"2\" for lecture, \"3\" for person, " +
             "\n\"4\" for additional_materials\" or \"exit\"";
     private static final String PRINT_COMMAND = "Print command:";
@@ -53,27 +58,16 @@ public class CommandService {
 
     private boolean play = true;
 
-    public CommandService(Scanner scanner, CourseService courseService, LectureService lectureService,
-                          PersonService personService, CourseRep courseRep,
-                          LectureRep lectureRep, PersonRep personRep, ConversationService conversationService) {
-        this.scanner = scanner;
-        this.courseService = courseService;
-        this.lectureService = lectureService;
-        this.personService = personService;
-        this.courseRep = courseRep;
-        this.lectureRep = lectureRep;
-        this.personRep = personRep;
-        this.conversationService = conversationService;
-    }
+
 
     public void startApp(){
         startCreate();
-        System.out.println(START);
         while (play){
             if (Lecture.getCount() == 8){
                 System.out.println(CREATED_MAX_LECTURES);
                 break;
             }
+            conversationService.print(START);
             String response = conversationService.getResponse(PRINT_COMMAND, ValidationType.ANYTHING);
             SchoolService environment;
             try {
@@ -95,8 +89,8 @@ public class CommandService {
                 return lectureService;
             case RESPONSE_PERSON:
                 return personService;
-//            case RESPONSE_ADD_MATERIALS:
-//                return;
+            case RESPONSE_ADD_MATERIALS:
+                return additionalMaterialsService;
             case RESPONSE_EXIT:
                 System.out.println(EXIT_MESSAGE);
                 System.exit(0);
