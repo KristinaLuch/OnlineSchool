@@ -5,7 +5,7 @@ import models.school_object.Lecture;
 
 import java.util.ArrayList;
 
-public interface ILectureRep {
+public interface ILectureRep extends ISchoolRep<Lecture>{
 
     boolean add(Lecture lecture);
 

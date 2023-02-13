@@ -55,4 +55,5 @@ public class AdditionalMaterials implements SchoolObject {
                 ", resourceType=" + resourceType +
                 '}';
     }
+
 }

@@ -11,6 +11,7 @@ import repository.CourseRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CourseService implements SchoolService{
@@ -66,6 +67,7 @@ public class CourseService implements SchoolService{
     @Override
     public void readAll() {
         ArrayList<Course> courses = courseRep.getAll();
+        Collections.sort(courses);
         for (Course course : courses) {
             System.out.println(course);
         }

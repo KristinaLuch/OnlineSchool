@@ -1,3 +1,6 @@
+import comparator_add_materials.ComparatorId;
+import comparator_add_materials.ComparatorLectureId;
+import comparator_add_materials.ComparatorResourceType;
 import repository.*;
 import service.CommandService;
 import service.ValidationService;
@@ -19,13 +22,18 @@ public class Main {
         PersonRep persons = new PersonRep(new ArrayList<>());
         AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new ArrayList<>());
 
+        ComparatorId comparatorId = new ComparatorId();
+        ComparatorLectureId comparatorIdLecture = new ComparatorLectureId();
+        ComparatorResourceType comparatorResourceType = new ComparatorResourceType();
+
         ValidationService validationService = new ValidationService();
         ConversationService conversationService = new ConversationService(scanner, validationService);
         MaterialService materialService = new MaterialService(materials, conversationService);
         HomeworkService homeworkService = new HomeworkService(homeworks, conversationService);
         LectureService lectureService = new LectureService(lectures, conversationService, homeworkService, materialService, courses, persons);
         PersonService personService = new PersonService(persons, conversationService);
-        AdditionalMaterialsService additionalMaterialsService = new AdditionalMaterialsService(conversationService, additionalMaterialsRep, lectures);
+        AdditionalMaterialsService additionalMaterialsService = new AdditionalMaterialsService(conversationService, additionalMaterialsRep,
+                lectures, comparatorId, comparatorIdLecture, comparatorResourceType);
 
         CourseService courseService = new CourseService(courses, lectureService, personService, conversationService);
 

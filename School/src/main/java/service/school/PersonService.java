@@ -9,6 +9,8 @@ import repository.PersonRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class PersonService implements SchoolService{
 
@@ -53,6 +55,7 @@ public class PersonService implements SchoolService{
     @Override
     public void readAll() {
         ArrayList<Person> persons = personRep.getAll();
+        Collections.sort(persons);
         persons.forEach(System.out::println);
     }
 
@@ -80,6 +83,10 @@ public class PersonService implements SchoolService{
             System.out.println("Wrong command");
             return getRole();
         }
+    }
+
+    public void addToRep(Person person){
+        personRep.add(person);
     }
 
 }

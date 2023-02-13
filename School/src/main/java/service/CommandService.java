@@ -3,8 +3,10 @@ package service;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
+import models.Role;
 import models.school_object.*;
 import repository.CourseRep;
+import repository.IPersonRep;
 import repository.LectureRep;
 import repository.PersonRep;
 import service.conversation.ConversationService;
@@ -181,6 +183,7 @@ public class CommandService {
         courseService.addLectureToList(course, lecture2);
         courseService.addLectureToList(course, lecture3);
         courseService.addToRep(course);
+
         System.out.println(course + "\n");
     }
 

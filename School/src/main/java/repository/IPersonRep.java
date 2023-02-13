@@ -5,7 +5,7 @@ import models.school_object.Person;
 
 import java.util.ArrayList;
 
-public interface IPersonRep {
+public interface IPersonRep extends ISchoolRep<Person>{
 
     boolean add(Person person);
 

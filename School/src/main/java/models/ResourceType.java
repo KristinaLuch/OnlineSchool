@@ -2,11 +2,11 @@ package models;
 
 public enum ResourceType {
 
-    URL("url"),
+    BOOK("book"),
 
     VIDEO("video"),
 
-    BOOK("book");
+    URL("url");
 
     public final String typeMessage;
 

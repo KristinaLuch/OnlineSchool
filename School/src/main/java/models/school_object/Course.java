@@ -3,7 +3,7 @@ package models.school_object;
 import java.util.List;
 import java.util.Objects;
 
-public class Course implements SchoolObject {
+public class Course implements SchoolObject, Comparable<Course>{
 
     private Integer id;
     private static int count = 0;
@@ -51,10 +51,20 @@ public class Course implements SchoolObject {
     }
 
     @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lectures=" + lectures +
+                ", persons=" + persons +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Course course)) return false;
-        return id == course.id && Objects.equals(name, course.name) && Objects.equals(persons, course.persons) && Objects.equals(lectures, course.lectures);
+        return Objects.equals(id, course.id) && Objects.equals(name, course.name) && Objects.equals(persons, course.persons) && Objects.equals(lectures, course.lectures);
     }
 
     @Override
@@ -63,12 +73,8 @@ public class Course implements SchoolObject {
     }
 
     @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lectures=" + lectures +
-                ", persons=" + persons +
-                '}';
+    public int compareTo(Course o) {
+        int result = this.name.compareTo(o.name);
+        return result;
     }
 }

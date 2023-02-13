@@ -5,7 +5,7 @@ import models.school_object.Homework;
 
 import java.util.ArrayList;
 
-public interface IHomeworkRep {
+public interface IHomeworkRep extends ISchoolRep<Homework>{
 
     boolean add(Homework homework);
 

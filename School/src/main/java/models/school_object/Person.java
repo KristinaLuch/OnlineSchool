@@ -2,7 +2,7 @@ package models.school_object;
 
 import models.Role;
 
-public class Person implements SchoolObject {
+public class Person implements SchoolObject, Comparable<Person> {
 
     private int courseID;
 
@@ -102,5 +102,11 @@ public class Person implements SchoolObject {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(Person o) {
+        return this.lastname.compareTo(o.lastname);
     }
 }

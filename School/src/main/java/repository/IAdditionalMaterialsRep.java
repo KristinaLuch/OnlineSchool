@@ -6,7 +6,7 @@ import models.school_object.Course;
 
 import java.util.ArrayList;
 
-public interface IAdditionalMaterialsRep {
+public interface IAdditionalMaterialsRep extends ISchoolRep<AdditionalMaterials>{
 
     boolean add(AdditionalMaterials additionalMaterials);
 
