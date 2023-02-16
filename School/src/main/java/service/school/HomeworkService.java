@@ -3,7 +3,7 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import models.school_object.Homework;
-import repository.HomeworkRep;
+import repository.school.impl.HomeworkRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;

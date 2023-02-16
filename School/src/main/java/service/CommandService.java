@@ -3,18 +3,11 @@ package service;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
-import models.ResourceType;
-import models.Role;
 import models.school_object.*;
-import repository.CourseRep;
-import repository.IPersonRep;
-import repository.LectureRep;
-import repository.PersonRep;
 import service.conversation.ConversationService;
 import service.school.*;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class CommandService {
 

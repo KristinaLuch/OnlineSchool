@@ -1,14 +1,14 @@
-package repository;
+package repository.school.impl;
 
 import exceptions.EntityNotFoundException;
 import models.school_object.AdditionalMaterials;
-import models.school_object.Homework;
+import repository.school.IAdditionalMaterialsRep;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-public class AdditionalMaterialsRep implements IAdditionalMaterialsRep{
+public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
 
     private Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
 

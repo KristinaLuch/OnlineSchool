@@ -9,8 +9,8 @@ import exceptions.IncorrectSymbolException;
 import models.ResourceType;
 import models.school_object.AdditionalMaterials;
 import models.school_object.SchoolObject;
-import repository.AdditionalMaterialsRep;
-import repository.LectureRep;
+import repository.school.impl.AdditionalMaterialsRep;
+import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;

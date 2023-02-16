@@ -7,7 +7,7 @@ import models.school_object.Course;
 import models.school_object.Lecture;
 import models.school_object.Person;
 import models.school_object.SchoolObject;
-import repository.CourseRep;
+import repository.school.impl.CourseRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;

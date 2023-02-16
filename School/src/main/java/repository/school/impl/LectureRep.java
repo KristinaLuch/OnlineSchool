@@ -1,11 +1,12 @@
-package repository;
+package repository.school.impl;
 
 import exceptions.EntityNotFoundException;
 import models.school_object.Lecture;
+import repository.school.ILectureRep;
 
 import java.util.ArrayList;
 
-public class LectureRep implements ILectureRep{
+public class LectureRep implements ILectureRep {
 
     protected ArrayList<Lecture> lectures;
 

@@ -5,7 +5,7 @@ import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import models.school_object.Homework;
 import models.school_object.Lecture;
-import repository.LectureRep;
+import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;

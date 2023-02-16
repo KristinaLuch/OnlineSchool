@@ -5,11 +5,10 @@ import exceptions.EntityNotFoundException;
 import models.school_object.Person;
 import models.Role;
 import models.school_object.SchoolObject;
-import repository.PersonRep;
+import repository.school.impl.PersonRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class PersonService implements SchoolService{

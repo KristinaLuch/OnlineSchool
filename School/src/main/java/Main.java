@@ -3,10 +3,12 @@ import comparator_add_materials.ComparatorLectureId;
 import comparator_add_materials.ComparatorResourceType;
 import models.ResourceType;
 import models.school_object.AdditionalMaterials;
-import repository.*;
+import repository.log.LogRep;
+import repository.school.impl.*;
 import service.CommandService;
 import service.ValidationService;
 import service.conversation.ConversationService;
+import service.log.LogService;
 import service.school.*;
 
 import java.util.ArrayList;
@@ -48,28 +50,8 @@ public class Main {
                 personService, additionalMaterialsService);
 
 
-
-        AdditionalMaterials additionalMaterials = new AdditionalMaterials();
-        additionalMaterials.setLectureId(2);
-        additionalMaterials.setResourceType(ResourceType.URL);
-        AdditionalMaterials additionalMaterials2 = new AdditionalMaterials();
-        additionalMaterials2.setLectureId(1);
-        additionalMaterials2.setResourceType(ResourceType.URL);
-        AdditionalMaterials additionalMaterials3 = new AdditionalMaterials();
-        additionalMaterials3.setLectureId(3);
-        additionalMaterials3.setResourceType(ResourceType.BOOK);
-        AdditionalMaterials additionalMaterials4 = new AdditionalMaterials();
-        additionalMaterials4.setLectureId(1);
-        additionalMaterials4.setResourceType(ResourceType.VIDEO);
-        additionalMaterialsRep.add(additionalMaterials);
-        additionalMaterialsRep.add(additionalMaterials2);
-        additionalMaterialsRep.add(additionalMaterials3);
-        additionalMaterialsRep.add(additionalMaterials4);
-
-
-
-
-
+        LogService logService = new LogService();
+        LogRep logRep = new LogRep(logService);
 
         commandService.startApp();
 

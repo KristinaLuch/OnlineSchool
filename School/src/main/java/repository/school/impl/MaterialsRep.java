@@ -1,11 +1,12 @@
-package repository;
+package repository.school.impl;
 
 import exceptions.EntityNotFoundException;
 import models.school_object.Materials;
+import repository.school.IMaterialsRep;
 
 import java.util.ArrayList;
 
-public class MaterialsRep implements IMaterialsRep{
+public class MaterialsRep implements IMaterialsRep {
     protected ArrayList<Materials> materialsRep;
 
     public MaterialsRep(ArrayList<Materials> materialsRep) {

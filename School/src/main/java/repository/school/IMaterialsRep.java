@@ -1,4 +1,4 @@
-package repository;
+package repository.school;
 
 import exceptions.EntityNotFoundException;
 import models.school_object.Materials;

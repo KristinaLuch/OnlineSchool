@@ -2,10 +2,8 @@ package service.school;
 
 import constants.ValidationType;
 import models.school_object.Materials;
-import repository.MaterialsRep;
+import repository.school.impl.MaterialsRep;
 import service.conversation.ConversationService;
-
-import java.util.ArrayList;
 
 public class MaterialService{
 
