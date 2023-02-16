@@ -1,9 +1,12 @@
 package service.school;
 
 import constants.ValidationType;
+import exceptions.EntityNotFoundException;
 import models.school_object.Homework;
 import repository.HomeworkRep;
 import service.conversation.ConversationService;
+
+import java.util.ArrayList;
 
 public class HomeworkService {
 
@@ -30,5 +33,24 @@ public class HomeworkService {
             return;
         }
         homeworkRep.add(homework);
+    }
+
+    public boolean delete(int id) {
+
+        try {
+            homeworkRep.delete(id);
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public ArrayList<Homework> getHomeworksFromLecture(int lectureId){
+        return homeworkRep.getHomeworks(lectureId);
+    }
+
+    public void printHomeworksFromLecture(int lectureId){
+        ArrayList<Homework> homeworkLecture = homeworkRep.getHomeworks(lectureId);
+        homeworkLecture.forEach(System.out::println);
     }
 }

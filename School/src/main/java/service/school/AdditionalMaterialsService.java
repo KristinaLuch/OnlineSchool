@@ -15,6 +15,7 @@ import service.conversation.ConversationService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Map;
 
 import static models.ResourceType.*;
 
@@ -41,16 +42,20 @@ public class AdditionalMaterialsService implements SchoolService{
     }
 
     public static final String PRINT_NAME = "Print name:";
-    public static final String PRINT_RESOURCE_TYPE = "Print resource type():";
+    public static final String PRINT_RESOURCE_TYPE = "Print resource type(\"book\", \"video\" or \"url\"):";
 
     public static final String PRINT_LECTURE_ID = "Print lecture id:";
 
     @Override
     public SchoolObject create() {
+        return create(getLectureId());
+    }
+
+    public AdditionalMaterials create(int lectureId){
         AdditionalMaterials additionalMaterials = new AdditionalMaterials();
         additionalMaterials.setName(conversationService.getResponse(PRINT_NAME, ValidationType.NAME));
         additionalMaterials.setResourceType(getResourceType());
-        additionalMaterials.setLectureId(getLectureId());
+        additionalMaterials.setLectureId(lectureId);
         additionalMaterialsRep.add(additionalMaterials);
         conversationService.print(additionalMaterials.toString());
         conversationService.print("Created");
@@ -99,8 +104,16 @@ public class AdditionalMaterialsService implements SchoolService{
 
     @Override
     public void readAll() {
+
+        Map<Integer, ArrayList<AdditionalMaterials>> map = additionalMaterialsRep.getAll();
+
+        ArrayList<AdditionalMaterials> additionalMaterialsList = new ArrayList<>();
+
+        map.entrySet().stream().forEach(entry -> entry.getValue().forEach(x -> additionalMaterialsList.add(x)));
+
         Comparator<AdditionalMaterials> comparator = getComparator();
-        ArrayList<AdditionalMaterials> additionalMaterialsList = additionalMaterialsRep.getAll();
+
+
         if(comparator != null){
             additionalMaterialsList.sort(comparator);
         }
@@ -133,5 +146,18 @@ public class AdditionalMaterialsService implements SchoolService{
     public boolean delete(int id) throws EntityNotFoundException {
         additionalMaterialsRep.delete(id);
         return true;
+    }
+
+    public ArrayList<AdditionalMaterials> getHomeworksFromLecture(int lectureId){
+        return additionalMaterialsRep.getAdditionalMaterials(lectureId);
+    }
+
+    public void printHomeworksFromLecture(int lectureId){
+        ArrayList<AdditionalMaterials> addMatLecture = additionalMaterialsRep.getAdditionalMaterials(lectureId);
+        addMatLecture.forEach(System.out::println);
+    }
+
+    public boolean belongsToLecture(int lectureId, int id) {
+        return additionalMaterialsRep.belongsToLecture(lectureId,id);
     }
 }

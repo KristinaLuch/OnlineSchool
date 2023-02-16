@@ -71,6 +71,15 @@ public class LectureRep implements ILectureRep{
         throw new EntityNotFoundException();
     }
 
+    public boolean isExist(int id){
+        try {
+            Lecture lecture = get(id);
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public ArrayList<Lecture> getAll() {
         return lectures;

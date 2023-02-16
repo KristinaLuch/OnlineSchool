@@ -2,15 +2,18 @@ package repository;
 
 import exceptions.EntityNotFoundException;
 import models.school_object.AdditionalMaterials;
+import models.school_object.Homework;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class AdditionalMaterialsRep implements IAdditionalMaterialsRep{
 
-    private ArrayList<AdditionalMaterials> additionalMaterialsList;
+    private Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
 
-    public AdditionalMaterialsRep(ArrayList<AdditionalMaterials> additionalMaterialsList) {
-        this.additionalMaterialsList = additionalMaterialsList;
+    public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap) {
+        this.additionalMaterialsMap = additionalMaterialsMap;
     }
 
     @Override
@@ -18,7 +21,14 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep{
         if (additionalMaterials == null) {
             return false;
         }
-        additionalMaterialsList.add(additionalMaterials);
+        int key = additionalMaterials.getLectureId();
+        ArrayList<AdditionalMaterials> value = additionalMaterialsMap.get(key);
+
+        if (value == null){
+            value = new ArrayList<>();
+        }
+        value.add(additionalMaterials);
+        additionalMaterialsMap.put(key, value);
         return true;
     }
 
@@ -27,17 +37,16 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep{
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-        AdditionalMaterials findAdditionalMaterials;
-        int index;
-        for (int i = 0; i < additionalMaterialsList.size(); i++) {
-            findAdditionalMaterials = additionalMaterialsList.get(i);
-            if (findAdditionalMaterials.getId() == id) {
-                index = i;
-                additionalMaterialsList.add(index, newAdditionalMaterials);
-                return true;
-            }
+        if (id <= 0) {
+            throw new EntityNotFoundException();
         }
-        throw new EntityNotFoundException();
+        AdditionalMaterials oldAdditionalMaterials = get(id);
+        int key = oldAdditionalMaterials.getLectureId();
+        ArrayList<AdditionalMaterials> list = additionalMaterialsMap.get(key);
+        int index = list.indexOf(oldAdditionalMaterials);
+        list.add(index, newAdditionalMaterials);
+        additionalMaterialsMap.put(key, list);
+        return true;
     }
 
     @Override
@@ -45,15 +54,12 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep{
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-        int indObj;
-        for (int i = 0; i < additionalMaterialsList.size(); i++) {
-            indObj = additionalMaterialsList.get(i).getId();
-            if (indObj == id) {
-                additionalMaterialsList.remove(i);
-                return true;
-            }
-        }
-        throw new EntityNotFoundException();
+
+        AdditionalMaterials findAddMat = get(id);
+        ArrayList<AdditionalMaterials> findAlist = additionalMaterialsMap.get(findAddMat.getLectureId());
+        findAlist.remove(findAddMat);
+        additionalMaterialsMap.put(findAddMat.getLectureId(), findAlist);
+        return true;
     }
 
     @Override
@@ -61,32 +67,48 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep{
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-        AdditionalMaterials findObj;
-        for (int i = 0; i < additionalMaterialsList.size(); i++) {
-            findObj = additionalMaterialsList.get(i);
-            if (findObj.getId() == id) {
-                return findObj;
+        ArrayList<AdditionalMaterials> findAlist;
+        AdditionalMaterials findAddMat;
+        int findId;
+        Set<Integer> keySet = additionalMaterialsMap.keySet();
+
+        for(int key:keySet){
+            findAlist = additionalMaterialsMap.get(key);
+            for (int ind = 0; ind <findAlist.size(); ind++){
+                findAddMat = findAlist.get(ind);
+                findId = findAddMat.getId();
+                if (findId == id) {
+                    return findAddMat;
+                }
             }
         }
         throw new EntityNotFoundException();
     }
 
     @Override
-    public ArrayList<AdditionalMaterials> getAll() {
-        return additionalMaterialsList;
+    public Map<Integer, ArrayList<AdditionalMaterials>> getAll() {
+        return additionalMaterialsMap;
     }
 
-    public void printAll(){
+    @Override
+    public ArrayList<AdditionalMaterials> getAdditionalMaterials(int lectureId) {
+        return additionalMaterialsMap.get(lectureId);
+    }
 
-        if (additionalMaterialsList == null||additionalMaterialsList.size() == 0){
-            System.out.println("You haven't created anything yet");
+    public boolean belongsToLecture(int lectureId, int id){
+        if (lectureId <= 0 || id <=0){
+            return false;
         }
-        AdditionalMaterials obj;
-        for (int i = 0; i<additionalMaterialsList.size(); i++){
-            obj = additionalMaterialsList.get(i);
-            if(obj != null) {
-                System.out.println("id = " +obj.getId() + " - "+obj);
+        ArrayList<AdditionalMaterials> alist = additionalMaterialsMap.get(lectureId);
+        if(alist == null){
+            return false;
+        }
+        for (int i = 0; i < alist.size(); i++) {
+            if (alist.get(i).getId() == id){
+                return true;
             }
         }
+        return false;
     }
+
 }

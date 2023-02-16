@@ -11,7 +11,6 @@ import repository.PersonRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LectureService implements SchoolService{
@@ -23,6 +22,8 @@ public class LectureService implements SchoolService{
     private final  CourseRep courseRep;
     private final  PersonRep personRep;
 
+    private LectureAssociatedService lectureAssociatedService;
+
     private static final String PRINT_LECTURE_NAME = "Print lecture name";
 
     private static final String PRINT_LECTURE_DESCRIPTION = "Print description";
@@ -32,11 +33,12 @@ public class LectureService implements SchoolService{
 
     public LectureService(LectureRep lectureRep, ConversationService conversationService,
                           HomeworkService homeworkService, MaterialService materialService,
-                          CourseRep courseRep, PersonRep personRep) {
+                          LectureAssociatedService lectureAssociatedService, CourseRep courseRep, PersonRep personRep) {
         this.lectureRep = lectureRep;
         this.conversationService = conversationService;
         this.homeworkService = homeworkService;
         this.materialService = materialService;
+        this.lectureAssociatedService = lectureAssociatedService;
         this.courseRep = courseRep;
         this.personRep = personRep;
     }
@@ -62,6 +64,8 @@ public class LectureService implements SchoolService{
     @Override
     public void read_by_id(int id) throws EntityNotFoundException {
         System.out.println(lectureRep.get(id));
+        lectureAssociatedService.showAssociated(id);
+
     }
 
     @Override
@@ -104,36 +108,32 @@ public class LectureService implements SchoolService{
 
     private Lecture addHomeworks(Lecture lecture){
         String response;
-        Homework[] homeworks;
-        Homework [] tmp;
+        ArrayList<Homework> homeworks;
         while (true) {
             response = conversationService.getResponse("Do you want add homework?", ValidationType.ANYTHING);
             if (response.equalsIgnoreCase("yes")) {
                 Homework homework = homeworkService.create(lecture.getId());
                 if (homework == null) {
                     conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
-                    continue;
                 } else {
                     homeworks = lecture.getHomework();
-                    if(homeworks == null||homeworks.length == 0){
-                        homeworks = new Homework[1];
-                        homeworks[0] = homework;
-                        lecture.setHomework(homeworks);
-                    } else {
-                        tmp = Arrays.copyOf(homeworks, homeworks.length+1);
-                        tmp[homeworks.length] = homework;
-                        homeworks = tmp;
-                        lecture.setHomework(homeworks);
+                    if(homeworks == null||homeworks.size() == 0){
+                        homeworks = new ArrayList<>();
                     }
+                        homeworks.add(homework);
+                        lecture.setHomework(homeworks);
                 }
             } else if (response.equalsIgnoreCase("no")) {
                 return lecture;
             } else {
                 conversationService.print("Print yes or no");
-                return addPerson(lecture);
+                return addHomeworks(lecture);
             }
         }
     }
+
+
+
 
     private Lecture addPerson(Lecture lecture){
         String response;
@@ -162,7 +162,7 @@ public class LectureService implements SchoolService{
 
     private Person addedPerson(){
         Person person = null;
-        String idStr = conversationService.getResponse("Print teacher`s peron id", ValidationType.DIGIT);
+        String idStr = conversationService.getResponse("Print teacher`s person id", ValidationType.DIGIT);
         if (idStr == null){
             return null;
         }
@@ -221,11 +221,12 @@ public class LectureService implements SchoolService{
     public void addLectureToRep(Lecture lecture){
         materialService.addToRep(lecture.getMaterials());
         lectureRep.add(lecture);
-
-        Homework[] homeworks = lecture.getHomework();
+        ArrayList<Homework> homeworks = lecture.getHomework();
         for (Homework homework : homeworks) {
             homeworkService.addToRep(homework);
         }
     }
+
+
 
 }

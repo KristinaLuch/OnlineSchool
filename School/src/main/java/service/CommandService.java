@@ -3,6 +3,7 @@ package service;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
+import models.ResourceType;
 import models.Role;
 import models.school_object.*;
 import repository.CourseRep;
@@ -12,6 +13,7 @@ import repository.PersonRep;
 import service.conversation.ConversationService;
 import service.school.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CommandService {
@@ -152,8 +154,8 @@ public class CommandService {
         lecture1.setIdCourse(course.getId());
         lecture1.setMaterials(materials1);
         Homework homework1 = new Homework(lecture1.getId(), "1 hw");
-        Homework[] homeworks1 = new Homework[1];
-        homeworks1[0] = homework1;
+        ArrayList<Homework> homeworks1 = new ArrayList<>();
+        homeworks1.add(homework1);
         lecture1.setHomework(homeworks1);
 
         Lecture lecture2 = new Lecture();
@@ -162,8 +164,8 @@ public class CommandService {
         lecture2.setIdCourse(course.getId());
         lecture2.setMaterials(materials1);
         Homework homework2 = new Homework(lecture2.getId(), "2 hw");
-        Homework[] homeworks2 = new Homework[1];
-        homeworks2[0] = homework2;
+        ArrayList<Homework> homeworks2 = new ArrayList<>();
+        homeworks2.add(homework2);
         lecture2.setHomework(homeworks2);
 
         Lecture lecture3 = new Lecture();
@@ -172,8 +174,8 @@ public class CommandService {
         lecture3.setIdCourse(course.getId());
         lecture3.setMaterials(materials1);
         Homework homework3 = new Homework(lecture3.getId(), "3 hw");
-        Homework[] homeworks3 = new Homework[1];
-        homeworks3[0] = homework3;
+        ArrayList<Homework> homeworks3 = new ArrayList<>();
+        homeworks3.add(homework3);
         lecture3.setHomework(homeworks3);
 
         lectureService.addLectureToRep(lecture1);

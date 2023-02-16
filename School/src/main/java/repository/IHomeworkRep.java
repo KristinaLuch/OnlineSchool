@@ -4,8 +4,9 @@ import exceptions.EntityNotFoundException;
 import models.school_object.Homework;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public interface IHomeworkRep extends ISchoolRep<Homework>{
+public interface IHomeworkRep {
 
     boolean add(Homework homework);
 
@@ -15,6 +16,8 @@ public interface IHomeworkRep extends ISchoolRep<Homework>{
 
     Homework get(int id) throws EntityNotFoundException;
 
-    ArrayList<Homework> getAll();
+    Map<Integer, ArrayList<Homework>> getAll();
+
+    ArrayList<Homework> getHomeworks(int lectureId);
     
 }

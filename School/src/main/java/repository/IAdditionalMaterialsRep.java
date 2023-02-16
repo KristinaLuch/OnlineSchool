@@ -3,10 +3,12 @@ package repository;
 import exceptions.EntityNotFoundException;
 import models.school_object.AdditionalMaterials;
 import models.school_object.Course;
+import models.school_object.Homework;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public interface IAdditionalMaterialsRep extends ISchoolRep<AdditionalMaterials>{
+public interface IAdditionalMaterialsRep {
 
     boolean add(AdditionalMaterials additionalMaterials);
 
@@ -16,7 +18,9 @@ public interface IAdditionalMaterialsRep extends ISchoolRep<AdditionalMaterials>
 
     AdditionalMaterials get(int id) throws EntityNotFoundException;
 
-    ArrayList<AdditionalMaterials> getAll();
+    Map<Integer, ArrayList<AdditionalMaterials>> getAll();
+
+    ArrayList<AdditionalMaterials> getAdditionalMaterials(int lectureId);
 
 
 }

@@ -1,14 +1,18 @@
 package repository;
 
 import exceptions.EntityNotFoundException;
+import models.school_object.AdditionalMaterials;
 import models.school_object.Homework;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class HomeworkRep implements IHomeworkRep{
-    protected ArrayList<Homework> homeworks;
+    private Map<Integer, ArrayList<Homework>> homeworks;
 
-    public HomeworkRep(ArrayList<Homework> homeworks) {
+
+    public HomeworkRep(Map<Integer, ArrayList<Homework>> homeworks) {
         this.homeworks = homeworks;
     }
 
@@ -17,7 +21,23 @@ public class HomeworkRep implements IHomeworkRep{
         if (homework == null) {
             return false;
         }
-        homeworks.add(homework);
+        int key = homework.getLectureId();
+        ArrayList<Homework> value = homeworks.get(key);
+
+        if (value == null){
+            value = new ArrayList<>();
+        }
+        value.add(homework);
+        homeworks.put(key, value);
+        return true;
+    }
+
+    public boolean isExist(int id){
+        try {
+            Homework homework = get(id);
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
         return true;
     }
 
@@ -26,17 +46,13 @@ public class HomeworkRep implements IHomeworkRep{
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-        Homework findHomework;
-        int index;
-        for (int i = 0; i < homeworks.size(); i++) {
-            findHomework = homeworks.get(i);
-            if (findHomework.getId() == id) {
-                index = i;
-                homeworks.add(index, newHomework);
-                return true;
-            }
-        }
-        throw new EntityNotFoundException();
+        Homework oldHomework = get(id);
+        int key = oldHomework.getLectureId();
+        ArrayList<Homework> list = homeworks.get(key);
+        int index = list.indexOf(oldHomework);
+        list.add(index, newHomework);
+        homeworks.put(key, list);
+        return true;
     }
 
     @Override
@@ -44,14 +60,33 @@ public class HomeworkRep implements IHomeworkRep{
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-        Homework findObj;
-        for (int i = 0; i < homeworks.size(); i++) {
-            findObj = homeworks.get(i);
-            if (findObj.getId() == id) {
-                return findObj;
+        ArrayList<Homework> findAlist;
+        Homework findHomework;
+        int findId;
+
+        Set<Integer> keySet = homeworks.keySet();
+
+        for(int key:keySet){
+            findAlist = homeworks.get(key);
+            for (int ind = 0; ind <findAlist.size(); ind++){
+                findHomework = findAlist.get(ind);
+                findId = findHomework.getId();
+                if (findId == id) {
+                    return findHomework;
+                }
             }
         }
         throw new EntityNotFoundException();
+    }
+
+    @Override
+    public Map<Integer, ArrayList<Homework>> getAll() {
+        return homeworks;
+    }
+
+    @Override
+    public ArrayList<Homework> getHomeworks(int lectureId) {
+        return homeworks.get(lectureId);
     }
 
     @Override
@@ -59,33 +94,12 @@ public class HomeworkRep implements IHomeworkRep{
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-        int indObj;
-        for (int i = 0; i < homeworks.size(); i++) {
-            indObj = homeworks.get(i).getId();
-            if (indObj == id) {
-                homeworks.remove(i);
-                return true;
-            }
-        }
+        Homework homework = get(id);
+        ArrayList<Homework> findAlist = homeworks.get(homework.getLectureId());
+        findAlist.remove(homework);
+        homeworks.put(homework.getLectureId(), findAlist);
+
         throw new EntityNotFoundException();
     }
 
-    @Override
-    public ArrayList<Homework> getAll() {
-        return homeworks;
-    }
-
-    public void printAll(){
-
-        if (homeworks == null||homeworks.size() == 0){
-            System.out.println("You haven't created anything yet");
-        }
-        Homework obj;
-        for (int i = 0; i<homeworks.size(); i++){
-            obj = homeworks.get(i);
-            if(obj != null) {
-                System.out.println("id = " +obj.getId() + " - "+obj);
-            }
-        }
-    }
 }
