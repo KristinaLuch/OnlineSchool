@@ -2,14 +2,20 @@ package service;
 
 import constants.ValidationType;
 import exceptions.ValidationException;
+import repository.log.LogRepository;
 
 import java.util.regex.Pattern;
 public class ValidationService {
 
+    private LogRepository logRepository;
     public static final String REGEX_CORRECT_EMAIL = "^[a-zA-Z0-9+_\\.-]{1,32}+@[a-zA-Z0-9-]{1,32}\\.[a-zA-Z0-9-]{2,6}+$";
     public static final String REGEX_CORRECT_PHONE_NUMBER = "\\+[1-9]\\d{8,14}";
     public static final String REGEX_CORRECT_NAME= "[A-Za-z]{2,20}";
     public static final int DESCRIPTION_MAX_SYMBOLS = 80;
+
+    public ValidationService(LogRepository logRepository) {
+        this.logRepository = logRepository;
+    }
 
     public boolean isCorrectResponse(String response, ValidationType type) throws ValidationException {
         boolean isCorrect;

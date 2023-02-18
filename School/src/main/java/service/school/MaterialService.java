@@ -18,7 +18,7 @@ public class MaterialService{
         this.conversationService = conversationService;
     }
 
-    public Materials crete(){
+    public Materials create(){
 
         String materialsString = conversationService.getResponse(PRINT_MATERIALS, ValidationType.DESCRIPTION);
 

@@ -5,6 +5,7 @@ import exceptions.EntityNotFoundException;
 import models.school_object.Person;
 import models.Role;
 import models.school_object.SchoolObject;
+import repository.log.LogRepository;
 import repository.school.impl.PersonRep;
 import service.conversation.ConversationService;
 
@@ -28,9 +29,13 @@ public class PersonService implements SchoolService{
     private final PersonRep personRep;
     private final ConversationService conversationService;
 
-    public PersonService(PersonRep personRep, ConversationService conversationService) {
+    private LogRepository logRepository;
+
+    public PersonService(PersonRep personRep, ConversationService conversationService,
+                         LogRepository logRepository) {
         this.personRep = personRep;
         this.conversationService = conversationService;
+        this.logRepository = logRepository;
     }
 
     public SchoolObject create(){

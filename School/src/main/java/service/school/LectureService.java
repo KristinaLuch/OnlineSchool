@@ -5,6 +5,7 @@ import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import models.*;
 import models.school_object.*;
+import repository.log.LogRepository;
 import repository.school.impl.CourseRep;
 import repository.school.impl.LectureRep;
 import repository.school.impl.PersonRep;
@@ -24,6 +25,8 @@ public class LectureService implements SchoolService{
 
     private LectureAssociatedService lectureAssociatedService;
 
+    private LogRepository logRepository;
+
     private static final String PRINT_LECTURE_NAME = "Print lecture name";
 
     private static final String PRINT_LECTURE_DESCRIPTION = "Print description";
@@ -33,7 +36,8 @@ public class LectureService implements SchoolService{
 
     public LectureService(LectureRep lectureRep, ConversationService conversationService,
                           HomeworkService homeworkService, MaterialService materialService,
-                          LectureAssociatedService lectureAssociatedService, CourseRep courseRep, PersonRep personRep) {
+                          LectureAssociatedService lectureAssociatedService, CourseRep courseRep,
+                          PersonRep personRep, LogRepository logRepository) {
         this.lectureRep = lectureRep;
         this.conversationService = conversationService;
         this.homeworkService = homeworkService;
@@ -41,6 +45,7 @@ public class LectureService implements SchoolService{
         this.lectureAssociatedService = lectureAssociatedService;
         this.courseRep = courseRep;
         this.personRep = personRep;
+        this.logRepository = logRepository;
     }
 
     public SchoolObject create() {
@@ -97,7 +102,7 @@ public class LectureService implements SchoolService{
         Lecture lecture = new Lecture();
         String name = conversationService.getResponse(PRINT_LECTURE_NAME, ValidationType.NAME);
         String description = conversationService.getResponse(PRINT_LECTURE_DESCRIPTION, ValidationType.DESCRIPTION);
-        Materials materials = materialService.crete();
+        Materials materials = materialService.create();
         lecture.setName(name);
         lecture.setDescription(description);
         lecture.setMaterials(materials);
@@ -175,7 +180,7 @@ public class LectureService implements SchoolService{
         try {
             person = personRep.get(id);
         } catch (EntityNotFoundException e) {
-            e.printStackTrace();
+            logRepository.create(LectureService.class.getName(), e);
         }
 
         if(person != null){
@@ -205,14 +210,14 @@ public class LectureService implements SchoolService{
                     course = courseRep.get(courseId);
                     return course;
                 } catch (EntityNotFoundException e) {
-                    e.printStackTrace();
+                    logRepository.create(LectureService.class.getName(), e);
                 }
             }
             else {
                 try {
                     throw new IncorrectSymbolException("Wrong symbols! Print id course = 0, if lectures don`t have course");
                 } catch (IncorrectSymbolException e) {
-                    e.printStackTrace();
+                    logRepository.create(LectureService.class.getName(), e);
                 }
             }
         }

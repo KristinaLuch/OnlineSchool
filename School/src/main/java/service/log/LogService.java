@@ -2,6 +2,7 @@ package service.log;
 
 import loger.Level;
 import loger.Log;
+import repository.log.LogRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -11,8 +12,14 @@ public class LogService {
 
     private File file;
 
+    private LogRepository logRepository;
+
     public LogService() {
         createFile();
+    }
+
+    public void setLogRepository(LogRepository logRepository) {
+        this.logRepository = logRepository;
     }
 
     private void createFile(){
@@ -21,7 +28,7 @@ public class LogService {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                logRepository.create(LogService.class.getName(), e);
             }
         }
     }
@@ -34,7 +41,7 @@ public class LogService {
             fileWriter.write(log.getMessage()+"\n");
             fileWriter.write(log.getStacktrace()+"\n");
         } catch (IOException e) {
-            e.printStackTrace();
+            logRepository.create(LogService.class.getName(), e);
         }
     }
 
@@ -53,7 +60,7 @@ public class LogService {
                 logs.add(log);
             }
         } catch(IOException e){
-            throw new RuntimeException(e);
+            logRepository.create(LogService.class.getName(), e);
         }
         return logs;
     }

@@ -3,6 +3,7 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import models.school_object.Homework;
+import repository.log.LogRepository;
 import repository.school.impl.HomeworkRep;
 import service.conversation.ConversationService;
 
@@ -15,9 +16,12 @@ public class HomeworkService {
     private final HomeworkRep homeworkRep;
     private final ConversationService conversationService;
 
-    public HomeworkService(HomeworkRep homeworkRep, ConversationService conversationService) {
+    private LogRepository logRepository;
+
+    public HomeworkService(HomeworkRep homeworkRep, ConversationService conversationService, LogRepository logRepository) {
         this.homeworkRep = homeworkRep;
         this.conversationService = conversationService;
+        this.logRepository = logRepository;
     }
 
     public Homework create(int lectureId) {
@@ -40,6 +44,7 @@ public class HomeworkService {
         try {
             homeworkRep.delete(id);
         } catch (EntityNotFoundException e) {
+
             return false;
         }
         return true;

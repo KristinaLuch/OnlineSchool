@@ -5,6 +5,7 @@ import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import models.school_object.Homework;
 import models.school_object.Lecture;
+import repository.log.LogRepository;
 import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
 
@@ -20,12 +21,17 @@ public class LectureAssociatedService {
 
     private LectureRep lectureRep;
 
+    private LogRepository logRepository;
 
-    public LectureAssociatedService(ConversationService conversationService, HomeworkService homeworkService, AdditionalMaterialsService additionalMaterialsService, LectureRep lectureRep) {
+
+    public LectureAssociatedService(ConversationService conversationService, HomeworkService homeworkService,
+                                    AdditionalMaterialsService additionalMaterialsService, LectureRep lectureRep,
+                                    LogRepository logRepository) {
         this.conversationService = conversationService;
         this.homeworkService = homeworkService;
         this.additionalMaterialsService = additionalMaterialsService;
         this.lectureRep = lectureRep;
+        this.logRepository = logRepository;
     }
 
     public static final String ADDED = "Added";
@@ -45,7 +51,7 @@ public class LectureAssociatedService {
                 try {
                     workWithLectureHomework(lectureId);
                 } catch (EntityNotFoundException e) {
-                    e.printStackTrace();
+                    logRepository.create(LectureAssociatedService.class.getName(), e);
                 }
                 return;
             case "2":
@@ -53,7 +59,7 @@ public class LectureAssociatedService {
                 try {
                     workWithLectureAdditionalMaterials(lectureId);
                 } catch (EntityNotFoundException e) {
-                    e.printStackTrace();
+                    logRepository.create(LectureAssociatedService.class.getName(), e);
                 }
                 return;
             case "no":
@@ -62,7 +68,7 @@ public class LectureAssociatedService {
                 try {
                     throw new IncorrectSymbolException("Wrong response");
                 } catch (IncorrectSymbolException e) {
-                    e.printStackTrace();
+                    logRepository.create(LectureAssociatedService.class.getName(), e);
                     showAssociated(lectureId);
                 }
         }
@@ -88,7 +94,7 @@ public class LectureAssociatedService {
                     try {
                         throw new IncorrectSymbolException("Wrong response");
                     } catch (IncorrectSymbolException e) {
-                        e.printStackTrace();
+                        logRepository.create(LectureAssociatedService.class.getName(), e);
                     }
             }
         }
@@ -172,7 +178,7 @@ public class LectureAssociatedService {
                     try {
                         throw new IncorrectSymbolException("Wrong response");
                     } catch (IncorrectSymbolException e) {
-                        e.printStackTrace();
+                        logRepository.create(LectureAssociatedService.class.getName(), e);
                     }
             }
         }
@@ -206,6 +212,7 @@ public class LectureAssociatedService {
             System.out.println(DELETED);
 
         } catch (EntityNotFoundException e) {
+
             System.out.println("Additional materials with this id not exist");
         }
     }

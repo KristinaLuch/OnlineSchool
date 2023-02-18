@@ -4,6 +4,7 @@ import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import models.school_object.*;
+import repository.log.LogRepository;
 import service.conversation.ConversationService;
 import service.school.*;
 
@@ -17,14 +18,17 @@ public class CommandService {
     private PersonService personService;
     private AdditionalMaterialsService additionalMaterialsService;
 
+    private LogRepository logRepository;
+
     public CommandService(ConversationService conversationService, CourseService courseService,
                           LectureService lectureService, PersonService personService,
-                          AdditionalMaterialsService additionalMaterialsService) {
+                          AdditionalMaterialsService additionalMaterialsService, LogRepository logRepository) {
         this.conversationService = conversationService;
         this.courseService = courseService;
         this.lectureService = lectureService;
         this.personService = personService;
         this.additionalMaterialsService = additionalMaterialsService;
+        this.logRepository = logRepository;
     }
 
     private static final String START = "Select \"1\" for course, \"2\" for lecture, \"3\" for person, " +
@@ -55,8 +59,6 @@ public class CommandService {
 
     private boolean play = true;
 
-
-
     public void startApp(){
         startCreate();
         while (play){
@@ -72,7 +74,7 @@ public class CommandService {
                 selectCommand(environment);
 
             } catch (IncorrectSymbolException e) {
-                e.printStackTrace();
+                logRepository.create(CommandService.class.getName(), e);
             }
         }
     }
@@ -108,7 +110,7 @@ public class CommandService {
                 try {
                     environment.read_by_id(idRead);
                 } catch (EntityNotFoundException e) {
-                    e.printStackTrace();
+                    logRepository.create(CommandService.class.getName(), e);
                 }
                 return;
             case RESPONSE_READ_ALL:
@@ -119,7 +121,7 @@ public class CommandService {
                 try {
                     environment.delete(idDel);
                 } catch (EntityNotFoundException e) {
-                    e.printStackTrace();
+                    logRepository.create(CommandService.class.getName(), e);
                 }
                 return;
             case RESPONSE_BACK:

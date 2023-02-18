@@ -7,6 +7,7 @@ import models.school_object.Course;
 import models.school_object.Lecture;
 import models.school_object.Person;
 import models.school_object.SchoolObject;
+import repository.log.LogRepository;
 import repository.school.impl.CourseRep;
 import service.conversation.ConversationService;
 
@@ -21,6 +22,8 @@ public class CourseService implements SchoolService{
     private PersonService personService;
 
     private ConversationService conversationService;
+
+    private LogRepository logRepository;
 
     public static final String PRINT_COURSE_NAME = "Please, print course name";
 
@@ -39,11 +42,13 @@ public class CourseService implements SchoolService{
     public static final String CASE_1 = "1";
     public static final String CASE_2 = "2";
 
-    public CourseService(CourseRep courseRep, LectureService lectureService, PersonService personService, ConversationService conversationService) {
+    public CourseService(CourseRep courseRep, LectureService lectureService, PersonService personService,
+                         ConversationService conversationService, LogRepository logRepository) {
         this.courseRep = courseRep;
         this.lectureService = lectureService;
         this.personService = personService;
         this.conversationService = conversationService;
+        this.logRepository = logRepository;
     }
 
     public SchoolObject create() {
@@ -121,7 +126,7 @@ public class CourseService implements SchoolService{
                     try {
                         throw new IncorrectSymbolException(WRONG_COMMAND);
                     } catch (IncorrectSymbolException e) {
-                        e.printStackTrace();
+                        logRepository.create(CourseService.class.getName(), e);
                     }
                     break;
             }

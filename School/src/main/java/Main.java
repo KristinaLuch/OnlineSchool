@@ -1,9 +1,7 @@
 import comparator_add_materials.ComparatorId;
 import comparator_add_materials.ComparatorLectureId;
 import comparator_add_materials.ComparatorResourceType;
-import models.ResourceType;
-import models.school_object.AdditionalMaterials;
-import repository.log.LogRep;
+import repository.log.LogRepository;
 import repository.school.impl.*;
 import service.CommandService;
 import service.ValidationService;
@@ -32,26 +30,30 @@ public class Main {
         PersonRep persons = new PersonRep(new ArrayList<>());
         AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>());
 
+        LogService logService = new LogService();
+        LogRepository logRep = new LogRepository(logService);
+        logService.setLogRepository(logRep);
 
-        ValidationService validationService = new ValidationService();
-        ConversationService conversationService = new ConversationService(scanner, validationService);
+
+        ValidationService validationService = new ValidationService(logRep);
+        ConversationService conversationService = new ConversationService(scanner, validationService, logRep);
         MaterialService materialService = new MaterialService(materials, conversationService);
-        HomeworkService homeworkService = new HomeworkService(homeworks, conversationService);
+        HomeworkService homeworkService = new HomeworkService(homeworks, conversationService, logRep);
         AdditionalMaterialsService additionalMaterialsService = new AdditionalMaterialsService(conversationService, additionalMaterialsRep,
-                lectures, comparatorId, comparatorIdLecture, comparatorResourceType);
+                lectures, comparatorId, comparatorIdLecture, comparatorResourceType, logRep);
         LectureAssociatedService lectureAssociatedService = new LectureAssociatedService(conversationService, homeworkService,
-                additionalMaterialsService, lectures);
-        LectureService lectureService = new LectureService(lectures, conversationService, homeworkService, materialService, lectureAssociatedService, courses, persons);
-        PersonService personService = new PersonService(persons, conversationService);
+                additionalMaterialsService, lectures, logRep);
+        LectureService lectureService = new LectureService(lectures, conversationService, homeworkService, materialService,
+                lectureAssociatedService, courses, persons, logRep);
+        PersonService personService = new PersonService(persons, conversationService, logRep);
 
-        CourseService courseService = new CourseService(courses, lectureService, personService, conversationService);
+        CourseService courseService = new CourseService(courses, lectureService, personService, conversationService, logRep);
 
         CommandService commandService = new CommandService(conversationService, courseService, lectureService,
-                personService, additionalMaterialsService);
+                personService, additionalMaterialsService, logRep);
 
 
-        LogService logService = new LogService();
-        LogRep logRep = new LogRep(logService);
+
 
         commandService.startApp();
 

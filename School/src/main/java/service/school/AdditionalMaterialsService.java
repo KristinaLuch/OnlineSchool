@@ -9,6 +9,7 @@ import exceptions.IncorrectSymbolException;
 import models.ResourceType;
 import models.school_object.AdditionalMaterials;
 import models.school_object.SchoolObject;
+import repository.log.LogRepository;
 import repository.school.impl.AdditionalMaterialsRep;
 import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
@@ -32,13 +33,19 @@ public class AdditionalMaterialsService implements SchoolService{
 
     private ComparatorResourceType comparatorResourceType;
 
-    public AdditionalMaterialsService(ConversationService conversationService, AdditionalMaterialsRep additionalMaterialsRep, LectureRep lectureRep, ComparatorId comparatorId, ComparatorLectureId comparatorLectureId, ComparatorResourceType comparatorResourceType) {
+    private LogRepository logRepository;
+
+    public AdditionalMaterialsService(ConversationService conversationService, AdditionalMaterialsRep additionalMaterialsRep,
+                                      LectureRep lectureRep, ComparatorId comparatorId,
+                                      ComparatorLectureId comparatorLectureId,
+                                      ComparatorResourceType comparatorResourceType, LogRepository logRepository) {
         this.conversationService = conversationService;
         this.additionalMaterialsRep = additionalMaterialsRep;
         this.lectureRep = lectureRep;
         this.comparatorId = comparatorId;
         this.comparatorLectureId = comparatorLectureId;
         this.comparatorResourceType = comparatorResourceType;
+        this.logRepository = logRepository;
     }
 
     public static final String PRINT_NAME = "Print name:";
@@ -68,7 +75,7 @@ public class AdditionalMaterialsService implements SchoolService{
             lectureRep.get(lectureId);
             return lectureId;
         } catch (EntityNotFoundException e) {
-            e.printStackTrace();
+            logRepository.create(AdditionalMaterials.class.getName(), e);
             return getLectureId();
         }
     }
@@ -89,7 +96,7 @@ public class AdditionalMaterialsService implements SchoolService{
                 try {
                     throw new IncorrectSymbolException("Choose \"book\", \"video\" or \"url\"");
                 } catch (IncorrectSymbolException e) {
-                    e.printStackTrace();
+                    logRepository.create(AdditionalMaterials.class.getName(), e);
                     return getResourceType();
                 }
             }
@@ -136,7 +143,7 @@ public class AdditionalMaterialsService implements SchoolService{
                 try {
                     throw new IncorrectSymbolException("Choose 1, 2 or 3");
                 } catch (IncorrectSymbolException e) {
-                    e.printStackTrace();
+                    logRepository.create(AdditionalMaterials.class.getName(), e);
                     return getComparator();
                 }
         }
