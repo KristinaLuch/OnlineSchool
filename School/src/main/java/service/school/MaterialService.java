@@ -5,9 +5,9 @@ import models.school_object.Materials;
 import repository.school.impl.MaterialsRep;
 import service.conversation.ConversationService;
 
-public class MaterialService{
+public class MaterialService {
 
-    private static final String PRINT_MATERIALS= "Print materials";
+    private static final String PRINT_MATERIALS = "Print materials";
 
     private final MaterialsRep materialsRep;
 
@@ -18,7 +18,7 @@ public class MaterialService{
         this.conversationService = conversationService;
     }
 
-    public Materials create(){
+    public Materials create() {
 
         String materialsString = conversationService.getResponse(PRINT_MATERIALS, ValidationType.DESCRIPTION);
 
@@ -29,8 +29,8 @@ public class MaterialService{
         return materials;
     }
 
-    public void addToRep(Materials materials){
-        if (materials == null){
+    public void addToRep(Materials materials) {
+        if (materials == null) {
             return;
         }
         materialsRep.add(materials);

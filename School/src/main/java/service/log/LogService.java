@@ -22,9 +22,9 @@ public class LogService {
         this.logRepository = logRepository;
     }
 
-    private void createFile(){
+    private void createFile() {
         file = new File("School/src/main/java/file/myFile.txt");
-        if(!file.exists()) {
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -33,24 +33,24 @@ public class LogService {
         }
     }
 
-    public void writeToFile(Log log){
-        try (FileWriter fileWriter = new FileWriter(file, true);){
-            fileWriter.write(log.getDate().toString()+"\n");
-            fileWriter.write(log.getLevel().toString()+"\n");
-            fileWriter.write(log.getName()+"\n");
-            fileWriter.write(log.getMessage()+"\n");
-            fileWriter.write(log.getStacktrace()+"\n");
+    public void writeToFile(Log log) {
+        try (FileWriter fileWriter = new FileWriter(file, true);) {
+            fileWriter.write(log.getDate().toString() + "\n");
+            fileWriter.write(log.getLevel().toString() + "\n");
+            fileWriter.write(log.getName() + "\n");
+            fileWriter.write(log.getMessage() + "\n");
+            fileWriter.write(log.getStacktrace() + "\n");
         } catch (IOException e) {
             logRepository.create(LogService.class.getName(), e);
         }
     }
 
-    public ArrayList<Log> readFile(){
+    public ArrayList<Log> readFile() {
         ArrayList<Log> logs = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String dateStr;
-            while ((dateStr = reader.readLine())!= null) {
+            while ((dateStr = reader.readLine()) != null) {
                 LocalDateTime date = getDate(dateStr);
                 Level level = Level.valueOf(reader.readLine());
                 String name = reader.readLine();
@@ -59,14 +59,14 @@ public class LogService {
                 Log log = new Log(name, level, message, date, stacktrace);
                 logs.add(log);
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             logRepository.create(LogService.class.getName(), e);
         }
         return logs;
     }
 
-    public LocalDateTime getDate(String dateString){
-        String [] dateTime = dateString.split("T");
+    public LocalDateTime getDate(String dateString) {
+        String[] dateTime = dateString.split("T");
         String[] date = dateTime[0].split("-");
         int year = Integer.parseInt(date[0]);
         int month = Integer.parseInt(date[1]);

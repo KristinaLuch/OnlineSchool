@@ -2,7 +2,7 @@ package models.school_object;
 
 import models.Role;
 
-public class Student extends Person implements Runnable{
+public class Student extends Person implements Runnable {
 
     private int time;
 
@@ -14,7 +14,7 @@ public class Student extends Person implements Runnable{
 
     @Override
     public void run() {
-        time = (int) (8 + (Math.random()*(15-8)));
+        time = (int) (8 + (Math.random() * (15 - 8)));
     }
 
     public int getTime() {
@@ -35,7 +35,7 @@ public class Student extends Person implements Runnable{
 
     @Override
     public String toString() {
-        return "Student "+super.getFirstname()+" "+super.getLastname()+", task number "+ this.taskNumber;
+        return "Student " + super.getFirstname() + " " + super.getLastname() + ", task number " + this.taskNumber;
     }
 
 }

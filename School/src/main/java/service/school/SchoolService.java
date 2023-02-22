@@ -1,11 +1,10 @@
 package service.school;
 
 import exceptions.EntityNotFoundException;
-import models.school_object.SchoolObject;
 
-public interface SchoolService {
+public interface SchoolService<T> {
 
-    SchoolObject create();
+    T create();
 
     void read_by_id(int id) throws EntityNotFoundException;
 

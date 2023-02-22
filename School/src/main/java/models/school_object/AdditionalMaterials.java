@@ -2,7 +2,7 @@ package models.school_object;
 
 import models.ResourceType;
 
-public class AdditionalMaterials implements SchoolObject {
+public class AdditionalMaterials {
 
     private final Integer id;
 

@@ -2,9 +2,8 @@ package service.school;
 
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
-import models.school_object.Person;
 import models.Role;
-import models.school_object.SchoolObject;
+import models.school_object.Person;
 import models.school_object.Student;
 import repository.log.LogRepository;
 import repository.school.impl.PersonRep;
@@ -39,7 +38,7 @@ public class PersonService implements SchoolService{
         this.logRepository = logRepository;
     }
 
-    public SchoolObject create(){
+    public Person create(){
         Role role = getRole();
         String firstName = conversationService.getResponse(PRINT_FIRSTNAME, ValidationType.NAME);
         String lastName = conversationService.getResponse(PRINT_LASTNAME, ValidationType.NAME);

@@ -5,13 +5,13 @@ import models.school_object.Person;
 
 import java.util.ArrayList;
 
-public interface IPersonRep extends ISchoolRep<Person>{
+public interface IPersonRep extends ISchoolRep<Person> {
 
     boolean add(Person person);
 
-    boolean update (int id, Person newPerson) throws EntityNotFoundException;
+    boolean update(int id, Person newPerson) throws EntityNotFoundException;
 
-    boolean delete (int id) throws EntityNotFoundException;
+    boolean delete(int id) throws EntityNotFoundException;
 
     Person get(int id) throws EntityNotFoundException;
 

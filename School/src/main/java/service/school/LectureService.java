@@ -3,7 +3,7 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
-import models.*;
+import models.Role;
 import models.school_object.*;
 import repository.log.LogRepository;
 import repository.school.impl.CourseRep;
@@ -14,14 +14,14 @@ import service.conversation.ConversationService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LectureService implements SchoolService{
+public class LectureService implements SchoolService {
 
     private final LectureRep lectureRep;
-    private final  ConversationService conversationService;
-    private final  HomeworkService homeworkService;
-    private final  MaterialService materialService;
-    private final  CourseRep courseRep;
-    private final  PersonRep personRep;
+    private final ConversationService conversationService;
+    private final HomeworkService homeworkService;
+    private final MaterialService materialService;
+    private final CourseRep courseRep;
+    private final PersonRep personRep;
 
     private LectureAssociatedService lectureAssociatedService;
 
@@ -48,11 +48,11 @@ public class LectureService implements SchoolService{
         this.logRepository = logRepository;
     }
 
-    public SchoolObject create() {
+    public Lecture create() {
         int courseId;
         Course course = getCourseFromId();
         Lecture lecture = createWithoutIdCourse();
-        if (course != null){
+        if (course != null) {
             courseId = course.getId();
             lecture.setIdCourse(courseId);
             List<Lecture> lectures = course.getLectures();
@@ -60,8 +60,8 @@ public class LectureService implements SchoolService{
             course.setLectures(lectures);
         }
         addLectureToRep(lecture);
-        System.out.println("Lecture of course (id) "+lecture.getIdCourse());
-        System.out.println("Number of lectures - "+Lecture.getCount());
+        System.out.println("Lecture of course (id) " + lecture.getIdCourse());
+        System.out.println("Number of lectures - " + Lecture.getCount());
         conversationService.print(LECTURE_CREATED + lecture);
         return lecture;
     }
@@ -88,9 +88,9 @@ public class LectureService implements SchoolService{
     }
 
 
-    public Lecture createLectureInCourse(int courseId){
+    public Lecture createLectureInCourse(int courseId) {
         Lecture lecture = createWithoutIdCourse();
-        if (courseId > 0){
+        if (courseId > 0) {
             lecture.setIdCourse(courseId);
         }
         addLectureToRep(lecture);
@@ -98,7 +98,7 @@ public class LectureService implements SchoolService{
         return lecture;
     }
 
-    private Lecture createWithoutIdCourse(){
+    private Lecture createWithoutIdCourse() {
         Lecture lecture = new Lecture();
         String name = conversationService.getResponse(PRINT_LECTURE_NAME, ValidationType.NAME);
         String description = conversationService.getResponse(PRINT_LECTURE_DESCRIPTION, ValidationType.DESCRIPTION);
@@ -111,7 +111,7 @@ public class LectureService implements SchoolService{
         return lecture;
     }
 
-    private Lecture addHomeworks(Lecture lecture){
+    private Lecture addHomeworks(Lecture lecture) {
         String response;
         ArrayList<Homework> homeworks;
         while (true) {
@@ -122,11 +122,11 @@ public class LectureService implements SchoolService{
                     conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
                 } else {
                     homeworks = lecture.getHomework();
-                    if(homeworks == null||homeworks.size() == 0){
+                    if (homeworks == null || homeworks.size() == 0) {
                         homeworks = new ArrayList<>();
                     }
-                        homeworks.add(homework);
-                        lecture.setHomework(homeworks);
+                    homeworks.add(homework);
+                    lecture.setHomework(homeworks);
                 }
             } else if (response.equalsIgnoreCase("no")) {
                 return lecture;
@@ -138,15 +138,13 @@ public class LectureService implements SchoolService{
     }
 
 
-
-
-    private Lecture addPerson(Lecture lecture){
+    private Lecture addPerson(Lecture lecture) {
         String response;
         while (true) {
             response = conversationService.getResponse("Do you want add teacher?", ValidationType.ANYTHING);
             Person person;
 
-            switch (response){
+            switch (response) {
                 case "yes":
                     person = addedPerson();
                     if (person == null) {
@@ -165,14 +163,14 @@ public class LectureService implements SchoolService{
         }
     }
 
-    private Person addedPerson(){
+    private Person addedPerson() {
         Person person = null;
         String idStr = conversationService.getResponse("Print teacher`s person id", ValidationType.DIGIT);
-        if (idStr == null){
+        if (idStr == null) {
             return null;
         }
         int id = Integer.parseInt(idStr);
-        if(id <= 0){
+        if (id <= 0) {
             conversationService.print("Number must be greater than 0");
             return null;
         }
@@ -183,11 +181,10 @@ public class LectureService implements SchoolService{
             logRepository.create(LectureService.class.getName(), e);
         }
 
-        if(person != null){
-            if (person.getRole() == Role.TEACHER){
+        if (person != null) {
+            if (person.getRole() == Role.TEACHER) {
                 return person;
-            }
-            else {
+            } else {
                 conversationService.print("Person must be a teacher");
                 return null;
             }
@@ -195,15 +192,15 @@ public class LectureService implements SchoolService{
         return null;
     }
 
-    private Course getCourseFromId(){
+    private Course getCourseFromId() {
         String courseIdstr;
         int courseId;
         Course course;
         while (true) {
             courseIdstr = conversationService.getResponse(PRINT_ID_COURSE, ValidationType.DIGIT);
-            if(courseIdstr != null){
+            if (courseIdstr != null) {
                 courseId = Integer.parseInt(courseIdstr);
-                if (courseId == 0){
+                if (courseId == 0) {
                     return null;
                 }
                 try {
@@ -212,8 +209,7 @@ public class LectureService implements SchoolService{
                 } catch (EntityNotFoundException e) {
                     logRepository.create(LectureService.class.getName(), e);
                 }
-            }
-            else {
+            } else {
                 try {
                     throw new IncorrectSymbolException("Wrong symbols! Print id course = 0, if lectures don`t have course");
                 } catch (IncorrectSymbolException e) {
@@ -223,7 +219,7 @@ public class LectureService implements SchoolService{
         }
     }
 
-    public void addLectureToRep(Lecture lecture){
+    public void addLectureToRep(Lecture lecture) {
         materialService.addToRep(lecture.getMaterials());
         lectureRep.add(lecture);
         ArrayList<Homework> homeworks = lecture.getHomework();
@@ -231,7 +227,6 @@ public class LectureService implements SchoolService{
             homeworkService.addToRep(homework);
         }
     }
-
 
 
 }

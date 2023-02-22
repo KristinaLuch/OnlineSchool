@@ -2,7 +2,7 @@ package models.school_object;
 
 import models.Role;
 
-public class Person implements SchoolObject, Comparable<Person> {
+public class Person implements Comparable<Person> {
 
     private int courseID;
 

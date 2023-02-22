@@ -2,11 +2,9 @@ package service.conversation;
 
 import constants.ValidationType;
 import exceptions.ValidationException;
-import loger.Level;
 import repository.log.LogRepository;
 import service.ValidationService;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class ConversationService {
@@ -21,18 +19,19 @@ public class ConversationService {
         this.logRepository = logRepository;
     }
 
-    public String getResponse(String request, ValidationType type){
+    public String getResponse(String request, ValidationType type) {
         System.out.println(request);
         String response = scanner.next();
         try {
             validationService.isCorrectResponse(response, type);
-        }catch (ValidationException e){
+        } catch (ValidationException e) {
             logRepository.create(ConversationService.class.getName(), e);
             return getResponse(request, type);
         }
         return response;
     }
-    public void print(String text){
+
+    public void print(String text) {
         System.out.println(text);
     }
 

@@ -32,8 +32,8 @@ public class HomeworkService {
         return homework;
     }
 
-    public void addToRep(Homework homework){
-        if (homework == null){
+    public void addToRep(Homework homework) {
+        if (homework == null) {
             return;
         }
         homeworkRep.add(homework);
@@ -50,11 +50,11 @@ public class HomeworkService {
         return true;
     }
 
-    public ArrayList<Homework> getHomeworksFromLecture(int lectureId){
+    public ArrayList<Homework> getHomeworksFromLecture(int lectureId) {
         return homeworkRep.getHomeworks(lectureId);
     }
 
-    public void printHomeworksFromLecture(int lectureId){
+    public void printHomeworksFromLecture(int lectureId) {
         ArrayList<Homework> homeworkLecture = homeworkRep.getHomeworks(lectureId);
         homeworkLecture.forEach(System.out::println);
     }

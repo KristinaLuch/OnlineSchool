@@ -1,9 +1,8 @@
 package models.school_object;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class Lecture implements SchoolObject {
+public class Lecture {
     private static int count = 0;
     private Integer id;
     private int idCourse;

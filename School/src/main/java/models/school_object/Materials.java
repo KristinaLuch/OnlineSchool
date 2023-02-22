@@ -2,7 +2,7 @@ package models.school_object;
 
 import java.util.Objects;
 
-public class Materials implements SchoolObject {
+public class Materials {
 
     private static int count = 0;
     private Integer id;

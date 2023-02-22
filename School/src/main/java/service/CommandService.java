@@ -59,10 +59,10 @@ public class CommandService {
 
     private boolean play = true;
 
-    public void startApp(){
+    public void startApp() {
         startCreate();
-        while (play){
-            if (Lecture.getCount() == 8){
+        while (play) {
+            if (Lecture.getCount() == 8) {
                 System.out.println(CREATED_MAX_LECTURES);
                 break;
             }
@@ -81,7 +81,7 @@ public class CommandService {
 
     private SchoolService selectEnvironment(String response) throws IncorrectSymbolException {
 
-        switch (response){
+        switch (response) {
             case RESPONSE_COURSE:
                 return courseService;
             case RESPONSE_LECTURE:
@@ -101,12 +101,12 @@ public class CommandService {
 
     private void selectCommand(SchoolService environment) throws IncorrectSymbolException {
         String response = conversationService.getResponse(SELECT_COMMAND, ValidationType.ANYTHING);
-        switch (response){
+        switch (response) {
             case RESPONSE_CREATE:
                 environment.create();
                 return;
             case RESPONSE_READ_BY_ID:
-                int idRead = Integer.parseInt( conversationService.getResponse(PRINT_ID, ValidationType.DIGIT));
+                int idRead = Integer.parseInt(conversationService.getResponse(PRINT_ID, ValidationType.DIGIT));
                 try {
                     environment.read_by_id(idRead);
                 } catch (EntityNotFoundException e) {
@@ -137,7 +137,7 @@ public class CommandService {
         }
     }
 
-    private void startCreate(){
+    private void startCreate() {
         System.out.println("Created one course with three lectures: ");
         Course course = new Course();
         course.setName("for zero");

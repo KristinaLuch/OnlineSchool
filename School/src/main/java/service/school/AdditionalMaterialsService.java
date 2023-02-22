@@ -8,7 +8,6 @@ import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import models.ResourceType;
 import models.school_object.AdditionalMaterials;
-import models.school_object.SchoolObject;
 import repository.log.LogRepository;
 import repository.school.impl.AdditionalMaterialsRep;
 import repository.school.impl.LectureRep;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 import static models.ResourceType.*;
 
-public class AdditionalMaterialsService implements SchoolService{
+public class AdditionalMaterialsService implements SchoolService {
 
     private ConversationService conversationService;
     private AdditionalMaterialsRep additionalMaterialsRep;
@@ -54,11 +53,11 @@ public class AdditionalMaterialsService implements SchoolService{
     public static final String PRINT_LECTURE_ID = "Print lecture id:";
 
     @Override
-    public SchoolObject create() {
+    public AdditionalMaterials create() {
         return create(getLectureId());
     }
 
-    public AdditionalMaterials create(int lectureId){
+    public AdditionalMaterials create(int lectureId) {
         AdditionalMaterials additionalMaterials = new AdditionalMaterials();
         additionalMaterials.setName(conversationService.getResponse(PRINT_NAME, ValidationType.NAME));
         additionalMaterials.setResourceType(getResourceType());
@@ -69,7 +68,7 @@ public class AdditionalMaterialsService implements SchoolService{
         return additionalMaterials;
     }
 
-    private int getLectureId(){
+    private int getLectureId() {
         int lectureId = Integer.parseInt(conversationService.getResponse(PRINT_LECTURE_ID, ValidationType.DIGIT));
         try {
             lectureRep.get(lectureId);
@@ -82,8 +81,8 @@ public class AdditionalMaterialsService implements SchoolService{
 
     private ResourceType getResourceType() {
         String response = conversationService.getResponse(PRINT_RESOURCE_TYPE, ValidationType.ANYTHING);
-        switch (response){
-            case "book"-> {
+        switch (response) {
+            case "book" -> {
                 return BOOK;
             }
             case "video" -> {
@@ -121,7 +120,7 @@ public class AdditionalMaterialsService implements SchoolService{
         Comparator<AdditionalMaterials> comparator = getComparator();
 
 
-        if(comparator != null){
+        if (comparator != null) {
             additionalMaterialsList.sort(comparator);
         }
         for (AdditionalMaterials additionalMaterials : additionalMaterialsList) {
@@ -129,10 +128,10 @@ public class AdditionalMaterialsService implements SchoolService{
         }
     }
 
-    private Comparator getComparator(){
+    private Comparator getComparator() {
         String result = conversationService.getResponse("Select an option to sort: 1. default(id); " +
                 "2. Lecture id; 3. ResourceType", ValidationType.DIGIT);
-        switch (result){
+        switch (result) {
             case "1":
                 return comparatorId;
             case "2":
@@ -155,16 +154,16 @@ public class AdditionalMaterialsService implements SchoolService{
         return true;
     }
 
-    public ArrayList<AdditionalMaterials> getHomeworksFromLecture(int lectureId){
+    public ArrayList<AdditionalMaterials> getHomeworksFromLecture(int lectureId) {
         return additionalMaterialsRep.getAdditionalMaterials(lectureId);
     }
 
-    public void printHomeworksFromLecture(int lectureId){
+    public void printHomeworksFromLecture(int lectureId) {
         ArrayList<AdditionalMaterials> addMatLecture = additionalMaterialsRep.getAdditionalMaterials(lectureId);
         addMatLecture.forEach(System.out::println);
     }
 
     public boolean belongsToLecture(int lectureId, int id) {
-        return additionalMaterialsRep.belongsToLecture(lectureId,id);
+        return additionalMaterialsRep.belongsToLecture(lectureId, id);
     }
 }

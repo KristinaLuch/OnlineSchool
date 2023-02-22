@@ -6,16 +6,14 @@ import exceptions.IncorrectSymbolException;
 import models.school_object.Course;
 import models.school_object.Lecture;
 import models.school_object.Person;
-import models.school_object.SchoolObject;
 import repository.log.LogRepository;
 import repository.school.impl.CourseRep;
 import service.conversation.ConversationService;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CourseService implements SchoolService{
+public class CourseService implements SchoolService {
 
     private CourseRep courseRep;
     private LectureService lectureService;
@@ -51,7 +49,7 @@ public class CourseService implements SchoolService{
         this.logRepository = logRepository;
     }
 
-    public SchoolObject create() {
+    public Course create() {
         Course course = new Course();
         String name = conversationService.getResponse(PRINT_COURSE_NAME, ValidationType.NAME);
         course.setName(name);
@@ -111,7 +109,7 @@ public class CourseService implements SchoolService{
             String response = conversationService.getResponse(PRINT_ADD_PERSON, ValidationType.ANYTHING);
             switch (response) {
                 case CASE_1:
-                    Person person = (Person) personService.create();
+                    Person person = personService.create();
                     person.setCourseID(course.getId());
                     List<Person> persons = course.getPersons();
                     if (persons == null) {
@@ -145,7 +143,7 @@ public class CourseService implements SchoolService{
     }
 
     public boolean addPerson(Course course, Person person) {
-        if (person == null||course == null){
+        if (person == null || course == null) {
             return false;
         }
         List<Person> persons = course.getPersons();
@@ -154,8 +152,8 @@ public class CourseService implements SchoolService{
         return true;
     }
 
-    public void addToRep(Course course){
-        if (course == null){
+    public void addToRep(Course course) {
+        if (course == null) {
             return;
         }
         courseRep.add(course);
