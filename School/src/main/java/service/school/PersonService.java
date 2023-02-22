@@ -5,6 +5,7 @@ import exceptions.EntityNotFoundException;
 import models.school_object.Person;
 import models.Role;
 import models.school_object.SchoolObject;
+import models.school_object.Student;
 import repository.log.LogRepository;
 import repository.school.impl.PersonRep;
 import service.conversation.ConversationService;
@@ -91,6 +92,12 @@ public class PersonService implements SchoolService{
 
     public void addToRep(Person person){
         personRep.add(person);
+    }
+
+    public Student createSystemStudent(String firstname, String lastname, String phone, String email){
+        Student student = new Student(firstname, lastname, phone, email);
+        personRep.add(student);
+        return student;
     }
 
 }

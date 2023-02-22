@@ -15,6 +15,8 @@ public class Person implements SchoolObject, Comparable<Person> {
     private String phone;
     private String email;
 
+
+
     public Person(int courseID, Role role, String firstname, String lastname, String phone, String email) {
         id = ++count;
         this.courseID = courseID;

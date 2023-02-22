@@ -11,15 +11,16 @@ import java.util.ArrayList;
 
 public class LogRepository {
 
-    private ArrayList<Log> logs;
+    private static ArrayList<Log> logs;
 
-    private LogService logService;
+    private static LogService logService;
 
     public LogRepository(LogService logService) {
         this.logService = logService;
         this.logs = new ArrayList<>();
         loadLogs();
     }
+
 
     public void create(String name, Level level, String message, LocalDateTime date, String stacktrace){
         Log log = new Log(name, level, message, date, stacktrace);
@@ -32,7 +33,7 @@ public class LogRepository {
         }
     }
 
-    public void create(String className, Exception e){
+    public static void create(String className, Exception e){
         Log log = new Log(className, Level.WARNING, e.getMessage(), LocalDateTime.now(), getStringStackTrace(e));
         logs.add(log);
         saveInFile(log);
@@ -49,14 +50,14 @@ public class LogRepository {
         }
     }
 
-    private String getStringStackTrace(Exception e){
+    private static String getStringStackTrace(Exception e){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         return sw.toString();
     }
 
-    private void saveInFile(Log log){
+    private static void saveInFile(Log log){
         logService.writeToFile(log);
     }
 

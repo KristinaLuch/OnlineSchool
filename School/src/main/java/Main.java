@@ -8,6 +8,7 @@ import service.ValidationService;
 import service.conversation.ConversationService;
 import service.log.LogService;
 import service.school.*;
+import service.test.TestService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,9 +54,10 @@ public class Main {
                 personService, additionalMaterialsService, logRep);
 
 
+        TestService testService = new TestService(personService);
+        testService.runTest();
 
-
-        commandService.startApp();
+        //commandService.startApp();
 
     }
 }
