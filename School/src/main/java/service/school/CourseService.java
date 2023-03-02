@@ -3,6 +3,7 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
+import loger.Log;
 import models.school_object.Course;
 import models.school_object.Lecture;
 import models.school_object.Person;
@@ -124,7 +125,7 @@ public class CourseService implements SchoolService {
                     try {
                         throw new IncorrectSymbolException(WRONG_COMMAND);
                     } catch (IncorrectSymbolException e) {
-                        logRepository.create(CourseService.class.getName(), e);
+                        Log.error(this.getClass().getName(), "method addPearson", e);
                     }
                     break;
             }

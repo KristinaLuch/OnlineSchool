@@ -3,6 +3,7 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
+import loger.Log;
 import models.school_object.Homework;
 import models.school_object.Lecture;
 import repository.log.LogRepository;
@@ -51,7 +52,7 @@ public class LectureAssociatedService {
                 try {
                     workWithLectureHomework(lectureId);
                 } catch (EntityNotFoundException e) {
-                    logRepository.create(LectureAssociatedService.class.getName(), e);
+                    Log.error(this.getClass().getName(), "method showAssociated", e);
                 }
                 return;
             case "2":
@@ -59,7 +60,7 @@ public class LectureAssociatedService {
                 try {
                     workWithLectureAdditionalMaterials(lectureId);
                 } catch (EntityNotFoundException e) {
-                    logRepository.create(LectureAssociatedService.class.getName(), e);
+                    Log.error(this.getClass().getName(), "method showAssociated", e);
                 }
                 return;
             case "no":
@@ -68,7 +69,7 @@ public class LectureAssociatedService {
                 try {
                     throw new IncorrectSymbolException("Wrong response");
                 } catch (IncorrectSymbolException e) {
-                    logRepository.create(LectureAssociatedService.class.getName(), e);
+                    Log.error(this.getClass().getName(), "method showAssociated", e);
                     showAssociated(lectureId);
                 }
         }
@@ -94,7 +95,7 @@ public class LectureAssociatedService {
                     try {
                         throw new IncorrectSymbolException("Wrong response");
                     } catch (IncorrectSymbolException e) {
-                        logRepository.create(LectureAssociatedService.class.getName(), e);
+                        Log.error(this.getClass().getName(), "method showAssociated", e);
                     }
             }
         }
@@ -178,7 +179,7 @@ public class LectureAssociatedService {
                     try {
                         throw new IncorrectSymbolException("Wrong response");
                     } catch (IncorrectSymbolException e) {
-                        logRepository.create(LectureAssociatedService.class.getName(), e);
+                        Log.error(this.getClass().getName(), "method workWithLectureAdditionalMaterials", e);
                     }
             }
         }

@@ -6,6 +6,7 @@ import comparator_add_materials.ComparatorResourceType;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
+import loger.Log;
 import models.ResourceType;
 import models.school_object.AdditionalMaterials;
 import repository.log.LogRepository;
@@ -74,7 +75,7 @@ public class AdditionalMaterialsService implements SchoolService {
             lectureRep.get(lectureId);
             return lectureId;
         } catch (EntityNotFoundException e) {
-            logRepository.create(AdditionalMaterials.class.getName(), e);
+            Log.error(this.getClass().getName(), "method getLectureId", e);
             return getLectureId();
         }
     }
@@ -95,7 +96,7 @@ public class AdditionalMaterialsService implements SchoolService {
                 try {
                     throw new IncorrectSymbolException("Choose \"book\", \"video\" or \"url\"");
                 } catch (IncorrectSymbolException e) {
-                    logRepository.create(AdditionalMaterials.class.getName(), e);
+                    Log.error(this.getClass().getName(), "method getResourceType", e);
                     return getResourceType();
                 }
             }
@@ -142,7 +143,7 @@ public class AdditionalMaterialsService implements SchoolService {
                 try {
                     throw new IncorrectSymbolException("Choose 1, 2 or 3");
                 } catch (IncorrectSymbolException e) {
-                    logRepository.create(AdditionalMaterials.class.getName(), e);
+                    Log.error(this.getClass().getName(), "method getComparator", e);
                     return getComparator();
                 }
         }

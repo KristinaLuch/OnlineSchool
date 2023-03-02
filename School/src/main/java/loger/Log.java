@@ -1,5 +1,9 @@
 package loger;
 
+import repository.log.LogRepository;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.LocalDateTime;
 
 public class Log {
@@ -23,6 +27,30 @@ public class Log {
         this.level = level;
         this.message = message;
         this.date = date;
+    }
+
+    public static void debug(String name, String message){
+        Log log = new Log(name, Level.DEBUG, message, LocalDateTime.now());
+        LogRepository.add(log);
+    }
+    public static void info(String name, String message){
+        Log log = new Log(name, Level.INFO, message, LocalDateTime.now());
+        LogRepository.add(log);
+    }
+    public static void warning (String name, String message){
+        Log log = new Log(name, Level.WARNING, message, LocalDateTime.now());
+        LogRepository.add(log);
+    }
+    public static void error(String name, String message, Exception e){
+        Log log = new Log(name, Level.ERROR, message, LocalDateTime.now());
+        LogRepository.add(log);
+    }
+
+    private static String getStringStackTrace(Exception e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
     }
 
     public String getName() {

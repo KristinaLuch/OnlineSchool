@@ -28,7 +28,7 @@ public class LogService {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                logRepository.create(LogService.class.getName(), e);
+                Log.error(this.getClass().getName(), "method createFile", e);
             }
         }
     }
@@ -41,7 +41,7 @@ public class LogService {
             fileWriter.write(log.getMessage() + "\n");
             fileWriter.write(log.getStacktrace() + "\n");
         } catch (IOException e) {
-            logRepository.create(LogService.class.getName(), e);
+            Log.error(this.getClass().getName(), "method writeToFile", e);
         }
     }
 
@@ -60,7 +60,7 @@ public class LogService {
                 logs.add(log);
             }
         } catch (IOException e) {
-            logRepository.create(LogService.class.getName(), e);
+            Log.error(this.getClass().getName(), "method readFile", e);
         }
         return logs;
     }
