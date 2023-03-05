@@ -2,8 +2,9 @@ package loger;
 
 public enum Level {
 
-    ERROR,
-    WARNING,
+    OFF,
+    DEBUG,
     INFO,
-    DEBUG;
+    WARNING,
+    ERROR,
 }

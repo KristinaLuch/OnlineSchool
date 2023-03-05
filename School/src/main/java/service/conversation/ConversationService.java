@@ -2,6 +2,7 @@ package service.conversation;
 
 import constants.ValidationType;
 import exceptions.ValidationException;
+import loger.Log;
 import repository.log.LogRepository;
 import service.ValidationService;
 
@@ -20,12 +21,13 @@ public class ConversationService {
     }
 
     public String getResponse(String request, ValidationType type) {
+        Log.warning("nn", "getResponse ConvServ");
         System.out.println(request);
         String response = scanner.next();
         try {
             validationService.isCorrectResponse(response, type);
         } catch (ValidationException e) {
-            logRepository.create(ConversationService.class.getName(), e);
+            Log.error(this.getClass().getName(), "method getResponse", e);
             return getResponse(request, type);
         }
         return response;

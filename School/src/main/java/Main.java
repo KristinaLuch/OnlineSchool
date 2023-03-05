@@ -8,8 +8,10 @@ import service.ValidationService;
 import service.conversation.ConversationService;
 import service.log.LogService;
 import service.school.*;
-import service.test.TestService;
+import util.LevelControl;
+import util.PropertyLevel;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -33,7 +35,7 @@ public class Main {
 
         LogService logService = new LogService();
         LogRepository logRep = new LogRepository(logService);
-        logService.setLogRepository(logRep);
+//        logService.setLogRepository(logRep);
 
 
         ValidationService validationService = new ValidationService(logRep);
@@ -52,12 +54,19 @@ public class Main {
 
         CommandService commandService = new CommandService(conversationService, courseService, lectureService,
                 personService, additionalMaterialsService, logRep);
+        LogRepository.setWriteLevel(PropertyLevel.getLevel());
 
 
-        TestService testService = new TestService(personService);
-        testService.runTest();
+//        TestService testService = new TestService(personService);
+//        testService.runTest();
+        String path = "School\\src\\main\\java\\file\\logLevel.properties";
+        PropertyLevel.setPath(path);
+        LevelControl lc = new LevelControl(Path.of("C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\file\\logLevel.properties"));
+        LogRepository.setWriteLevel(PropertyLevel.getLevel());
+        Thread control = new Thread(lc, "controlLevel thread");
 
-        //commandService.startApp();
+        control.start();
+        commandService.startApp();
 
     }
 }

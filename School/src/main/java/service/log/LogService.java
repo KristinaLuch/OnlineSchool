@@ -2,7 +2,6 @@ package service.log;
 
 import loger.Level;
 import loger.Log;
-import repository.log.LogRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -12,15 +11,15 @@ public class LogService {
 
     private File file;
 
-    private LogRepository logRepository;
+    //private LogRepository logRepository;
 
     public LogService() {
         createFile();
     }
 
-    public void setLogRepository(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
+//    public void setLogRepository(LogRepository logRepository) {
+//        this.logRepository = logRepository;
+//    }
 
     private void createFile() {
         file = new File("School/src/main/java/file/myFile.txt");
@@ -34,20 +33,24 @@ public class LogService {
     }
 
     public void writeToFile(Log log) {
+
         try (FileWriter fileWriter = new FileWriter(file, true);) {
             fileWriter.write(log.getDate().toString() + "\n");
             fileWriter.write(log.getLevel().toString() + "\n");
             fileWriter.write(log.getName() + "\n");
             fileWriter.write(log.getMessage() + "\n");
-            fileWriter.write(log.getStacktrace() + "\n");
+            fileWriter.write("Stacktrace: {\n"+ log.getStacktrace() + "\n}\n");
         } catch (IOException e) {
             Log.error(this.getClass().getName(), "method writeToFile", e);
         }
     }
 
+//    public boolean existFile(){
+//
+//    }
+
     public ArrayList<Log> readFile() {
         ArrayList<Log> logs = new ArrayList<>();
-
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String dateStr;
             while ((dateStr = reader.readLine()) != null) {
@@ -55,16 +58,32 @@ public class LogService {
                 Level level = Level.valueOf(reader.readLine());
                 String name = reader.readLine();
                 String message = reader.readLine();
-                String stacktrace = reader.readLine();
+                String stacktraceBegin = reader.readLine();
+                String stacktrace = "";
+                String cont = "";
+
+                if (stacktraceBegin.equals("Stacktrace: {")){
+                    while (true){
+                        cont = reader.readLine();
+                        stacktraceBegin += "\n"+cont;
+                        if(cont.equals("}")){
+                            cont = "";
+                            break;
+                        }
+                    }
+                    stacktrace = stacktraceBegin;
+                    stacktraceBegin = "";
+                }
                 Log log = new Log(name, level, message, date, stacktrace);
                 logs.add(log);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.error(this.getClass().getName(), "method readFile", e);
         }
         return logs;
     }
 
+    //2023-03-02T22:12:02.496786100
     public LocalDateTime getDate(String dateString) {
         String[] dateTime = dateString.split("T");
         String[] date = dateTime[0].split("-");

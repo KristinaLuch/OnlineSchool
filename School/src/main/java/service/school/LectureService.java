@@ -3,6 +3,7 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
+import loger.Log;
 import models.Role;
 import models.school_object.*;
 import repository.log.LogRepository;
@@ -178,7 +179,7 @@ public class LectureService implements SchoolService {
         try {
             person = personRep.get(id);
         } catch (EntityNotFoundException e) {
-            logRepository.create(LectureService.class.getName(), e);
+            Log.error(this.getClass().getName(), "method addedPerson", e);
         }
 
         if (person != null) {
@@ -207,13 +208,13 @@ public class LectureService implements SchoolService {
                     course = courseRep.get(courseId);
                     return course;
                 } catch (EntityNotFoundException e) {
-                    logRepository.create(LectureService.class.getName(), e);
+                    Log.error(this.getClass().getName(), "method getCourseFromId", e);
                 }
             } else {
                 try {
                     throw new IncorrectSymbolException("Wrong symbols! Print id course = 0, if lectures don`t have course");
                 } catch (IncorrectSymbolException e) {
-                    logRepository.create(LectureService.class.getName(), e);
+                    Log.error(this.getClass().getName(), "method getCourseFromId", e);
                 }
             }
         }

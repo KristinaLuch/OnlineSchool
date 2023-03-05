@@ -42,7 +42,7 @@ public class Log {
         LogRepository.add(log);
     }
     public static void error(String name, String message, Exception e){
-        Log log = new Log(name, Level.ERROR, message, LocalDateTime.now());
+        Log log = new Log(name, Level.ERROR, message, LocalDateTime.now(), getStringStackTrace(e));
         LogRepository.add(log);
     }
 

@@ -1,7 +1,7 @@
 package service.test;
 
+import loger.Log;
 import models.school_object.Student;
-import repository.log.LogRepository;
 import service.school.PersonService;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class TestService {
                 Thread.sleep(1000);
                 System.out.println(i + 1);
             } catch (InterruptedException e) {
-                LogRepository.create(TestService.class.getName(), e);
+                Log.error(this.getClass().getName(), "method runTest", e);
             }
             for (Student student : students) {
                 if (student.getTime() == i) {

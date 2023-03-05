@@ -12,6 +12,10 @@ public class LogRepository {
 
     private static LogService logService;
 
+    private static Level writeLevel = Level.OFF;
+
+
+
     public LogRepository(LogService logService) {
         this.logService = logService;
         this.logs = new ArrayList<>();
@@ -20,37 +24,27 @@ public class LogRepository {
 
 
     public static void add(Log log) {
-
-        logs.add(log);
-        saveInFile(log);
-        printLog(log);
+        System.out.println("wl "+writeLevel+" "+writeLevel.ordinal());
+        System.out.println("lgl "+log.getLevel()+" "+log.getLevel().ordinal());
+        System.out.println(log.getLevel().ordinal() >= writeLevel.ordinal());
+        if (log.getLevel().ordinal() >= writeLevel.ordinal()) {
+            logs.add(log);
+            saveInFile(log);
+            printLog(log);
+        }
     }
 
     public static void printLog(Log log){
-        if (log.getLevel() == Level.WARNING || log.getLevel() == Level.ERROR) {
-            System.out.println(log.getStacktrace());
+        if (log.getLevel() == Level.ERROR) {
+            System.err.println(log.getStacktrace());
         } else {
             System.out.println(log.getMessage());
         }
     }
 
-//    public static void create(String className, Exception e) {
-//        Log log = new Log(className, Level.WARNING, e.getMessage(), LocalDateTime.now(), getStringStackTrace(e));
-//        logs.add(log);
-//        saveInFile(log);
-//        e.printStackTrace();
-//    }
-
-//    public void add(Log log) {
-//        logs.add(log);
-//        saveInFile(log);
-//        if (log.getLevel() == Level.WARNING || log.getLevel() == Level.ERROR) {
-//            System.out.println(log.getStacktrace());
-//        } else {
-//            System.out.println(log.getMessage());
-//        }
-//    }
-
+    public static void setWriteLevel(Level level){
+        writeLevel = level;
+    }
 
     private static void saveInFile(Log log) {
         logService.writeToFile(log);

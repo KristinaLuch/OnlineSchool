@@ -3,6 +3,7 @@ package service;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
+import loger.Log;
 import models.school_object.*;
 import repository.log.LogRepository;
 import service.conversation.ConversationService;
@@ -72,15 +73,14 @@ public class CommandService {
             try {
                 environment = selectEnvironment(response);
                 selectCommand(environment);
-
             } catch (IncorrectSymbolException e) {
-                logRepository.create(CommandService.class.getName(), e);
+                Log.error(this.getClass().getName(), "method startApp dont have environment", e);
             }
         }
     }
 
     private SchoolService selectEnvironment(String response) throws IncorrectSymbolException {
-
+        Log.info(this.getClass().getName(), "msg");
         switch (response) {
             case RESPONSE_COURSE:
                 return courseService;
@@ -95,11 +95,11 @@ public class CommandService {
                 System.exit(0);
             default:
                 throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
-
         }
     }
 
     private void selectCommand(SchoolService environment) throws IncorrectSymbolException {
+        String methodName = "method selectCommand";
         String response = conversationService.getResponse(SELECT_COMMAND, ValidationType.ANYTHING);
         switch (response) {
             case RESPONSE_CREATE:
@@ -110,7 +110,7 @@ public class CommandService {
                 try {
                     environment.read_by_id(idRead);
                 } catch (EntityNotFoundException e) {
-                    logRepository.create(CommandService.class.getName(), e);
+                    Log.error(this.getClass().getName(), methodName, e);
                 }
                 return;
             case RESPONSE_READ_ALL:
@@ -121,7 +121,7 @@ public class CommandService {
                 try {
                     environment.delete(idDel);
                 } catch (EntityNotFoundException e) {
-                    logRepository.create(CommandService.class.getName(), e);
+                    Log.error(this.getClass().getName(), methodName, e);
                 }
                 return;
             case RESPONSE_BACK:
@@ -132,7 +132,11 @@ public class CommandService {
                 play = false;
                 return;
             default:
-                throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+                try {
+                    throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+                }catch (IncorrectSymbolException e){
+                    Log.error(this.getClass().getName(), "method selectEnvironment", e);
+                }
 
         }
     }
