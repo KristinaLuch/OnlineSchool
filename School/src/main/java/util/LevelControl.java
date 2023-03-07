@@ -52,10 +52,8 @@ public class LevelControl implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("RUN RYN");
         try {
             creatWatcher();
-            System.out.println("Run LC");
         }
         catch (IOException e) {
             System.err.println(e.getMessage());

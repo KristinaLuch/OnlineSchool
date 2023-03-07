@@ -12,17 +12,18 @@ public class LogService {
     private File file;
 
     //private LogRepository logRepository;
+    String path;
 
-    public LogService() {
-        createFile();
+    public LogService(String path) {
+        createFile(path);
     }
 
 //    public void setLogRepository(LogRepository logRepository) {
 //        this.logRepository = logRepository;
 //    }
 
-    private void createFile() {
-        file = new File("School/src/main/java/file/myFile.txt");
+    private void createFile(String path) {
+        file = new File(path);
         if (!file.exists()) {
             try {
                 file.createNewFile();

@@ -19,7 +19,7 @@ public class PropertyLevel {
         Properties property = new Properties();
         Level level = Level.OFF;
         try {
-            fis = new FileInputStream("School\\src\\main\\java\\file\\logLevel.properties");
+            fis = new FileInputStream("School\\src\\main\\java\\resources\\logLevel.properties");
             property.load(fis);
 
             level = Level.valueOf(property.getProperty("level"));

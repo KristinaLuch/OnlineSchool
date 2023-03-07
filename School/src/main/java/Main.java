@@ -33,9 +33,9 @@ public class Main {
         PersonRep persons = new PersonRep(new ArrayList<>());
         AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>());
 
-        LogService logService = new LogService();
+        String path = "School/src/main/java/file/myFile.txt";
+        LogService logService = new LogService(path);
         LogRepository logRep = new LogRepository(logService);
-//        logService.setLogRepository(logRep);
 
 
         ValidationService validationService = new ValidationService(logRep);
@@ -59,11 +59,14 @@ public class Main {
 
 //        TestService testService = new TestService(personService);
 //        testService.runTest();
-        String path = "School\\src\\main\\java\\file\\logLevel.properties";
-        PropertyLevel.setPath(path);
-        LevelControl lc = new LevelControl(Path.of("C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\file\\logLevel.properties"));
+        String pathProperties = "School\\src\\main\\java\\resources\\logLevel.properties";
+        PropertyLevel.setPath(pathProperties);
+
+        Path path1 = Path.of("C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\resources\\logLevel.properties");
+        LevelControl lc = new LevelControl(path1);
         LogRepository.setWriteLevel(PropertyLevel.getLevel());
         Thread control = new Thread(lc, "controlLevel thread");
+
 
         control.start();
         commandService.startApp();
