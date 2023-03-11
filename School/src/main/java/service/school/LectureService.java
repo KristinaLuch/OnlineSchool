@@ -114,7 +114,7 @@ public class LectureService implements SchoolService {
         while (true) {
             response = conversationService.getResponse("Do you want add homework?", ValidationType.ANYTHING);
             if (response.equalsIgnoreCase("yes")) {
-                Homework homework = homeworkService.create(lecture.getId());
+                Homework homework = homeworkService.create(lecture);
                 if (homework == null) {
                     conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
                 } else {

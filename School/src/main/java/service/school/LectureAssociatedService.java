@@ -144,7 +144,7 @@ public class LectureAssociatedService {
 
     private Lecture addOneHomework(Lecture lecture) {
         ArrayList<Homework> homeworks = lecture.getHomework();
-        Homework homework = homeworkService.create(lecture.getId());
+        Homework homework = homeworkService.create(lecture);
         homeworks.add(homework);
         lecture.setHomework(homeworks);
         System.out.println(ADDED);

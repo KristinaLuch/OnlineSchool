@@ -1,6 +1,8 @@
 package models.school_object;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Lecture implements Serializable {
@@ -13,8 +15,25 @@ public class Lecture implements Serializable {
     private ArrayList<Homework> homework;
     private Materials materials;
 
+    private final LocalDateTime creationDate;
+
+    private LocalDateTime lectureDate;
+
     public Lecture() {
         this.id = ++count;
+        creationDate = LocalDateTime.now();
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public LocalDateTime getLectureDate() {
+        return lectureDate;
+    }
+
+    public void setLectureDate(LocalDateTime lectureDate) {
+        this.lectureDate = lectureDate;
     }
 
     public String getName() {
@@ -76,6 +95,8 @@ public class Lecture implements Serializable {
                 ", description='" + description + '\'' +
                 ", homework=" + homework +
                 ", materials=" + materials +
+                ", creationDate=" + creationDate.format(DateTimeFormatter.ofPattern("MMM d, EEEE HH:mm:ss")) +
+                ", lectureDate=" + lectureDate +
                 '}';
     }
 }

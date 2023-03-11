@@ -3,9 +3,11 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import models.school_object.Homework;
+import models.school_object.Lecture;
 import repository.school.impl.HomeworkRep;
 import service.conversation.ConversationService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class HomeworkService {
@@ -20,10 +22,11 @@ public class HomeworkService {
         this.conversationService = conversationService;
     }
 
-    public Homework create(int lectureId) {
-
+    public Homework create(Lecture lecture) {
         String task = conversationService.getResponse(PRINT_HOMEWORK, ValidationType.DESCRIPTION);
-        Homework homework = new Homework(lectureId, task);
+        Homework homework = new Homework(lecture.getId(), task);
+        LocalDateTime deadline = lecture.getLectureDate().plusDays(1).withHour(12).withMinute(0).withSecond(0);
+        homework.setDeadline(deadline);
         homeworkRep.add(homework);
         return homework;
     }

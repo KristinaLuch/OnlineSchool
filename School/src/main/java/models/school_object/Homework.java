@@ -1,6 +1,7 @@
 package models.school_object;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Homework implements Serializable {
@@ -10,6 +11,8 @@ public class Homework implements Serializable {
 
     private final int lectureId;
     private final String task;
+
+    private LocalDateTime deadline;
 
     public Homework(int lectureId, String task) {
         this.lectureId = lectureId;
@@ -23,6 +26,14 @@ public class Homework implements Serializable {
 
     public int getLectureId() {
         return lectureId;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
     @Override
