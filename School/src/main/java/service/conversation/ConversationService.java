@@ -18,7 +18,7 @@ public class ConversationService {
 
     public String getResponse(String request, ValidationType type) {
         System.out.println(request);
-        String response = scanner.next();
+        String response = scanner.nextLine();
         try {
             validationService.isCorrectResponse(response, type);
         } catch (ValidationException e) {

@@ -4,6 +4,8 @@ import constants.ValidationType;
 import exceptions.ValidationException;
 import loger.Log;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class ValidationService {
@@ -12,6 +14,8 @@ public class ValidationService {
     public static final String REGEX_CORRECT_PHONE_NUMBER = "\\+[1-9]\\d{8,14}";
     public static final String REGEX_CORRECT_NAME = "[A-Za-z]{2,20}";
     public static final int DESCRIPTION_MAX_SYMBOLS = 80;
+
+    public static final String LECTURE_DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";
 
     public boolean isCorrectResponse(String response, ValidationType type) throws ValidationException {
         boolean isCorrect;
@@ -32,6 +36,9 @@ public class ValidationService {
             case DIGIT -> {
                 isCorrect = isDigitPositiveNotZero(response);
             }
+            case LECTURE_DATE -> {
+                isCorrect = isLectureDate(response);
+            }
             case ANYTHING -> {
                 if (response.isBlank()) {
                     return false;
@@ -45,6 +52,15 @@ public class ValidationService {
         }
         if (!isCorrect)
             throw new ValidationException(type.errorMessage);
+        return true;
+    }
+
+    public boolean isLectureDate(String dateString){
+        try {
+            LocalDateTime localDateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(LECTURE_DATE_FORMAT));
+        }catch (Exception e){
+            return false;
+        }
         return true;
     }
 

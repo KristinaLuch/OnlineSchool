@@ -2,6 +2,8 @@ package models.school_object;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Homework implements Serializable {
@@ -40,9 +42,19 @@ public class Homework implements Serializable {
     public String toString() {
         return "Homework{" +
                 "id=" + id +
-                ", homework='" + task + '\'' +
+                ", lectureId=" + lectureId +
+                ", task='" + task + '\'' +
+                deadline() +
                 '}';
     }
+
+    private String deadline(){
+        if(deadline == null){
+            return "";
+        }
+        return ", deadline=" + deadline.format(DateTimeFormatter.ofPattern("MMM d, HH:mm", Locale.ENGLISH));
+    }
+
 
     @Override
     public boolean equals(Object o) {

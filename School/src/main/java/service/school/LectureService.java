@@ -11,6 +11,8 @@ import repository.school.impl.LectureRep;
 import repository.school.impl.PersonRep;
 import service.conversation.ConversationService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +100,7 @@ public class LectureService implements SchoolService {
     private Lecture createWithoutIdCourse() {
         Lecture lecture = new Lecture();
         String name = conversationService.getResponse(PRINT_LECTURE_NAME, ValidationType.NAME);
+        lecture.setLectureDate(lectureDate());
         String description = conversationService.getResponse(PRINT_LECTURE_DESCRIPTION, ValidationType.DESCRIPTION);
         Materials materials = materialService.create();
         lecture.setName(name);
@@ -225,5 +228,9 @@ public class LectureService implements SchoolService {
         }
     }
 
+    private LocalDateTime lectureDate(){
+        String date = conversationService.getResponse("Print lecture date(format example: \"20.07.2010 14:10:05\"): ", ValidationType.LECTURE_DATE);
+        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    }
 
 }

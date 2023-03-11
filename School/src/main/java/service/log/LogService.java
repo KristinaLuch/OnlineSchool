@@ -5,22 +5,19 @@ import loger.Log;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class LogService {
 
     private File file;
 
-    //private LogRepository logRepository;
-    String path;
+    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss:SSS");
 
     public LogService(String path) {
         createFile(path);
     }
 
-//    public void setLogRepository(LogRepository logRepository) {
-//        this.logRepository = logRepository;
-//    }
 
     private void createFile(String path) {
         file = new File(path);
@@ -35,8 +32,8 @@ public class LogService {
 
     public void writeToFile(Log log) {
 
-        try (FileWriter fileWriter = new FileWriter(file, true);) {
-            fileWriter.write(log.getDate().toString() + "\n");
+        try (FileWriter fileWriter = new FileWriter(file, true)) {
+            fileWriter.write(log.getDate().format(dtf) + "\n");
             fileWriter.write(log.getLevel().toString() + "\n");
             fileWriter.write(log.getName() + "\n");
             fileWriter.write(log.getMessage() + "\n");
@@ -86,19 +83,8 @@ public class LogService {
 
     //2023-03-02T22:12:02.496786100
     public LocalDateTime getDate(String dateString) {
-        String[] dateTime = dateString.split("T");
-        String[] date = dateTime[0].split("-");
-        int year = Integer.parseInt(date[0]);
-        int month = Integer.parseInt(date[1]);
-        int day = Integer.parseInt(date[2]);
-        String[] time = dateTime[1].split(":");
-        int hour = Integer.parseInt(time[0]);
-        int minute = Integer.parseInt(time[1]);
-        String[] secondNano = time[2].split("\\.");
-        int second = Integer.parseInt(secondNano[0]);
-        int nanosecond = Integer.parseInt(secondNano[1]);
-        LocalDateTime localDateTime = LocalDateTime.of(year, month, day, hour, minute, second, nanosecond);
-        return localDateTime;
+
+        return LocalDateTime.parse(dateString, dtf);
     }
 
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Lecture implements Serializable {
     private static int count = 0;
@@ -95,8 +96,14 @@ public class Lecture implements Serializable {
                 ", description='" + description + '\'' +
                 ", homework=" + homework +
                 ", materials=" + materials +
-                ", creationDate=" + creationDate.format(DateTimeFormatter.ofPattern("MMM d, EEEE HH:mm:ss")) +
-                ", lectureDate=" + lectureDate +
+                lectureDate() +
                 '}';
     }
+    private String lectureDate(){
+        if(creationDate == null){
+            return "";
+        }
+        return ", lectureDate=" + creationDate.format(DateTimeFormatter.ofPattern("MMM d, EEEE HH:mm:ss", Locale.ENGLISH));
+    }
+
 }

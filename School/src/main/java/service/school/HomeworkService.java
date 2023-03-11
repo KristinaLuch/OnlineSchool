@@ -25,8 +25,10 @@ public class HomeworkService {
     public Homework create(Lecture lecture) {
         String task = conversationService.getResponse(PRINT_HOMEWORK, ValidationType.DESCRIPTION);
         Homework homework = new Homework(lecture.getId(), task);
-        LocalDateTime deadline = lecture.getLectureDate().plusDays(1).withHour(12).withMinute(0).withSecond(0);
-        homework.setDeadline(deadline);
+        if (lecture.getLectureDate() != null) {
+            LocalDateTime deadline = lecture.getLectureDate().plusDays(1).withHour(12).withMinute(0).withSecond(0);
+            homework.setDeadline(deadline);
+        }
         homeworkRep.add(homework);
         return homework;
     }
