@@ -10,28 +10,25 @@ public class LogRepository {
 
     private static ArrayList<Log> logs;
 
-    private static LogService logService;
+    private static LogService logServiceSt;
 
     private static Level writeLevel = Level.OFF;
 
 
 
     public LogRepository(LogService logService) {
-        this.logService = logService;
-        this.logs = new ArrayList<>();
+        logServiceSt = logService;
+        logs = new ArrayList<>();
         loadLogs();
     }
 
 
     public static void add(Log log) {
-        System.out.println("wl "+writeLevel+" "+writeLevel.ordinal());
-        System.out.println("lgl "+log.getLevel()+" "+log.getLevel().ordinal());
-        System.out.println(log.getLevel().ordinal() >= writeLevel.ordinal());
         if (log.getLevel().ordinal() >= writeLevel.ordinal()) {
             logs.add(log);
             saveInFile(log);
-            printLog(log);
         }
+        printLog(log);
     }
 
     public static void printLog(Log log){
@@ -43,15 +40,25 @@ public class LogRepository {
     }
 
     public static void setWriteLevel(Level level){
-        writeLevel = level;
+        if (isCorrectLevel(level)){writeLevel = level;}
+    }
+
+    private static boolean isCorrectLevel(Level level){
+        Level [] levels = Level.values();
+        for (Level level1 : levels) {
+            if(level == level1){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void saveInFile(Log log) {
-        logService.writeToFile(log);
+        logServiceSt.writeToFile(log);
     }
 
     public void loadLogs() {
-        logs = logService.readFile();
+        logs = logServiceSt.readFile();
     }
 
 }

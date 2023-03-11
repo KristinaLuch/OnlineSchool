@@ -7,28 +7,26 @@ import loger.Log;
 import models.school_object.Course;
 import models.school_object.Lecture;
 import models.school_object.Person;
-import repository.log.LogRepository;
 import repository.school.impl.CourseRep;
 import service.conversation.ConversationService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class CourseService implements SchoolService {
 
-    private CourseRep courseRep;
-    private LectureService lectureService;
-    private PersonService personService;
-
-    private ConversationService conversationService;
-
-    private LogRepository logRepository;
+    private final CourseRep courseRep;
+    private final LectureService lectureService;
+    private final PersonService personService;
+    private final ConversationService conversationService;
 
     public static final String PRINT_COURSE_NAME = "Please, print course name";
 
-    public static final String PRINT_ADD_LECTURES = "Please, add lectures. \n" +
-            "If you want to create new lecture enter 1, \n" +
-            "finish adding lectures enter 2";
+    public static final String PRINT_ADD_LECTURES = """
+            Please, add lectures.\s
+            If you want to create new lecture enter 1,\s
+            finish adding lectures enter 2""";
 
     public static final String PRINT_ADD_PERSON = "Please, add persons. \n" +
             "If you want to create new person enter 1, \n" +
@@ -42,12 +40,11 @@ public class CourseService implements SchoolService {
     public static final String CASE_2 = "2";
 
     public CourseService(CourseRep courseRep, LectureService lectureService, PersonService personService,
-                         ConversationService conversationService, LogRepository logRepository) {
+                         ConversationService conversationService) {
         this.courseRep = courseRep;
         this.lectureService = lectureService;
         this.personService = personService;
         this.conversationService = conversationService;
-        this.logRepository = logRepository;
     }
 
     public Course create() {
@@ -148,6 +145,9 @@ public class CourseService implements SchoolService {
             return false;
         }
         List<Person> persons = course.getPersons();
+        if (persons == null){
+            persons = new ArrayList<>();
+        }
         persons.add(person);
         course.setPersons(persons);
         return true;

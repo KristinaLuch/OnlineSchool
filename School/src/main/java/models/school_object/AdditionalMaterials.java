@@ -2,7 +2,9 @@ package models.school_object;
 
 import models.ResourceType;
 
-public class AdditionalMaterials {
+import java.io.Serializable;
+
+public class AdditionalMaterials implements Serializable {
 
     private final Integer id;
 

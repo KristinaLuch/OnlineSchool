@@ -2,14 +2,16 @@ package models.school_object;
 
 import models.Role;
 
-public class Person implements Comparable<Person> {
+import java.io.Serializable;
+
+public class Person implements Comparable<Person>, Serializable {
 
     private int courseID;
 
     private Role role;
 
     private static int count = 0;
-    private Integer id;
+    private final Integer id;
     private String firstname;
     private String lastname;
     private String phone;
@@ -29,7 +31,6 @@ public class Person implements Comparable<Person> {
 
     public Person(Role role, String firstname, String lastname, String phone, String email) {
         id = ++count;
-        this.courseID = courseID;
         this.role = role;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -39,30 +40,6 @@ public class Person implements Comparable<Person> {
 
     public void setCourseID(int courseID) {
         this.courseID = courseID;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getCourseID() {
-        return courseID;
     }
 
     public Role getRole() {
@@ -85,13 +62,6 @@ public class Person implements Comparable<Person> {
         return lastname;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 
     @Override
     public String toString() {

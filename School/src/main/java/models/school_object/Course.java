@@ -1,11 +1,12 @@
 package models.school_object;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Course implements Comparable<Course>{
+public class Course implements Comparable<Course>, Serializable {
 
-    private Integer id;
+    private final Integer id;
     private static int count = 0;
     private String name;
     private List<Person> persons;
@@ -38,10 +39,6 @@ public class Course implements Comparable<Course>{
         this.lectures = lectures;
     }
 
-    public static int getCount() {
-        return count;
-    }
-
     public List<Person> getPersons() {
         return persons;
     }
@@ -52,11 +49,11 @@ public class Course implements Comparable<Course>{
 
     @Override
     public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lectures=" + lectures +
-                ", persons=" + persons +
+        return "Course{"+"\n" +
+                "id=" + id +",\n" +
+                " name='" + name + '\'' +",\n" +
+                " lectures=" + lectures +",\n" +
+                " persons=" + persons +
                 '}';
     }
 

@@ -2,7 +2,9 @@ package models.school_object;
 
 import models.Role;
 
-public class Student extends Person implements Runnable {
+import java.io.Serializable;
+
+public class Student extends Person implements Runnable, Serializable {
 
     private int time;
 
@@ -21,13 +23,6 @@ public class Student extends Person implements Runnable {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
-
-    public int getTaskNumber() {
-        return taskNumber;
-    }
 
     public void setTaskNumber(int taskNumber) {
         this.taskNumber = taskNumber;

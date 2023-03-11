@@ -1,10 +1,11 @@
 package models.school_object;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Lecture {
+public class Lecture implements Serializable {
     private static int count = 0;
-    private Integer id;
+    private final Integer id;
     private int idCourse;
     private int personId;
     private String name;
@@ -22,10 +23,6 @@ public class Lecture {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setDescription(String description) {
@@ -55,10 +52,6 @@ public class Lecture {
 
     public void setMaterials(Materials materials) {
         this.materials = materials;
-    }
-
-    public int getPersonId() {
-        return personId;
     }
 
     public void setPersonId(int personId) {

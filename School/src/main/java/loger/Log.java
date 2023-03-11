@@ -30,19 +30,19 @@ public class Log {
     }
 
     public static void debug(String name, String message){
-        Log log = new Log(name, Level.DEBUG, message, LocalDateTime.now());
+        Log log = new Log(name, Level.DEBUG, name+", "+message, LocalDateTime.now());
         LogRepository.add(log);
     }
     public static void info(String name, String message){
-        Log log = new Log(name, Level.INFO, message, LocalDateTime.now());
+        Log log = new Log(name, Level.INFO, name+", "+message, LocalDateTime.now());
         LogRepository.add(log);
     }
     public static void warning (String name, String message){
-        Log log = new Log(name, Level.WARNING, message, LocalDateTime.now());
+        Log log = new Log(name, Level.WARNING, name+", "+message, LocalDateTime.now());
         LogRepository.add(log);
     }
     public static void error(String name, String message, Exception e){
-        Log log = new Log(name, Level.ERROR, message, LocalDateTime.now(), getStringStackTrace(e));
+        Log log = new Log(name, Level.ERROR, name+", "+message, LocalDateTime.now(), getStringStackTrace(e));
         LogRepository.add(log);
     }
 

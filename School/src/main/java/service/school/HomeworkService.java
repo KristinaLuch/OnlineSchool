@@ -3,7 +3,6 @@ package service.school;
 import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import models.school_object.Homework;
-import repository.log.LogRepository;
 import repository.school.impl.HomeworkRep;
 import service.conversation.ConversationService;
 
@@ -16,12 +15,9 @@ public class HomeworkService {
     private final HomeworkRep homeworkRep;
     private final ConversationService conversationService;
 
-    private LogRepository logRepository;
-
-    public HomeworkService(HomeworkRep homeworkRep, ConversationService conversationService, LogRepository logRepository) {
+    public HomeworkService(HomeworkRep homeworkRep, ConversationService conversationService) {
         this.homeworkRep = homeworkRep;
         this.conversationService = conversationService;
-        this.logRepository = logRepository;
     }
 
     public Homework create(int lectureId) {

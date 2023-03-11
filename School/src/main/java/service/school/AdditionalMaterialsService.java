@@ -9,7 +9,6 @@ import exceptions.IncorrectSymbolException;
 import loger.Log;
 import models.ResourceType;
 import models.school_object.AdditionalMaterials;
-import repository.log.LogRepository;
 import repository.school.impl.AdditionalMaterialsRep;
 import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
@@ -22,30 +21,25 @@ import static models.ResourceType.*;
 
 public class AdditionalMaterialsService implements SchoolService {
 
-    private ConversationService conversationService;
-    private AdditionalMaterialsRep additionalMaterialsRep;
-
-    private LectureRep lectureRep;
-
-    private ComparatorId comparatorId;
-
-    private ComparatorLectureId comparatorLectureId;
+    private final ConversationService conversationService;
+    private final AdditionalMaterialsRep additionalMaterialsRep;
+    private final LectureRep lectureRep;
+    private final ComparatorId comparatorId;
+    private final ComparatorLectureId comparatorLectureId;
 
     private ComparatorResourceType comparatorResourceType;
 
-    private LogRepository logRepository;
 
     public AdditionalMaterialsService(ConversationService conversationService, AdditionalMaterialsRep additionalMaterialsRep,
                                       LectureRep lectureRep, ComparatorId comparatorId,
                                       ComparatorLectureId comparatorLectureId,
-                                      ComparatorResourceType comparatorResourceType, LogRepository logRepository) {
+                                      ComparatorResourceType comparatorResourceType) {
         this.conversationService = conversationService;
         this.additionalMaterialsRep = additionalMaterialsRep;
         this.lectureRep = lectureRep;
         this.comparatorId = comparatorId;
         this.comparatorLectureId = comparatorLectureId;
         this.comparatorResourceType = comparatorResourceType;
-        this.logRepository = logRepository;
     }
 
     public static final String PRINT_NAME = "Print name:";
@@ -66,6 +60,15 @@ public class AdditionalMaterialsService implements SchoolService {
         additionalMaterialsRep.add(additionalMaterials);
         conversationService.print(additionalMaterials.toString());
         conversationService.print("Created");
+        return additionalMaterials;
+    }
+
+    public AdditionalMaterials createAdmin(int lectureId, String name, ResourceType type) {
+        AdditionalMaterials additionalMaterials = new AdditionalMaterials();
+        additionalMaterials.setName(name);
+        additionalMaterials.setResourceType(type);
+        additionalMaterials.setLectureId(lectureId);
+        additionalMaterialsRep.add(additionalMaterials);
         return additionalMaterials;
     }
 

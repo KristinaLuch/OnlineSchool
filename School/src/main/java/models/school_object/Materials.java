@@ -1,28 +1,17 @@
 package models.school_object;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Materials {
+public class Materials implements Serializable {
 
     private static int count = 0;
-    private Integer id;
-    private String materials;
+    private final Integer id;
+    private final String materials;
 
     public Materials(String materials) {
         this.materials = materials;
         this.id = ++count;
-    }
-
-    public static int getCount() {
-        return count;
-    }
-
-    public String getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(String materials) {
-        this.materials = materials;
     }
 
     public int getId() {

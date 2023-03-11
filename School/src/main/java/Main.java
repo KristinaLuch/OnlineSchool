@@ -38,23 +38,22 @@ public class Main {
         LogRepository logRep = new LogRepository(logService);
 
 
-        ValidationService validationService = new ValidationService(logRep);
-        ConversationService conversationService = new ConversationService(scanner, validationService, logRep);
+        ValidationService validationService = new ValidationService();
+        ConversationService conversationService = new ConversationService(scanner, validationService);
         MaterialService materialService = new MaterialService(materials, conversationService);
-        HomeworkService homeworkService = new HomeworkService(homeworks, conversationService, logRep);
+        HomeworkService homeworkService = new HomeworkService(homeworks, conversationService);
         AdditionalMaterialsService additionalMaterialsService = new AdditionalMaterialsService(conversationService, additionalMaterialsRep,
-                lectures, comparatorId, comparatorIdLecture, comparatorResourceType, logRep);
+                lectures, comparatorId, comparatorIdLecture, comparatorResourceType);
         LectureAssociatedService lectureAssociatedService = new LectureAssociatedService(conversationService, homeworkService,
-                additionalMaterialsService, lectures, logRep);
+                additionalMaterialsService, lectures);
         LectureService lectureService = new LectureService(lectures, conversationService, homeworkService, materialService,
-                lectureAssociatedService, courses, persons, logRep);
-        PersonService personService = new PersonService(persons, conversationService, logRep);
+                lectureAssociatedService, courses, persons);
+        PersonService personService = new PersonService(persons, conversationService);
 
-        CourseService courseService = new CourseService(courses, lectureService, personService, conversationService, logRep);
+        CourseService courseService = new CourseService(courses, lectureService, personService, conversationService);
 
         CommandService commandService = new CommandService(conversationService, courseService, lectureService,
-                personService, additionalMaterialsService, logRep);
-        LogRepository.setWriteLevel(PropertyLevel.getLevel());
+                personService, additionalMaterialsService);
 
 
 //        TestService testService = new TestService(personService);
@@ -62,11 +61,11 @@ public class Main {
         String pathProperties = "School\\src\\main\\java\\resources\\logLevel.properties";
         PropertyLevel.setPath(pathProperties);
 
-        Path path1 = Path.of("C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\resources\\logLevel.properties");
+        Path path1 = Path.of("School\\src\\main\\java\\resources");
         LevelControl lc = new LevelControl(path1);
+
         LogRepository.setWriteLevel(PropertyLevel.getLevel());
         Thread control = new Thread(lc, "controlLevel thread");
-
 
         control.start();
         commandService.startApp();

@@ -19,14 +19,13 @@ public class PropertyLevel {
         Properties property = new Properties();
         Level level = Level.OFF;
         try {
-            fis = new FileInputStream("School\\src\\main\\java\\resources\\logLevel.properties");
+            fis = new FileInputStream(path);
             property.load(fis);
-
             level = Level.valueOf(property.getProperty("level"));
-//            System.out.println("level: " + level);
         } catch (Exception e) {
             Log.error(PropertyLevel.class.getName(), "File not found", e);
         }
         return level;
     }
+
 }

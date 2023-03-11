@@ -6,7 +6,6 @@ import exceptions.IncorrectSymbolException;
 import loger.Log;
 import models.Role;
 import models.school_object.*;
-import repository.log.LogRepository;
 import repository.school.impl.CourseRep;
 import repository.school.impl.LectureRep;
 import repository.school.impl.PersonRep;
@@ -24,9 +23,7 @@ public class LectureService implements SchoolService {
     private final CourseRep courseRep;
     private final PersonRep personRep;
 
-    private LectureAssociatedService lectureAssociatedService;
-
-    private LogRepository logRepository;
+    private final LectureAssociatedService lectureAssociatedService;
 
     private static final String PRINT_LECTURE_NAME = "Print lecture name";
 
@@ -38,7 +35,7 @@ public class LectureService implements SchoolService {
     public LectureService(LectureRep lectureRep, ConversationService conversationService,
                           HomeworkService homeworkService, MaterialService materialService,
                           LectureAssociatedService lectureAssociatedService, CourseRep courseRep,
-                          PersonRep personRep, LogRepository logRepository) {
+                          PersonRep personRep) {
         this.lectureRep = lectureRep;
         this.conversationService = conversationService;
         this.homeworkService = homeworkService;
@@ -46,7 +43,6 @@ public class LectureService implements SchoolService {
         this.lectureAssociatedService = lectureAssociatedService;
         this.courseRep = courseRep;
         this.personRep = personRep;
-        this.logRepository = logRepository;
     }
 
     public Lecture create() {
@@ -153,8 +149,8 @@ public class LectureService implements SchoolService {
                         addPerson(lecture);
                     } else {
                         lecture.setPersonId(person.getId());
-                        return lecture;
                     }
+                    break;
                 case "no":
                     return lecture;
                 default:

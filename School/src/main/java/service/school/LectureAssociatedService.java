@@ -6,7 +6,6 @@ import exceptions.IncorrectSymbolException;
 import loger.Log;
 import models.school_object.Homework;
 import models.school_object.Lecture;
-import repository.log.LogRepository;
 import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
 
@@ -14,25 +13,17 @@ import java.util.ArrayList;
 
 public class LectureAssociatedService {
 
-    private ConversationService conversationService;
-
-    private HomeworkService homeworkService;
-
-    private AdditionalMaterialsService additionalMaterialsService;
-
-    private LectureRep lectureRep;
-
-    private LogRepository logRepository;
-
+    private final ConversationService conversationService;
+    private final HomeworkService homeworkService;
+    private final AdditionalMaterialsService additionalMaterialsService;
+    private final LectureRep lectureRep;
 
     public LectureAssociatedService(ConversationService conversationService, HomeworkService homeworkService,
-                                    AdditionalMaterialsService additionalMaterialsService, LectureRep lectureRep,
-                                    LogRepository logRepository) {
+                                    AdditionalMaterialsService additionalMaterialsService, LectureRep lectureRep) {
         this.conversationService = conversationService;
         this.homeworkService = homeworkService;
         this.additionalMaterialsService = additionalMaterialsService;
         this.lectureRep = lectureRep;
-        this.logRepository = logRepository;
     }
 
     public static final String ADDED = "Added";
@@ -125,7 +116,6 @@ public class LectureAssociatedService {
     }
 
     private Lecture deleteOneHomework(Lecture lecture) {
-        String response;
         ArrayList<Homework> homeworks = lecture.getHomework();
         int id = Integer.parseInt(conversationService.getResponse("Print homework id:", ValidationType.DIGIT));
 
@@ -165,7 +155,6 @@ public class LectureAssociatedService {
         while (true) {
             String response = conversationService.getResponse("Do you want (1) add or (2) delete, or (3)back to main menu?",
                     ValidationType.ANYTHING);
-            Lecture lecture;
             switch (response) {
                 case "1":
                     addAdditionalMaterials(lectureRep.get(lectureId));
