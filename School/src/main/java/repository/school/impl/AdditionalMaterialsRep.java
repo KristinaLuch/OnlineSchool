@@ -37,9 +37,6 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-        if (id <= 0) {
-            throw new EntityNotFoundException();
-        }
         AdditionalMaterials oldAdditionalMaterials = get(id);
         int key = oldAdditionalMaterials.getLectureId();
         ArrayList<AdditionalMaterials> list = additionalMaterialsMap.get(key);
@@ -74,8 +71,8 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
 
         for(int key:keySet){
             findAlist = additionalMaterialsMap.get(key);
-            for (int ind = 0; ind <findAlist.size(); ind++){
-                findAddMat = findAlist.get(ind);
+            for (AdditionalMaterials additionalMaterials : findAlist) {
+                findAddMat = additionalMaterials;
                 findId = findAddMat.getId();
                 if (findId == id) {
                     return findAddMat;
@@ -103,8 +100,8 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
         if(alist == null){
             return false;
         }
-        for (int i = 0; i < alist.size(); i++) {
-            if (alist.get(i).getId() == id){
+        for (AdditionalMaterials additionalMaterials : alist) {
+            if (additionalMaterials.getId() == id) {
                 return true;
             }
         }
@@ -112,3 +109,6 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
     }
 
 }
+
+
+

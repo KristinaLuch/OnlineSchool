@@ -4,7 +4,10 @@ import exceptions.EntityNotFoundException;
 import models.school_object.Lecture;
 import repository.school.ILectureRep;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class LectureRep implements ILectureRep {
 
@@ -63,8 +66,8 @@ public class LectureRep implements ILectureRep {
             throw new EntityNotFoundException();
         }
         Lecture findObj;
-        for (int i = 0; i < lectures.size(); i++) {
-            findObj = lectures.get(i);
+        for (Lecture lecture : lectures) {
+            findObj = lecture;
             if (findObj.getId() == id) {
                 return findObj;
             }
@@ -100,4 +103,25 @@ public class LectureRep implements ILectureRep {
             }
         }
     }
+
+    public void printLectureBeforeDate(LocalDateTime date){
+        Predicate<Lecture> pred = lecture -> lecture.getLectureDate().isBefore(date);
+        List<Lecture> lecturesBeforeDate = lectures.stream().filter(pred).toList();
+        System.out.println(lecturesBeforeDate);
+    }
+
+    public void printLectureAfterDate(LocalDateTime date){
+        Predicate<Lecture> pred = lecture -> lecture.getLectureDate().isAfter(date);
+        List<Lecture> lecturesAfterDate = lectures.stream().filter(pred).toList();
+        System.out.println(lecturesAfterDate);
+    }
+
+    public void printLectureFromDateToDate(LocalDateTime dateFrom, LocalDateTime dateTo){
+        Predicate<Lecture> predFrom = lecture -> lecture.getLectureDate().isBefore(dateTo);
+        Predicate<Lecture> predTo = lecture -> lecture.getLectureDate().isAfter(dateFrom);
+        List<Lecture> lecturesFromTo = lectures.stream().filter(predFrom).filter(predTo).toList();
+        System.out.println(lecturesFromTo);
+    }
+
+
 }

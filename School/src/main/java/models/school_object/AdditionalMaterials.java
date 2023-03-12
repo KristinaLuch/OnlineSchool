@@ -4,7 +4,7 @@ import models.ResourceType;
 
 import java.io.Serializable;
 
-public class AdditionalMaterials implements Serializable {
+public class AdditionalMaterials implements Serializable, Comparable<AdditionalMaterials> {
 
     private final Integer id;
 
@@ -58,4 +58,9 @@ public class AdditionalMaterials implements Serializable {
                 '}';
     }
 
+
+    @Override
+    public int compareTo(AdditionalMaterials o) {
+        return Integer.compare(this.getLectureId(), o.getLectureId());
+    }
 }

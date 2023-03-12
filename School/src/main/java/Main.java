@@ -12,6 +12,7 @@ import util.LevelControl;
 import util.PropertyLevel;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -68,7 +69,18 @@ public class Main {
         Thread control = new Thread(lc, "controlLevel thread");
 
         control.start();
-        commandService.startApp();
+        //commandService.startApp();
+
+        commandService.startCreate();
+        System.out.println("before");
+        lectures.printLectureBeforeDate(LocalDateTime.of(2012,01,11,12,00));
+        System.out.println("after");
+        lectures.printLectureAfterDate(LocalDateTime.of(2012,01,11,12,00));
+        System.out.println("From .. to ..");
+        lectures.printLectureFromDateToDate(LocalDateTime.of(2009,01,11,12,00), LocalDateTime.of(2013,01,9,12,00));
+        additionalMaterialsService.printListMaterials();
+
+
 
     }
 }

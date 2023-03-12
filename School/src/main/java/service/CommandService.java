@@ -10,6 +10,7 @@ import service.conversation.ConversationService;
 import service.school.*;
 import util.serialization.ReserveCopy;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class CommandService {
@@ -134,7 +135,7 @@ public class CommandService {
         }
     }
 
-    private void startCreate() {
+    public void startCreate() {
        // System.out.println("Created one course with three lectures: ");
         Course course = new Course();
         course.setName("for zero");
@@ -159,6 +160,7 @@ public class CommandService {
         lecture1.setIdCourse(course.getId());
         lecture1.setMaterials(materials1);
         lecture1.setPersonId(teacher.getId());
+        lecture1.setLectureDate(LocalDateTime.of(2011,01,11,12,00));
         Homework homework1 = new Homework(lecture1.getId(), "1 hw");
         ArrayList<Homework> homeworks1 = new ArrayList<>();
         homeworks1.add(homework1);
@@ -171,6 +173,7 @@ public class CommandService {
         lecture2.setIdCourse(course.getId());
         lecture2.setMaterials(materials1);
         lecture2.setPersonId(teacher.getId());
+        lecture2.setLectureDate(LocalDateTime.of(2012,01,11,12,00));
         Homework homework2 = new Homework(lecture2.getId(), "2 hw");
         ArrayList<Homework> homeworks2 = new ArrayList<>();
         homeworks2.add(homework2);
@@ -182,6 +185,7 @@ public class CommandService {
         lecture3.setIdCourse(course.getId());
         lecture3.setMaterials(materials1);
         lecture3.setPersonId(teacher.getId());
+        lecture3.setLectureDate(LocalDateTime.of(2013,01,11,12,00));
         Homework homework3 = new Homework(lecture3.getId(), "3 hw");
         ArrayList<Homework> homeworks3 = new ArrayList<>();
         homeworks3.add(homework3);
@@ -204,6 +208,7 @@ public class CommandService {
         System.out.println(serializator.deserializationCourse());
 
         //System.out.println(course + "\n");
+
     }
 
 }

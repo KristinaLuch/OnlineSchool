@@ -119,9 +119,9 @@ public class AdditionalMaterialsService implements SchoolService {
 
         ArrayList<AdditionalMaterials> additionalMaterialsList = new ArrayList<>();
 
-        map.entrySet().stream().forEach(entry -> entry.getValue().forEach(x -> additionalMaterialsList.add(x)));
+        map.forEach((key, value) -> additionalMaterialsList.addAll(value));
 
-        Comparator<AdditionalMaterials> comparator = getComparator();
+        Comparator comparator = getComparator();
 
 
         if (comparator != null) {
@@ -158,7 +158,7 @@ public class AdditionalMaterialsService implements SchoolService {
         return true;
     }
 
-    public ArrayList<AdditionalMaterials> getHomeworksFromLecture(int lectureId) {
+    public ArrayList<AdditionalMaterials> getAdditionalMaterialsFromLecture(int lectureId) {
         return additionalMaterialsRep.getAdditionalMaterials(lectureId);
     }
 
@@ -170,4 +170,16 @@ public class AdditionalMaterialsService implements SchoolService {
     public boolean belongsToLecture(int lectureId, int id) {
         return additionalMaterialsRep.belongsToLecture(lectureId, id);
     }
+
+    public void printListMaterials(){
+        Map<Integer, ArrayList<AdditionalMaterials>> map = additionalMaterialsRep.getAll();
+
+        ArrayList<AdditionalMaterials> additionalMaterialsList = new ArrayList<>();
+
+        map.forEach((key, value) -> additionalMaterialsList.addAll(value));
+
+        additionalMaterialsList.stream().sorted().forEach(System.out::println);
+
+    }
+
 }
