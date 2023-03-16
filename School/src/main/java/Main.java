@@ -12,7 +12,6 @@ import util.LevelControl;
 import util.PropertyLevel;
 
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -53,10 +52,6 @@ public class Main {
 
         CourseService courseService = new CourseService(courses, lectureService, personService, conversationService);
 
-        CommandService commandService = new CommandService(conversationService, courseService, lectureService,
-                personService, additionalMaterialsService);
-
-
 //        TestService testService = new TestService(personService);
 //        testService.runTest();
         String pathProperties = "School\\src\\main\\java\\resources\\logLevel.properties";
@@ -69,16 +64,20 @@ public class Main {
         Thread control = new Thread(lc, "controlLevel thread");
 
         control.start();
-        //commandService.startApp();
 
-        commandService.startCreate();
-        System.out.println("before");
-        lectures.printLectureBeforeDate(LocalDateTime.of(2012,01,11,12,00));
-        System.out.println("after");
-        lectures.printLectureAfterDate(LocalDateTime.of(2012,01,11,12,00));
-        System.out.println("From .. to ..");
-        lectures.printLectureFromDateToDate(LocalDateTime.of(2009,01,11,12,00), LocalDateTime.of(2013,01,9,12,00));
-        additionalMaterialsService.printListMaterials();
+        CommandService commandService = new CommandService(conversationService, courseService, lectureService,
+                personService, additionalMaterialsService, logService);
+
+
+
+        commandService.startApp();
+//        System.out.println("before");
+//        lectures.printLectureBeforeDate(LocalDateTime.of(2012,01,11,12,00));
+//        System.out.println("after");
+//        lectures.printLectureAfterDate(LocalDateTime.of(2012,01,11,12,00));
+//        System.out.println("From .. to ..");
+//        lectures.printLectureFromDateToDate(LocalDateTime.of(2009,01,11,12,00), LocalDateTime.of(2013,01,9,12,00));
+//        additionalMaterialsService.printListMaterials();
 
 
 

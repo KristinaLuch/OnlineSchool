@@ -14,8 +14,6 @@ public class LogRepository {
 
     private static Level writeLevel = Level.OFF;
 
-
-
     public LogRepository(LogService logService) {
         logServiceSt = logService;
         logs = new ArrayList<>();

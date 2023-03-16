@@ -51,7 +51,6 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
         if (id <= 0) {
             throw new EntityNotFoundException();
         }
-
         AdditionalMaterials findAddMat = get(id);
         ArrayList<AdditionalMaterials> findAlist = additionalMaterialsMap.get(findAddMat.getLectureId());
         findAlist.remove(findAddMat);

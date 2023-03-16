@@ -103,4 +103,8 @@ public class PersonService implements SchoolService{
         return createAdmin(Role.TEACHER, courseID, firstname, lastname, phone, email);
     }
 
+    public void printTeacherBeforeN(){
+        personRep.printTeacherBeforeN();
+    }
+
 }

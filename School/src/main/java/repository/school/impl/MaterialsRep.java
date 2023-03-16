@@ -46,8 +46,8 @@ public class MaterialsRep implements IMaterialsRep {
             throw new EntityNotFoundException();
         }
         Materials findObj;
-        for (int i = 0; i < materialsRep.size(); i++) {
-            findObj = materialsRep.get(i);
+        for (Materials materials : materialsRep) {
+            findObj = materials;
             if (findObj.getId() == id) {
                 return findObj;
             }

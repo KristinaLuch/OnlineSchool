@@ -3,6 +3,7 @@ package models.school_object;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Course implements Comparable<Course>, Serializable {
 
@@ -31,16 +32,16 @@ public class Course implements Comparable<Course>, Serializable {
         this.name = name;
     }
 
-    public List<Lecture> getLectures() {
-        return lectures;
+    public Optional<List<Lecture>> getLectures() {
+        return Optional.ofNullable(lectures);
     }
 
     public void setLectures(List<Lecture> lectures) {
         this.lectures = lectures;
     }
 
-    public List<Person> getPersons() {
-        return persons;
+    public Optional<List<Person>> getPersons() {
+        return Optional.ofNullable(persons);
     }
 
     public void setPersons(List<Person> persons) {

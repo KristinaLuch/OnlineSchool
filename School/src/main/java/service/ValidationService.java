@@ -57,7 +57,7 @@ public class ValidationService {
 
     public boolean isLectureDate(String dateString){
         try {
-            LocalDateTime localDateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(LECTURE_DATE_FORMAT));
+           LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(LECTURE_DATE_FORMAT));
         }catch (Exception e){
             return false;
         }

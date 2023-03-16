@@ -7,6 +7,7 @@ import loger.Log;
 import models.ResourceType;
 import models.school_object.*;
 import service.conversation.ConversationService;
+import service.log.LogService;
 import service.school.*;
 import util.serialization.ReserveCopy;
 
@@ -21,18 +22,21 @@ public class CommandService {
     private final PersonService personService;
     private final AdditionalMaterialsService additionalMaterialsService;
 
+    private final LogService logService;
+
     public CommandService(ConversationService conversationService, CourseService courseService,
                           LectureService lectureService, PersonService personService,
-                          AdditionalMaterialsService additionalMaterialsService) {
+                          AdditionalMaterialsService additionalMaterialsService, LogService logService) {
         this.conversationService = conversationService;
         this.courseService = courseService;
         this.lectureService = lectureService;
         this.personService = personService;
         this.additionalMaterialsService = additionalMaterialsService;
+        this.logService = logService;
     }
 
     private static final String START = "Select \"1\" for course, \"2\" for lecture, \"3\" for person, " +
-            "\n\"4\" for additional_materials\" or \"exit\"";
+            "\n\"4\" for additional_materials\", \"5\" for another function or \"exit\"";
     private static final String PRINT_COMMAND = "Print command:";
     private static final String RESPONSE_CREATE = "create";
     private static final String RESPONSE_READ_ALL = "read_all";
@@ -53,12 +57,16 @@ public class CommandService {
     public static final String MAIN_MENU = "Main menu";
     public static final String EXIT_MESSAGE = "Well, it's your choice";
 
+    public static final String ANOTHER_FUNCTION = "5";
+
+    private static final int MAX_COUNT_OF_LECTURES = 8;
+
     private boolean play = true;
 
     public void startApp() {
         startCreate();
         while (play) {
-            if (Lecture.getCount() == 8) {
+            if (Lecture.getCount() == MAX_COUNT_OF_LECTURES) {
                 System.out.println(CREATED_MAX_LECTURES);
                 break;
             }
@@ -84,11 +92,27 @@ public class CommandService {
                 return personService;
             case RESPONSE_ADD_MATERIALS:
                 return additionalMaterialsService;
+            case ANOTHER_FUNCTION:
+                anotherFunction();
+                return selectEnvironment(conversationService.getResponse(PRINT_COMMAND, ValidationType.ANYTHING));
             case RESPONSE_EXIT:
                 System.out.println(EXIT_MESSAGE);
                 System.exit(0);
             default:
                 throw new IncorrectSymbolException(ANSWER_WRONG_RESPONSE);
+        }
+    }
+
+    private void anotherFunction(){
+        String response = conversationService.getResponse("Show teachers whose " +
+                "last name begins up to the letter \"N\" - print \"1\", print logs messages - \"2\"", ValidationType.ANYTHING);
+        switch (response) {
+            case "1" -> personService.printTeacherBeforeN();
+            case "2" -> logService.showMessage();
+            default -> {
+                conversationService.print(ANSWER_WRONG_RESPONSE);
+                Log.warning(this.getClass().getName(), "anotherFunction method");
+            }
         }
     }
 
@@ -136,12 +160,22 @@ public class CommandService {
     }
 
     public void startCreate() {
-       // System.out.println("Created one course with three lectures: ");
+        System.out.println("Created one course with three lectures: ");
         Course course = new Course();
         course.setName("for zero");
         Materials materials1 = new Materials("materials");
         Person teacher = personService.createTeacherAdmin(course.getId(), "Stepan", "Bandera", "+3806660666",
                 "bandera666@moskaliv.net");
+
+        Person teacher1 = personService.createTeacherAdmin(course.getId(), "Taras", "Shevchenko", "+38025021814",
+                "bandera666@moskaliv.net");
+        Person teacher2 = personService.createTeacherAdmin(course.getId(), "Ivan", "Franko", "+38027081856",
+                "bandera666@moskaliv.net");
+        Person teacher3 = personService.createTeacherAdmin(course.getId(), "Lesya", "Ukrainka", "+38025021871",
+                "bezNadiiSpodivayus@moskaliv.net");
+        Person teacher4 = personService.createTeacherAdmin(course.getId(), "Olha", "Knyaginya", "+380945964",
+                "ne.tilky@moskaliv.net");
+
         Person student1 = personService.createStudentAdmin(course.getId(), "Dmytro", "Kuleba",
                 "+380484214449", "dajte.tanky.dlja@moskaliv.net");
         Person student2 = personService.createStudentAdmin(course.getId(), "Volodymyr", "Zelenskyj",
@@ -150,6 +184,10 @@ public class CommandService {
                 "+380200300200", "teper_v_Ukraini@moskaliv.net");
 
         courseService.addPerson(course, teacher);
+        courseService.addPerson(course, teacher1);
+        courseService.addPerson(course, teacher2);
+        courseService.addPerson(course, teacher3);
+        courseService.addPerson(course, teacher4);
         courseService.addPerson(course, student1);
         courseService.addPerson(course, student2);
         courseService.addPerson(course, student3);

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Optional;
 
 public class Lecture implements Serializable {
     private static int count = 0;
@@ -29,8 +30,8 @@ public class Lecture implements Serializable {
         return creationDate;
     }
 
-    public LocalDateTime getLectureDate() {
-        return lectureDate;
+    public Optional<LocalDateTime> getLectureDate() {
+        return Optional.ofNullable(lectureDate);
     }
 
     public void setLectureDate(LocalDateTime lectureDate) {
@@ -78,8 +79,8 @@ public class Lecture implements Serializable {
         this.personId = personId;
     }
 
-    public ArrayList<Homework> getHomework() {
-        return homework;
+    public Optional<ArrayList<Homework>> getHomework() {
+        return Optional.ofNullable(homework);
     }
 
     public void setHomework(ArrayList<Homework> homework) {

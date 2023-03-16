@@ -13,6 +13,7 @@ import service.conversation.ConversationService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class CourseService implements SchoolService {
 
@@ -109,10 +110,8 @@ public class CourseService implements SchoolService {
                 case CASE_1:
                     Person person = personService.create();
                     person.setCourseID(course.getId());
-                    List<Person> persons = course.getPersons();
-                    if (persons == null) {
-                        persons = new ArrayList<>();
-                    }
+                    Optional<List<Person>> personsOpt = course.getPersons();
+                    List<Person> persons = personsOpt.orElse(new ArrayList<>());
                     persons.add(person);
                     System.out.println("Person added");
                     break;
@@ -131,32 +130,21 @@ public class CourseService implements SchoolService {
 
 
     public void addLectureToList(Course course, Lecture lecture) {
-        List<Lecture> lectures = course.getLectures();
-        if (lectures == null) {
-            lectures = new ArrayList<>();
-        }
+        List<Lecture> lectures = course.getLectures().orElse(new ArrayList<>());
         lecture.setIdCourse(course.getId());
         lectures.add(lecture);
         course.setLectures(lectures);
     }
 
     public boolean addPerson(Course course, Person person) {
-        if (person == null || course == null) {
-            return false;
-        }
-        List<Person> persons = course.getPersons();
-        if (persons == null){
-            persons = new ArrayList<>();
-        }
+        Optional<List<Person>> personsOpt = course.getPersons();
+        List<Person> persons = personsOpt.orElse(new ArrayList<>());
         persons.add(person);
         course.setPersons(persons);
         return true;
     }
 
     public void addToRep(Course course) {
-        if (course == null) {
-            return;
-        }
         courseRep.add(course);
     }
 

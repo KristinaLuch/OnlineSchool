@@ -2,6 +2,7 @@ package repository.school.impl;
 
 
 import exceptions.EntityNotFoundException;
+import models.Role;
 import models.school_object.Person;
 import repository.school.IPersonRep;
 
@@ -89,5 +90,10 @@ public class PersonRep implements IPersonRep {
                 System.out.println("id = " +obj.getId() + " - "+obj);
             }
         }
+    }
+
+    public void printTeacherBeforeN(){
+        persons.stream().filter(person -> person.getRole().equals(Role.TEACHER))
+                .filter(person -> person.getLastname().toLowerCase().charAt(0)<'n').forEach(System.out::println);
     }
 }

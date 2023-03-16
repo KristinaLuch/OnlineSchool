@@ -54,7 +54,7 @@ public class LectureService implements SchoolService {
         if (course != null) {
             courseId = course.getId();
             lecture.setIdCourse(courseId);
-            List<Lecture> lectures = course.getLectures();
+            List<Lecture> lectures = course.getLectures().orElse(new ArrayList<>());
             lectures.add(lecture);
             course.setLectures(lectures);
         }
@@ -118,20 +118,14 @@ public class LectureService implements SchoolService {
             response = conversationService.getResponse("Do you want add homework?", ValidationType.ANYTHING);
             if (response.equalsIgnoreCase("yes")) {
                 Homework homework = homeworkService.create(lecture);
-                if (homework == null) {
-                    conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
-                } else {
-                    homeworks = lecture.getHomework();
-                    if (homeworks == null || homeworks.size() == 0) {
-                        homeworks = new ArrayList<>();
-                    }
+                    homeworks = lecture.getHomework().orElse(new ArrayList<>());
                     homeworks.add(homework);
                     lecture.setHomework(homeworks);
-                }
             } else if (response.equalsIgnoreCase("no")) {
                 return lecture;
             } else {
                 conversationService.print("Print yes or no");
+                Log.warning(this.getClass().getName(), "method addHomeworks");
                 return addHomeworks(lecture);
             }
         }
@@ -166,9 +160,6 @@ public class LectureService implements SchoolService {
     private Person addedPerson() {
         Person person = null;
         String idStr = conversationService.getResponse("Print teacher`s person id", ValidationType.DIGIT);
-        if (idStr == null) {
-            return null;
-        }
         int id = Integer.parseInt(idStr);
         if (id <= 0) {
             conversationService.print("Number must be greater than 0");
@@ -222,7 +213,7 @@ public class LectureService implements SchoolService {
     public void addLectureToRep(Lecture lecture) {
         materialService.addToRep(lecture.getMaterials());
         lectureRep.add(lecture);
-        ArrayList<Homework> homeworks = lecture.getHomework();
+        ArrayList<Homework> homeworks = lecture.getHomework().orElse(new ArrayList<>());
         for (Homework homework : homeworks) {
             homeworkService.addToRep(homework);
         }

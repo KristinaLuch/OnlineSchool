@@ -116,9 +116,8 @@ public class LectureAssociatedService {
     }
 
     private Lecture deleteOneHomework(Lecture lecture) {
-        ArrayList<Homework> homeworks = lecture.getHomework();
+        ArrayList<Homework> homeworks = lecture.getHomework().orElse(new ArrayList<>());
         int id = Integer.parseInt(conversationService.getResponse("Print homework id:", ValidationType.DIGIT));
-
         for (int i = 0; i < homeworks.size(); i++) {
             if (homeworks.get(i).getId() == id) {
                 homeworks.remove(i);
@@ -143,7 +142,7 @@ public class LectureAssociatedService {
     }
 
     private Lecture addOneHomework(Lecture lecture) {
-        ArrayList<Homework> homeworks = lecture.getHomework();
+        ArrayList<Homework> homeworks = lecture.getHomework().orElse(new ArrayList<>());
         Homework homework = homeworkService.create(lecture);
         homeworks.add(homework);
         lecture.setHomework(homeworks);

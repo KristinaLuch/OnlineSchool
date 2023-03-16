@@ -19,9 +19,6 @@ public class LectureRep implements ILectureRep {
 
     @Override
     public boolean add(Lecture lecture) {
-        if (lecture == null) {
-            return false;
-        }
         lectures.add(lecture);
         return true;
     }
@@ -91,35 +88,40 @@ public class LectureRep implements ILectureRep {
 
 
     public void printAll(){
-
         if (lectures == null||lectures.size() == 0){
             System.out.println("You haven't created anything yet");
         }
         Lecture obj;
-        for (int i = 0; i<lectures.size(); i++){
-            obj = lectures.get(i);
-            if(obj != null) {
-                System.out.println("id = " +obj.getId() + " - "+obj);
+        for (Lecture lecture : lectures) {
+            obj = lecture;
+            if (obj != null) {
+                System.out.println("id = " + obj.getId() + " - " + obj);
             }
         }
     }
 
     public void printLectureBeforeDate(LocalDateTime date){
-        Predicate<Lecture> pred = lecture -> lecture.getLectureDate().isBefore(date);
-        List<Lecture> lecturesBeforeDate = lectures.stream().filter(pred).toList();
+        Predicate<Lecture> pred = lecture -> lecture.getLectureDate().get().isBefore(date);
+        List<Lecture> lecturesBeforeDate = lectures.stream()
+                .filter(lecture -> lecture.getLectureDate().isPresent())
+                .filter(pred).toList();
         System.out.println(lecturesBeforeDate);
     }
 
     public void printLectureAfterDate(LocalDateTime date){
-        Predicate<Lecture> pred = lecture -> lecture.getLectureDate().isAfter(date);
-        List<Lecture> lecturesAfterDate = lectures.stream().filter(pred).toList();
+
+        Predicate<Lecture> pred = lecture -> lecture.getLectureDate().get().isAfter(date);
+        List<Lecture> lecturesAfterDate = lectures.stream()
+                .filter(lecture -> lecture.getLectureDate().isPresent()).filter(pred).toList();
         System.out.println(lecturesAfterDate);
     }
 
     public void printLectureFromDateToDate(LocalDateTime dateFrom, LocalDateTime dateTo){
-        Predicate<Lecture> predFrom = lecture -> lecture.getLectureDate().isBefore(dateTo);
-        Predicate<Lecture> predTo = lecture -> lecture.getLectureDate().isAfter(dateFrom);
-        List<Lecture> lecturesFromTo = lectures.stream().filter(predFrom).filter(predTo).toList();
+        Predicate<Lecture> predFrom = lecture -> lecture.getLectureDate().get().isBefore(dateTo);
+        Predicate<Lecture> predTo = lecture -> lecture.getLectureDate().get().isAfter(dateFrom);
+        List<Lecture> lecturesFromTo = lectures.stream()
+                .filter(lecture -> lecture.getLectureDate().isPresent())
+                .filter(predFrom).filter(predTo).toList();
         System.out.println(lecturesFromTo);
     }
 

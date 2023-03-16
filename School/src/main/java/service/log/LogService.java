@@ -4,15 +4,19 @@ import loger.Level;
 import loger.Log;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class LogService {
 
     private File file;
 
-    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss:SSS");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss:SSS");
 
     public LogService(String path) {
         createFile(path);
@@ -33,11 +37,15 @@ public class LogService {
     public void writeToFile(Log log) {
 
         try (FileWriter fileWriter = new FileWriter(file, true)) {
-            fileWriter.write(log.getDate().format(dtf) + "\n");
+            fileWriter.write(log.getDate().format(DATE_TIME_FORMATTER) + "\n");
             fileWriter.write(log.getLevel().toString() + "\n");
             fileWriter.write(log.getName() + "\n");
-            fileWriter.write(log.getMessage() + "\n");
-            fileWriter.write("Stacktrace: {\n"+ log.getStacktrace() + "\n}\n");
+            if (log.getMessage().isPresent()) {
+                fileWriter.write("Message:" + log.getMessage().get() + "\n");
+            }
+            if(log.getStacktrace().isPresent()) {
+                fileWriter.write("Stacktrace: {\n" + log.getStacktrace().get() + "\n}\n");
+            }
         } catch (IOException e) {
             Log.error(this.getClass().getName(), "method writeToFile", e);
         }
@@ -56,7 +64,13 @@ public class LogService {
                 Level level = Level.valueOf(reader.readLine());
                 String name = reader.readLine();
                 String message = reader.readLine();
-                String stacktraceBegin = reader.readLine();
+                String stacktraceBegin;
+                if(message.contains("Message:")){
+                    stacktraceBegin= reader.readLine();
+                } else {
+                    stacktraceBegin = message;
+                    message = null;
+                }
                 String stacktrace = "";
                 String cont = "";
 
@@ -84,7 +98,15 @@ public class LogService {
     //2023-03-02T22:12:02.496786100
     public LocalDateTime getDate(String dateString) {
 
-        return LocalDateTime.parse(dateString, dtf);
+        return LocalDateTime.parse(dateString, DATE_TIME_FORMATTER);
     }
 
+    public void showMessage(){
+        List<String> lines;
+        try (Stream<String> lineStream = Files.lines(Path.of(file.getPath()))) {
+            lineStream.filter(line -> line.contains("Message:")).forEach(System.out::println);
+        } catch (IOException e) {
+            Log.error(String.valueOf(LogService.class), "method showMessage", e);
+        }
+    }
 }

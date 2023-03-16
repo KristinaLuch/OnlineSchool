@@ -5,6 +5,7 @@ import repository.log.LogRepository;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class Log {
 
@@ -69,8 +70,8 @@ public class Log {
         this.level = level;
     }
 
-    public String getMessage() {
-        return message;
+    public Optional<String> getMessage() {
+        return Optional.ofNullable(message);
     }
 
     public void setMessage(String message) {
@@ -85,8 +86,8 @@ public class Log {
         this.date = date;
     }
 
-    public String getStacktrace() {
-        return stacktrace;
+    public Optional<String> getStacktrace() {
+        return Optional.ofNullable(stacktrace);
     }
 
     public void setStacktrace(String stacktrace) {
