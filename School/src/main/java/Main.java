@@ -38,7 +38,7 @@ public class Main {
         LogRepository logRep = new LogRepository(logService);
 
 
-        ValidationService validationService = new ValidationService();
+        ValidationService validationService = new ValidationService(persons);
         ConversationService conversationService = new ConversationService(scanner, validationService);
         MaterialService materialService = new MaterialService(materials, conversationService);
         HomeworkService homeworkService = new HomeworkService(homeworks, conversationService);

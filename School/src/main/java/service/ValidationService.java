@@ -3,12 +3,19 @@ package service;
 import constants.ValidationType;
 import exceptions.ValidationException;
 import loger.Log;
+import repository.school.impl.PersonRep;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 public class ValidationService {
+
+    private final PersonRep personRep;
+
+    public ValidationService(PersonRep personRep) {
+        this.personRep = personRep;
+    }
 
     public static final String REGEX_CORRECT_EMAIL = "^[a-zA-Z0-9+_\\.-]{1,32}+@[a-zA-Z0-9-]{1,32}\\.[a-zA-Z0-9-]{2,6}+$";
     public static final String REGEX_CORRECT_PHONE_NUMBER = "\\+[1-9]\\d{8,14}";
@@ -73,7 +80,10 @@ public class ValidationService {
     }
 
     public boolean isCorrectEmail(String email) {
-        return isCorrect(email, REGEX_CORRECT_EMAIL);
+        if(isCorrect(email, REGEX_CORRECT_EMAIL)){
+            return !personRep.isDuplicate(email);
+        }
+        return false;
     }
 
     public boolean isCorrectPhone(String phone) {

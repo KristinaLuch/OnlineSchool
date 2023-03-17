@@ -10,6 +10,8 @@ import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class LectureAssociatedService {
 
@@ -220,4 +222,7 @@ public class LectureAssociatedService {
         return lecture;
     }
 
+    public Optional<Lecture> maxAddMat(List<Lecture> lectures){
+        return additionalMaterialsService.maxAddMat(lectures);
+    }
 }

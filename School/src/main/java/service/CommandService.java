@@ -105,10 +105,12 @@ public class CommandService {
 
     private void anotherFunction(){
         String response = conversationService.getResponse("Show teachers whose " +
-                "last name begins up to the letter \"N\" - print \"1\", print logs messages - \"2\"", ValidationType.ANYTHING);
+                "last name begins up to the letter \"N\" - print \"1\", print logs messages - \"2\", \n" +
+                "\"3\" - print lecture created the earliest with the most additional materials", ValidationType.ANYTHING);
         switch (response) {
             case "1" -> personService.printTeacherBeforeN();
             case "2" -> logService.showMessage();
+            case "3" -> lectureService.printLectureCreatedEarliestWithMostAddMaterials();
             default -> {
                 conversationService.print(ANSWER_WRONG_RESPONSE);
                 Log.warning(this.getClass().getName(), "anotherFunction method");

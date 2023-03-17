@@ -62,6 +62,9 @@ public class Person implements Comparable<Person>, Serializable {
         return lastname;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
     @Override
     public String toString() {
@@ -81,4 +84,5 @@ public class Person implements Comparable<Person>, Serializable {
     public int compareTo(Person o) {
         return this.lastname.compareTo(o.lastname);
     }
+
 }

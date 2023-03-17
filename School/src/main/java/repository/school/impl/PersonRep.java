@@ -96,4 +96,9 @@ public class PersonRep implements IPersonRep {
         persons.stream().filter(person -> person.getRole().equals(Role.TEACHER))
                 .filter(person -> person.getLastname().toLowerCase().charAt(0)<'n').forEach(System.out::println);
     }
+
+    public boolean isDuplicate(String email){
+        return persons.stream().map(person -> person.getEmail().equals(email)).findFirst().isPresent();
+
+    }
 }

@@ -9,13 +9,12 @@ import exceptions.IncorrectSymbolException;
 import loger.Log;
 import models.ResourceType;
 import models.school_object.AdditionalMaterials;
+import models.school_object.Lecture;
 import repository.school.impl.AdditionalMaterialsRep;
 import repository.school.impl.LectureRep;
 import service.conversation.ConversationService;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 
 import static models.ResourceType.*;
 
@@ -180,6 +179,15 @@ public class AdditionalMaterialsService implements SchoolService {
 
         additionalMaterialsList.stream().sorted().forEach(System.out::println);
 
+    }
+
+    public Optional<Lecture> maxAddMat(List<Lecture> lectures){
+        Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap = additionalMaterialsRep.getAll();
+        Optional<ArrayList<AdditionalMaterials>> maxList =lectures.stream()
+                .map(lecture -> additionalMaterialsMap.get(lecture.getId()))
+                .max(Comparator.comparing(ArrayList::size));
+
+        return maxList.map(additionalMaterials -> lectures.get(additionalMaterials.get(0).getLectureId()));
     }
 
 }

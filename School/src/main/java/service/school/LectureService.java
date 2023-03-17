@@ -14,7 +14,9 @@ import service.conversation.ConversationService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class LectureService implements SchoolService {
 
@@ -222,6 +224,25 @@ public class LectureService implements SchoolService {
     private LocalDateTime lectureDate(){
         String date = conversationService.getResponse("Print lecture date(format example: \"20.07.2010 14:10:05\"): ", ValidationType.LECTURE_DATE);
         return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    }
+
+    public void printLectureCreatedEarliestWithMostAddMaterials(){
+        ArrayList<Lecture> lectures = lectureRep.getAll();
+        if (lectures.size() == 0){
+            System.out.println("Lectures don`t exist");
+            return;
+        }
+        Lecture firstLectureEarliestDate = lectures.stream().min(Comparator.comparing(Lecture::getCreationDate)).get();
+        List<Lecture> lecturesEarlyDate = lectures.stream()
+                .filter(lecture -> lecture.getCreationDate().equals(firstLectureEarliestDate.getCreationDate())).toList();
+
+        Optional<Lecture> optionalLectureCreatedEarliestWithMostAddMaterials = lectureAssociatedService.maxAddMat(lecturesEarlyDate);
+
+        optionalLectureCreatedEarliestWithMostAddMaterials.ifPresent(lecture -> System.out.println("Lecture created the earliest with the most additional materials: "
+                + lecture));
+        if (optionalLectureCreatedEarliestWithMostAddMaterials.isEmpty()){
+            System.out.println("Lecture created the earliest with the most additional materials not found");
+        }
     }
 
 }

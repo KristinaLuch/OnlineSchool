@@ -125,5 +125,4 @@ public class LectureRep implements ILectureRep {
         System.out.println(lecturesFromTo);
     }
 
-
 }
