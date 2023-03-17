@@ -9,7 +9,10 @@ import repository.school.impl.PersonRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PersonService implements SchoolService{
 
@@ -107,6 +110,10 @@ public class PersonService implements SchoolService{
         personRep.printTeacherBeforeN();
     }
 
-
+    public void printEmailLastnameMap(){
+        Map<String, ArrayList<String>> emailLastnameMap = personRep.getAll().stream()
+                .collect(Collectors.toMap(person -> person.getEmail(), person -> new ArrayList<>(Arrays.asList(person.getFirstname(), person.getLastname()))));
+        System.out.println(emailLastnameMap);
+    }
 
 }

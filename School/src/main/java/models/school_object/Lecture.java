@@ -54,6 +54,10 @@ public class Lecture implements Serializable {
         return count;
     }
 
+    public int getPersonId() {
+        return personId;
+    }
+
     public int getId() {
         return id;
     }

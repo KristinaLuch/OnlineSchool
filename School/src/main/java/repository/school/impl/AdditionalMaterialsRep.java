@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
 
-    private Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
+    private final Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
 
     public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap) {
         this.additionalMaterialsMap = additionalMaterialsMap;
@@ -106,6 +106,8 @@ public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
         }
         return false;
     }
+
+
 
 }
 

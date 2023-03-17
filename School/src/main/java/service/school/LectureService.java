@@ -13,10 +13,8 @@ import service.conversation.ConversationService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class LectureService implements SchoolService {
 
@@ -243,6 +241,25 @@ public class LectureService implements SchoolService {
         if (optionalLectureCreatedEarliestWithMostAddMaterials.isEmpty()){
             System.out.println("Lecture created the earliest with the most additional materials not found");
         }
+    }
+
+    public void printLectureGroupByTeacher() {
+        Map<Person, List<Lecture>> lectureGroupByTeacher  = lectureRep.getAll()
+                .stream().collect(Collectors.groupingBy(lecture -> getTeacherForGroup(lecture.getPersonId())));
+        System.out.println(lectureGroupByTeacher);
+    }
+
+    private Person getTeacherForGroup(int id){
+        try {
+            return personRep.get(id);
+        } catch (EntityNotFoundException e) {
+            Log.error(this.getClass().getName(), "getTeacherForGroup mtd", e);
+        }
+        return null;
+    }
+
+    public void printAddMatGroupByLecture(){
+       lectureAssociatedService.printAddMatGroupByLecture();
     }
 
 }

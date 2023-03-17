@@ -110,11 +110,18 @@ public class CommandService {
     private void anotherFunction(){
         String response = conversationService.getResponse("Show teachers whose " +
                 "last name begins up to the letter \"N\" - print \"1\", print logs messages - \"2\", \n" +
-                "\"3\" - print lecture created the earliest with the most additional materials", ValidationType.ANYTHING);
+                "\"3\" - print lecture created the earliest with the most additional materials\n" +
+                "\"4\" - print lecture group by teacher\n" +
+                "\"5\" - print additionalMaterials group by lecture\n"+
+                "\"6\" - print email with firstname and lastname",
+                ValidationType.ANYTHING);
         switch (response) {
             case "1" -> personService.printTeacherBeforeN();
             case "2" -> logService.showMessage();
             case "3" -> lectureService.printLectureCreatedEarliestWithMostAddMaterials();
+            case "4" -> lectureService.printLectureGroupByTeacher();
+            case "5" -> lectureService.printAddMatGroupByLecture();
+            case "6" -> personService.printEmailLastnameMap();
             default -> {
                 conversationService.print(ANSWER_WRONG_RESPONSE);
                 Log.warning(this.getClass().getName(), "anotherFunction method");
@@ -161,7 +168,6 @@ public class CommandService {
                 }catch (IncorrectSymbolException e){
                     Log.error(this.getClass().getName(), "method selectEnvironment", e);
                 }
-
         }
     }
 
@@ -174,11 +180,11 @@ public class CommandService {
                 "bandera666@moskaliv.net");
 
         Person teacher1 = personService.createTeacherAdmin(course.getId(), "Taras", "Shevchenko", "+38025021814",
-                "bandera666@moskaliv.net");
+                "ne.z.moskalyamy@moskaliv.net");
         Person teacher2 = personService.createTeacherAdmin(course.getId(), "Ivan", "Franko", "+38027081856",
-                "bandera666@moskaliv.net");
-        Person teacher3 = personService.createTeacherAdmin(course.getId(), "Lesya", "Ukrainka", "+38025021871",
-                "bezNadiiSpodivayus@moskaliv.net");
+                "kamenjar@moskaliv.net");
+        Person teacher3 = personService.createTeacherAdmin(course.getId(), "Lesya", "Ukrajinka", "+38025021871",
+                "bezNadiiSpodivajus@moskaliv.net");
         Person teacher4 = personService.createTeacherAdmin(course.getId(), "Olha", "Knyaginya", "+380945964",
                 "ne.tilky@moskaliv.net");
 

@@ -4,6 +4,7 @@ import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import loger.Log;
+import models.school_object.AdditionalMaterials;
 import models.school_object.Homework;
 import models.school_object.Lecture;
 import repository.school.impl.LectureRep;
@@ -11,7 +12,9 @@ import service.conversation.ConversationService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class LectureAssociatedService {
 
@@ -225,4 +228,20 @@ public class LectureAssociatedService {
     public Optional<Lecture> maxAddMat(List<Lecture> lectures){
         return additionalMaterialsService.maxAddMat(lectures);
     }
+
+    public void printAddMatGroupByLecture(){
+        Map<Lecture, List<AdditionalMaterials>> addMatByLecture = additionalMaterialsService.getAdditionalMaterialsList().stream()
+                .collect(Collectors.groupingBy(additionalMaterials -> getLectureForGroup(additionalMaterials.getLectureId())));
+        System.out.println(addMatByLecture);
+    }
+
+    private Lecture getLectureForGroup(int id){
+        try {
+            return lectureRep.get(id);
+        } catch (EntityNotFoundException e) {
+            Log.error(this.getClass().getName(), "getLectureForGroup mtd", e);
+        }
+        return null;
+    }
+
 }

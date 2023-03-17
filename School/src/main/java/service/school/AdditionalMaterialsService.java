@@ -171,13 +171,8 @@ public class AdditionalMaterialsService implements SchoolService {
     }
 
     public void printListMaterials(){
-        Map<Integer, ArrayList<AdditionalMaterials>> map = additionalMaterialsRep.getAll();
 
-        ArrayList<AdditionalMaterials> additionalMaterialsList = new ArrayList<>();
-
-        map.forEach((key, value) -> additionalMaterialsList.addAll(value));
-
-        additionalMaterialsList.stream().sorted().forEach(System.out::println);
+        getAdditionalMaterialsList().stream().sorted().forEach(System.out::println);
 
     }
 
@@ -192,4 +187,19 @@ public class AdditionalMaterialsService implements SchoolService {
         int lectureId = maxList.get().get(0).getLectureId();
         return lectures.stream().filter(lecture -> lecture.getId() == lectureId).findFirst();
     }
+
+    public Map<Integer, ArrayList<AdditionalMaterials>> getAllAddMatt(){
+        return additionalMaterialsRep.getAll();
+    }
+
+    public ArrayList<AdditionalMaterials> getAdditionalMaterialsList(){
+        Map<Integer, ArrayList<AdditionalMaterials>> map = additionalMaterialsRep.getAll();
+
+        ArrayList<AdditionalMaterials> additionalMaterialsList = new ArrayList<>();
+
+        map.forEach((key, value) -> additionalMaterialsList.addAll(value));
+        return additionalMaterialsList;
+    }
+
+
 }
