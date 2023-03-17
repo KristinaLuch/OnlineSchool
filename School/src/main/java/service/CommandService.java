@@ -74,7 +74,11 @@ public class CommandService {
             String response = conversationService.getResponse(PRINT_COMMAND, ValidationType.ANYTHING);
             SchoolService environment;
             try {
+                Log.info(this.getClass().getName(), "startApp mtd, select environment");
                 environment = selectEnvironment(response);
+                if (environment == null){
+                    continue;
+                }
                 selectCommand(environment);
             } catch (IncorrectSymbolException e) {
                 Log.error(this.getClass().getName(), "method startApp dont have environment", e);
@@ -94,7 +98,7 @@ public class CommandService {
                 return additionalMaterialsService;
             case ANOTHER_FUNCTION:
                 anotherFunction();
-                return selectEnvironment(conversationService.getResponse(PRINT_COMMAND, ValidationType.ANYTHING));
+                return null;
             case RESPONSE_EXIT:
                 System.out.println(EXIT_MESSAGE);
                 System.exit(0);

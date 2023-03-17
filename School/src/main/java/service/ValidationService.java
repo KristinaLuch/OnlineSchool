@@ -81,6 +81,7 @@ public class ValidationService {
 
     public boolean isCorrectEmail(String email) {
         if(isCorrect(email, REGEX_CORRECT_EMAIL)){
+            Log.info(this.getClass().getName(), "isCorrectEmail mtd");
             return !personRep.isDuplicate(email);
         }
         return false;

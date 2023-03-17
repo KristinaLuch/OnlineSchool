@@ -14,6 +14,8 @@ public class LogRepository {
 
     private static Level writeLevel = Level.OFF;
 
+    private static final Level printLevel = Level.INFO;
+
     public LogRepository(LogService logService) {
         logServiceSt = logService;
         logs = new ArrayList<>();
@@ -30,6 +32,9 @@ public class LogRepository {
     }
 
     public static void printLog(Log log){
+        if(log.getLevel().ordinal() < printLevel.ordinal()){
+            return;
+        }
         if (log.getLevel() == Level.ERROR) {
             System.err.println(log.getStacktrace());
         } else {

@@ -98,7 +98,6 @@ public class PersonRep implements IPersonRep {
     }
 
     public boolean isDuplicate(String email){
-        return persons.stream().map(person -> person.getEmail().equals(email)).findFirst().isPresent();
-
+        return persons.stream().anyMatch(p -> p.getEmail().equals(email));
     }
 }

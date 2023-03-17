@@ -68,7 +68,7 @@ public class Main {
         CommandService commandService = new CommandService(conversationService, courseService, lectureService,
                 personService, additionalMaterialsService, logService);
 
-
+        logService.printInfoCountOfMiddleOfFile();
 
         commandService.startApp();
 //        System.out.println("before");

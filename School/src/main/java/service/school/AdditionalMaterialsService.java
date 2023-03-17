@@ -186,8 +186,10 @@ public class AdditionalMaterialsService implements SchoolService {
         Optional<ArrayList<AdditionalMaterials>> maxList =lectures.stream()
                 .map(lecture -> additionalMaterialsMap.get(lecture.getId()))
                 .max(Comparator.comparing(ArrayList::size));
-
-        return maxList.map(additionalMaterials -> lectures.get(additionalMaterials.get(0).getLectureId()));
+        if (maxList.isEmpty()){
+            return Optional.empty();
+        }
+        int lectureId = maxList.get().get(0).getLectureId();
+        return lectures.stream().filter(lecture -> lecture.getId() == lectureId).findFirst();
     }
-
 }
