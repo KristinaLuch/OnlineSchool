@@ -33,7 +33,7 @@ public class Main {
         PersonRep persons = new PersonRep(new ArrayList<>());
         AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>());
 
-        String path = "School/src/main/java/file/myFile.txt";
+        String path = "School/src/main/java/file/log.txt";
         LogService logService = new LogService(path);
         LogRepository logRep = new LogRepository(logService);
 

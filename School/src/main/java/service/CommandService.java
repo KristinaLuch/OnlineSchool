@@ -113,7 +113,8 @@ public class CommandService {
                 "\"3\" - print lecture created the earliest with the most additional materials\n" +
                 "\"4\" - print lecture group by teacher\n" +
                 "\"5\" - print additionalMaterials group by lecture\n"+
-                "\"6\" - print email with firstname and lastname",
+                "\"6\" - print email with firstname and lastname\n"+
+                "\"7\" - save students email in file",
                 ValidationType.ANYTHING);
         switch (response) {
             case "1" -> personService.printTeacherBeforeN();
@@ -122,6 +123,7 @@ public class CommandService {
             case "4" -> lectureService.printLectureGroupByTeacher();
             case "5" -> lectureService.printAddMatGroupByLecture();
             case "6" -> personService.printEmailLastnameMap();
+            case "7" -> personService.saveStudentsInFile();
             default -> {
                 conversationService.print(ANSWER_WRONG_RESPONSE);
                 Log.warning(this.getClass().getName(), "anotherFunction method");
@@ -256,9 +258,6 @@ public class CommandService {
         serializator.backupCourse(course);
         System.out.println("Course: ");
         System.out.println(serializator.deserializationCourse());
-
-        //System.out.println(course + "\n");
-
     }
 
 }
