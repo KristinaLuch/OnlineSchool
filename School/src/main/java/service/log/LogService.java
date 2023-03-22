@@ -52,10 +52,6 @@ public class LogService {
         }
     }
 
-//    public boolean existFile(){
-//
-//    }
-
     public ArrayList<Log> readFile() {
         Log.info(this.getClass().getName(), "readFile mtd");
         ArrayList<Log> logs = new ArrayList<>();
