@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Materials implements Serializable {
-
     private static int count = 0;
     private final Integer id;
     private final String materials;

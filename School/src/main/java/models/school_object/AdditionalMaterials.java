@@ -8,7 +8,6 @@ import java.util.Objects;
 public class AdditionalMaterials implements Serializable, Comparable<AdditionalMaterials> {
 
     private final Integer id;
-
     private static int count = 0;
     private String name;
 

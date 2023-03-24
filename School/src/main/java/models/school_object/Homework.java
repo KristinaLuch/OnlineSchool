@@ -10,7 +10,6 @@ public class Homework implements Serializable {
 
     private static int count = 0;
     private final Integer id;
-
     private final int lectureId;
     private final String task;
 

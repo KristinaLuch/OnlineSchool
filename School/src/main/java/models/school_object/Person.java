@@ -7,17 +7,13 @@ import java.io.Serializable;
 public class Person implements Comparable<Person>, Serializable {
 
     private int courseID;
-
     private Role role;
-
     private static int count = 0;
     private final Integer id;
     private String firstname;
     private String lastname;
     private String phone;
     private String email;
-
-
 
     public Person(int courseID, Role role, String firstname, String lastname, String phone, String email) {
         id = ++count;
