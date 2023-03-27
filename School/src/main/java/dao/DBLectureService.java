@@ -1,8 +1,8 @@
 package dao;
 
-import org.example.models.school_object.AdditionalMaterials;
-import org.example.models.school_object.Homework;
-import org.example.models.school_object.Lecture;
+import models.school_object.AdditionalMaterials;
+import models.school_object.Homework;
+import models.school_object.Lecture;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

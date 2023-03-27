@@ -27,6 +27,10 @@ public class AdditionalMaterials implements Serializable, Comparable<AdditionalM
         id = count;
     }
 
+    public static void setCount(int count) {
+        AdditionalMaterials.count = count;
+    }
+
     public Integer getId() {
         return id;
     }

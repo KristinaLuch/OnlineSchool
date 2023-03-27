@@ -1,5 +1,6 @@
 package dao;
 
+import models.ResourceType;
 import models.school_object.AdditionalMaterials;
 
 import java.sql.ResultSet;

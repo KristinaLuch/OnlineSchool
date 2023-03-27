@@ -33,16 +33,11 @@ public class PersonService implements SchoolService{
     public static final String PRINT_EMAIL = "Print e-mail";
 
     private File file;
-//    private final PersonRep personRep;
-
-    private final TeacherRep teacherRep;
-
-    private final StudentRep studentRep;
+    private final PersonRep personRep;
     private final ConversationService conversationService;
 
-    public PersonService(StudentRep studentRep, TeacherRep teacherRep, ConversationService conversationService) {
-        this.studentRep = studentRep;
-        this.teacherRep = teacherRep;
+    public PersonService(PersonRep personRep, ConversationService conversationService) {
+        this.personRep = personRep;
         this.conversationService = conversationService;
     }
 

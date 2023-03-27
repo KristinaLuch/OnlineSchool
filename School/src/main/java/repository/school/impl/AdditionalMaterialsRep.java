@@ -1,6 +1,5 @@
 package repository.school.impl;
 
-import db.DataBase;
 import exceptions.EntityNotFoundException;
 import models.school_object.AdditionalMaterials;
 import repository.school.IAdditionalMaterialsRep;
@@ -13,11 +12,9 @@ import java.util.stream.Collectors;
 
 public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
 
-    private DataBase dataBase;
     private final Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
 
-    public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap, DataBase dataBase) {
-        this.dataBase = dataBase;
+    public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap) {
         this.additionalMaterialsMap = additionalMaterialsMap;
     }
 

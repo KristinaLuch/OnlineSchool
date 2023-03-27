@@ -7,7 +7,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Homework implements Serializable {
-
     private static int count = 0;
     private final Integer id;
     private final int lectureId;
@@ -15,10 +14,21 @@ public class Homework implements Serializable {
 
     private LocalDateTime deadline;
 
+    public Homework(Integer id, int lectureId, String task) {
+        this.id = id;
+        this.lectureId = lectureId;
+        this.task = task;
+        count++;
+    }
+
     public Homework(int lectureId, String task) {
         this.lectureId = lectureId;
         this.task = task;
         this.id = ++count;
+    }
+
+    public static void setCount(int count) {
+        Homework.count = count;
     }
 
     public int getId() {

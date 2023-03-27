@@ -27,7 +27,7 @@ public class Main {
         ComparatorLectureId comparatorIdLecture = new ComparatorLectureId();
         ComparatorResourceType comparatorResourceType = new ComparatorResourceType();
 
-        DataBase dataBase = new DataBase();
+
         CourseRep courses = new CourseRep(new ArrayList<>());
         LectureRep lectures = new LectureRep(new ArrayList<>());
         HomeworkRep homeworks = new HomeworkRep(new HashMap<>());

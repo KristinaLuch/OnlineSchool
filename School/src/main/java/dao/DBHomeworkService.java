@@ -1,6 +1,6 @@
 package dao;
 
-import org.example.models.school_object.Homework;
+import models.school_object.Homework;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
