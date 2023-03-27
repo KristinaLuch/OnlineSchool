@@ -27,10 +27,12 @@ public class LogService {
         file = new File(path);
         if (!file.exists()) {
             try {
+                boolean create = file.createNewFile();
+                System.out.println("file create: "+create);
                 Log.info(this.getClass().getName(), "createFile mtd, create file");
-                file.createNewFile();
             } catch (IOException e) {
-                Log.error(this.getClass().getName(), "method createFile", e);
+                System.out.println("create logs file error! File path = " + path);
+                //Log.error(this.getClass().getName(), "method createFile", e);
             }
         }
     }

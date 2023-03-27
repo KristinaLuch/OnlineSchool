@@ -65,6 +65,6 @@
                               lecture_id INT,
                               FOREIGN KEY (lecture_id) REFERENCES lecture (id),
                               add_mat_name VARCHAR(30),
-                              resource_type VARCHAR(30)
+                              resource_type VARCHAR(30) NOT NULL
     );
 

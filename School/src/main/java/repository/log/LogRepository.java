@@ -26,7 +26,7 @@ public class LogRepository {
     public static void add(Log log) {
         if (log.getLevel().ordinal() >= writeLevel.ordinal()) {
             logs.add(log);
-            saveInFile(log);
+            //saveInFile(log);
         }
         printLog(log);
     }
@@ -62,6 +62,9 @@ public class LogRepository {
 
     public void loadLogs() {
         logs = logServiceSt.readFile();
+        if (logs == null){
+            logs = new ArrayList<>();
+        }
     }
 
 }

@@ -200,6 +200,4 @@ public class AdditionalMaterialsService implements SchoolService {
         map.forEach((key, value) -> additionalMaterialsList.addAll(value));
         return additionalMaterialsList;
     }
-
-
 }

@@ -1,5 +1,6 @@
 package repository.school.impl;
 
+import db.DataBase;
 import exceptions.EntityNotFoundException;
 import models.school_object.AdditionalMaterials;
 import repository.school.IAdditionalMaterialsRep;
@@ -7,14 +8,34 @@ import repository.school.IAdditionalMaterialsRep;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
 
+    private DataBase dataBase;
     private final Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
 
-    public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap) {
+    public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap, DataBase dataBase) {
+        this.dataBase = dataBase;
         this.additionalMaterialsMap = additionalMaterialsMap;
     }
+
+//    public void getInfoFromDb(){
+//        ArrayList<AdditionalMaterials> arrayList = dataBase.getAddMattFromDB();
+//        Map<Integer, ArrayList<AdditionalMaterials>> addMatMap = new TreeMap<>();
+//        int lectureId;
+//        Map<Integer, ArrayList<AdditionalMaterials>> addMatMap1 = arrayList
+//                .stream().collect( )
+//        if(arrayList.size()>0){
+//            for (int i = 0; i< arrayList.size(); i++){
+//                lectureId = arrayList.get(i).getLectureId();
+//
+//
+//
+//            }
+//        }
+//    }
 
     @Override
     public boolean add(AdditionalMaterials additionalMaterials) {

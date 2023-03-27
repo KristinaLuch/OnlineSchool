@@ -1,6 +1,7 @@
 import comparator_add_materials.ComparatorId;
 import comparator_add_materials.ComparatorLectureId;
 import comparator_add_materials.ComparatorResourceType;
+import db.DataBase;
 import repository.log.LogRepository;
 import repository.school.impl.*;
 import service.CommandService;
@@ -26,14 +27,16 @@ public class Main {
         ComparatorLectureId comparatorIdLecture = new ComparatorLectureId();
         ComparatorResourceType comparatorResourceType = new ComparatorResourceType();
 
+        DataBase dataBase = new DataBase();
         CourseRep courses = new CourseRep(new ArrayList<>());
         LectureRep lectures = new LectureRep(new ArrayList<>());
         HomeworkRep homeworks = new HomeworkRep(new HashMap<>());
         MaterialsRep materials = new MaterialsRep(new ArrayList<>());
         PersonRep persons = new PersonRep(new ArrayList<>());
-        AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>());
+        AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>(), dataBase);
 
-        String path = "School/src/main/java/file/log.txt";
+       // String path = "C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\file\\log.txt";
+        String path = "src/main/java/file/log.txt";
         LogService logService = new LogService(path);
         LogRepository logRep = new LogRepository(logService);
 
@@ -54,10 +57,10 @@ public class Main {
 
 //        TestService testService = new TestService(personService);
 //        testService.runTest();
-        String pathProperties = "School\\src\\main\\java\\resources\\logLevel.properties";
+        String pathProperties = "src\\main\\java\\resources\\logLevel.properties";
         PropertyLevel.setPath(pathProperties);
 
-        Path path1 = Path.of("School\\src\\main\\java\\resources");
+        Path path1 = Path.of("src\\main\\java\\resources");
         LevelControl lc = new LevelControl(path1);
 
         LogRepository.setWriteLevel(PropertyLevel.getLevel());
