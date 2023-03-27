@@ -1,7 +1,6 @@
 package dao;
 
 import models.school_object.Materials;
-import org.example.models.school_object.Materials;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

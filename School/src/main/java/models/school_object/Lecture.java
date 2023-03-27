@@ -16,10 +16,21 @@ public class Lecture implements Serializable {
     private String description;
     private ArrayList<Homework> homework;
     private Materials materials;
-
     private final LocalDateTime creationDate;
 
     private LocalDateTime lectureDate;
+
+    public Lecture(Integer id, int idCourse, int personId, String name, String description, ArrayList<Homework> homework, Materials materials, LocalDateTime creationDate, LocalDateTime lectureDate) {
+        this.id = id;
+        this.idCourse = idCourse;
+        this.personId = personId;
+        this.name = name;
+        this.description = description;
+        this.homework = homework;
+        this.materials = materials;
+        this.creationDate = creationDate;
+        this.lectureDate = lectureDate;
+    }
 
     public Lecture() {
         this.id = ++count;

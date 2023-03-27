@@ -1,7 +1,6 @@
 import comparator_add_materials.ComparatorId;
 import comparator_add_materials.ComparatorLectureId;
 import comparator_add_materials.ComparatorResourceType;
-import db.DataBase;
 import repository.log.LogRepository;
 import repository.school.impl.*;
 import service.CommandService;
@@ -33,7 +32,7 @@ public class Main {
         HomeworkRep homeworks = new HomeworkRep(new HashMap<>());
         MaterialsRep materials = new MaterialsRep(new ArrayList<>());
         PersonRep persons = new PersonRep(new ArrayList<>());
-        AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>(), dataBase);
+        AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>());
 
        // String path = "C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\file\\log.txt";
         String path = "src/main/java/file/log.txt";
