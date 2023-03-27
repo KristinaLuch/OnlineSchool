@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class Person implements Comparable<Person>, Serializable {
     private int courseID;
+
     int id;
     private String firstname;
     private String lastname;

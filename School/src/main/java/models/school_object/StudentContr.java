@@ -11,7 +11,7 @@ public class StudentContr extends Person implements Runnable, Serializable {
     private int taskNumber;
 
     public StudentContr(String firstname, String lastname, String phone, String email) {
-        super(firstname, lastname, phone, email);
+        super(Role.STUDENT, firstname, lastname, phone, email);
     }
 
     @Override

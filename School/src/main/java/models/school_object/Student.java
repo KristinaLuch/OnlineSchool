@@ -1,12 +1,10 @@
 package models.school_object;
 
-import models.Role;
-
 import java.io.Serializable;
 
-public class Student extends Person implements Comparable<Student>, Serializable {
+public class Student extends Person implements Comparable<StudentContr>, Serializable {
 
-//    private int courseID;
+    private int courseID;
     private static int count = 0;
     private  Integer id;
     private String firstname;
@@ -64,7 +62,7 @@ public class Student extends Person implements Comparable<Student>, Serializable
     }
 
     @Override
-    public int compareTo(Student o) {
+    public int compareTo(StudentContr o) {
         return this.lastname.compareTo(o.lastname);
     }
 
