@@ -5,8 +5,10 @@ import exceptions.EntityNotFoundException;
 import loger.Log;
 import models.Role;
 import models.school_object.Person;
-import models.school_object.Student;
+import models.school_object.StudentContr;
 import repository.school.impl.PersonRep;
+import repository.school.impl.StudentRep;
+import repository.school.impl.TeacherRep;
 import service.conversation.ConversationService;
 
 import java.io.File;
@@ -31,11 +33,16 @@ public class PersonService implements SchoolService{
     public static final String PRINT_EMAIL = "Print e-mail";
 
     private File file;
-    private final PersonRep personRep;
+//    private final PersonRep personRep;
+
+    private final TeacherRep teacherRep;
+
+    private final StudentRep studentRep;
     private final ConversationService conversationService;
 
-    public PersonService(PersonRep personRep, ConversationService conversationService) {
-        this.personRep = personRep;
+    public PersonService(StudentRep studentRep, TeacherRep teacherRep, ConversationService conversationService) {
+        this.studentRep = studentRep;
+        this.teacherRep = teacherRep;
         this.conversationService = conversationService;
     }
 
@@ -90,8 +97,8 @@ public class PersonService implements SchoolService{
         }
     }
 
-    public Student createSystemStudent(String firstname, String lastname, String phone, String email){
-        Student student = new Student(firstname, lastname, phone, email);
+    public StudentContr createSystemStudent(String firstname, String lastname, String phone, String email){
+        StudentContr student = new StudentContr(firstname, lastname, phone, email);
         personRep.add(student);
         return student;
     }

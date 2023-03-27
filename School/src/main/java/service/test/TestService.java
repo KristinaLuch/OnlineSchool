@@ -1,7 +1,7 @@
 package service.test;
 
 import loger.Log;
-import models.school_object.Student;
+import models.school_object.StudentContr;
 import service.school.PersonService;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class TestService {
     }
 
     public void runTest() {
-        CopyOnWriteArrayList<Student> students = createTenStudents();
+        CopyOnWriteArrayList<StudentContr> students = createTenStudents();
         Thread thread;
         for (int i = 0; i < students.size(); i++) {
             students.get(i).setTaskNumber(getRandomTask());
@@ -33,7 +33,7 @@ public class TestService {
             } catch (InterruptedException e) {
                 Log.error(this.getClass().getName(), "method runTest", e);
             }
-            for (Student student : students) {
+            for (StudentContr student : students) {
                 if (student.getTime() == i) {
                     printCompletedTaskStudent(student, sequence);
                     students.remove(student);
@@ -43,13 +43,13 @@ public class TestService {
         }
         System.out.println("\nStudents who failed to complete the task: ");
 
-        for (Student student : students) {
+        for (StudentContr student : students) {
             System.out.println(student);
         }
 
     }
 
-    private void printCompletedTaskStudent(Student student, int sequence) {
+    private void printCompletedTaskStudent(StudentContr student, int sequence) {
         String end = "th";
         if (sequence <= 3) {
             if (sequence == 1) {
@@ -65,9 +65,9 @@ public class TestService {
         System.out.println("Completed the task " + sequence + end + " " + student);
     }
 
-    private CopyOnWriteArrayList<Student> createTenStudents() {
-        CopyOnWriteArrayList<Student> persons = new CopyOnWriteArrayList();
-        Student person;
+    private CopyOnWriteArrayList<StudentContr> createTenStudents() {
+        CopyOnWriteArrayList<StudentContr> persons = new CopyOnWriteArrayList();
+        StudentContr person;
         for (int i = 1; i <= 10; i++) {
             String name = "Name" + i;
             String lastname = "Lname" + i;

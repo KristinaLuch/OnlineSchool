@@ -4,27 +4,39 @@ import models.Role;
 
 import java.io.Serializable;
 
-public class Student extends Person implements Comparable<Student>, Serializable {
+public class Teacher implements Comparable<Teacher>, Serializable {
 
-//    private int courseID;
+    private int courseID;
     private static int count = 0;
-    private  Integer id;
+    private final Integer id;
     private String firstname;
     private String lastname;
     private String phone;
     private String email;
 
-
-    public Student(int courseID, int id, String firstname, String lastname, String phone, String email) {
-        super(courseID, id, firstname, lastname, phone, email);
+    public Teacher(Integer id, String firstname, String lastname, String phone, String email) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.email = email;
     }
 
-    public Student(int courseID, String firstname, String lastname, String phone, String email) {
-        super(courseID, firstname, lastname, phone, email);
+    public Teacher(int courseID, String firstname, String lastname, String phone, String email) {
+        id = ++count;
+        this.courseID = courseID;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.email = email;
     }
 
-    public Student(String firstname, String lastname, String phone, String email) {
-        super(firstname, lastname, phone, email);
+    public Teacher(String firstname, String lastname, String phone, String email) {
+        id = ++count;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.email = email;
     }
 
     public void setCourseID(int courseID) {
@@ -53,7 +65,7 @@ public class Student extends Person implements Comparable<Student>, Serializable
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "Teacher{" +
                 "courseID=" + courseID +
                 ", id=" + id +
                 ", firstname='" + firstname + '\'' +
@@ -64,7 +76,7 @@ public class Student extends Person implements Comparable<Student>, Serializable
     }
 
     @Override
-    public int compareTo(Student o) {
+    public int compareTo(Teacher o) {
         return this.lastname.compareTo(o.lastname);
     }
 
