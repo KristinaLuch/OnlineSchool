@@ -4,7 +4,7 @@ import models.Role;
 
 import java.io.Serializable;
 
-public class StudentContr extends Student implements Runnable, Serializable {
+public class StudentContr extends Person implements Runnable, Serializable {
 
     private int time;
 
