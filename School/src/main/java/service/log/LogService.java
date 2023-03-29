@@ -64,8 +64,9 @@ public class LogService {
                 Level level = Level.valueOf(reader.readLine());
                 String name = reader.readLine();
                 String message = reader.readLine();
-                String stacktraceBegin;
+                String stacktraceBegin = "";
                 if(message.contains("Message:")){
+                    message = message.substring(8);
                     stacktraceBegin= reader.readLine();
                 } else {
                     stacktraceBegin = message;
@@ -73,25 +74,30 @@ public class LogService {
                 }
                 String stacktrace = "";
                 String cont = "";
-                if (stacktraceBegin == null){
-                    break;
-                }
-                if (stacktraceBegin.equals("Stacktrace: {")){
-                    while (true){
-                        cont = reader.readLine();
-                        stacktraceBegin += "\n"+cont;
-                        if(cont.equals("}")){
-                            cont = "";
-                            dateStr = reader.readLine();
-                            break;
+                if (stacktraceBegin != null) {
+                    if (stacktraceBegin.equals("Stacktrace: {")) {
+                        while (true) {
+                            cont = reader.readLine();
+                            stacktraceBegin += "\n" + cont;
+                            if (cont.equals("}")) {
+                                cont = "";
+                                dateStr = reader.readLine();
+                                break;
+                            }
                         }
+                        stacktrace = stacktraceBegin;
+                    } else {
+                        dateStr = stacktraceBegin;
+                        System.out.println("dateStr = " + dateStr);
                     }
-                    stacktrace = stacktraceBegin;
                 } else {
+                    stacktrace = null;
                     dateStr = stacktraceBegin;
                 }
                 Log log = new Log(name, level, message, date, stacktrace);
+                System.out.println("log = "+ log);
                 logs.add(log);
+                System.out.println("testlog");
             }
         } catch (Exception e) {
             Log.error(this.getClass().getName(), "method readFile", e);

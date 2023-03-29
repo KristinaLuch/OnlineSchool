@@ -8,16 +8,15 @@ import java.util.ArrayList;
 
 public class LogRepository {
 
-    private static ArrayList<Log> logs;
+    private static ArrayList<Log> logs = new ArrayList<>();
 
-    private static LogService logServiceSt;
+    public static LogService logServiceSt = new LogService("src/main/java/file/log.txt");
 
     private static Level writeLevel = Level.OFF;
 
     private static final Level printLevel = Level.INFO;
 
-    public LogRepository(LogService logService) {
-        logServiceSt = logService;
+    public LogRepository() {
         logs = new ArrayList<>();
         loadLogs();
     }

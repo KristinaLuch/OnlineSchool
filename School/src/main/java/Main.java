@@ -36,8 +36,9 @@ public class Main {
 
        // String path = "C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\file\\log.txt";
         String path = "src/main/java/file/log.txt";
-        LogService logService = new LogService(path);
-        LogRepository logRep = new LogRepository(logService);
+
+       LogRepository logRep = new LogRepository();
+        LogService logService = LogRepository.logServiceSt;
 
 
         ValidationService validationService = new ValidationService(persons);
