@@ -10,7 +10,8 @@ public class Person implements Comparable<Person>, Serializable {
 
     private Role role;
 
-    private static int count = 0;
+    private static int countStudent = 0;
+    private static int countTeacher = 0;
     private final Integer id;
     private String firstname;
     private String lastname;
@@ -20,22 +21,30 @@ public class Person implements Comparable<Person>, Serializable {
 
 
     public Person(int courseID, Role role, String firstname, String lastname, String phone, String email) {
-        id = ++count;
         this.courseID = courseID;
         this.role = role;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
         this.email = email;
+        if(role == Role.STUDENT){
+            id = ++countStudent;
+        } else {
+            id = ++countTeacher;
+        }
     }
 
     public Person(Role role, String firstname, String lastname, String phone, String email) {
-        id = ++count;
         this.role = role;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
         this.email = email;
+        if(role == Role.STUDENT){
+            id = ++countStudent;
+        } else {
+            id = ++countTeacher;
+        }
     }
 
     public void setCourseID(int courseID) {
@@ -46,8 +55,12 @@ public class Person implements Comparable<Person>, Serializable {
         return role;
     }
 
-    public static int getCount() {
-        return count;
+    public static int getCountStudent() {
+        return countStudent;
+    }
+
+    public static int getCountTeacher() {
+        return countTeacher;
     }
 
     public int getId() {

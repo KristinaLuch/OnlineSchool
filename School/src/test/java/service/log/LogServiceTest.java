@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import service.log.LogService;
 import loger.Level;
 import loger.Log;
 import java.io.File;

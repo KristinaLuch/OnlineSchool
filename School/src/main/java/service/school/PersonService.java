@@ -7,8 +7,6 @@ import models.Role;
 import models.school_object.Person;
 import models.school_object.StudentContr;
 import repository.school.impl.PersonRep;
-import repository.school.impl.StudentRep;
-import repository.school.impl.TeacherRep;
 import service.conversation.ConversationService;
 
 import java.io.File;
