@@ -1,7 +1,6 @@
 package repository.school.impl;
 
 import exceptions.EntityNotFoundException;
-import models.Role;
 import models.school_object.Person;
 
 import java.util.ArrayList;
@@ -89,10 +88,6 @@ public class StudentRep extends PersonRep{
         }
     }
 
-    public void printTeacherBeforeN(){
-        students.stream()
-                .filter(person -> person.getLastname().toLowerCase().charAt(0)<'n').forEach(System.out::println);
-    }
 
     public boolean isDuplicate(String email){
         return students.stream().anyMatch(p -> p.getEmail().equals(email));

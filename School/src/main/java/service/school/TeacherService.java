@@ -54,4 +54,7 @@ public class TeacherService extends PersonService{
         teacherRep.add(person);
         return person;
     }
+
+    public void printTeacherBeforeN(){
+        teacherRep.printTeacherBeforeN(); }
 }
