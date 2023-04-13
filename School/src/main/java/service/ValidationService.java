@@ -4,6 +4,8 @@ import constants.ValidationType;
 import exceptions.ValidationException;
 import loger.Log;
 import repository.school.impl.PersonRep;
+import repository.school.impl.StudentRep;
+import repository.school.impl.TeacherRep;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,10 +13,12 @@ import java.util.regex.Pattern;
 
 public class ValidationService {
 
-    private final PersonRep personRep;
+    private final StudentRep studentRep;
+    private final TeacherRep teacherRep;
 
-    public ValidationService(PersonRep personRep) {
-        this.personRep = personRep;
+    public ValidationService(StudentRep studentRep, TeacherRep teacherRep) {
+        this.studentRep = studentRep;
+        this.teacherRep = teacherRep;
     }
 
     public static final String REGEX_CORRECT_EMAIL = "^[a-zA-Z0-9+_\\.-]{1,32}+@[a-zA-Z0-9-]{1,32}\\.[a-zA-Z0-9-]{2,6}+$";
@@ -31,8 +35,11 @@ public class ValidationService {
             case NAME -> {
                 isCorrect = isCorrectName(response);
             }
-            case EMAIL -> {
-                isCorrect = isCorrectEmail(response);
+            case EMAIL_TEACHER -> {
+                isCorrect = isCorrectEmail(response, teacherRep);
+            }
+            case EMAIL_STUDENT -> {
+                isCorrect = isCorrectEmail(response, studentRep);
             }
             case PHONE -> {
                 isCorrect = isCorrectPhone(response);
@@ -79,10 +86,10 @@ public class ValidationService {
         return description.length() <= DESCRIPTION_MAX_SYMBOLS;
     }
 
-    public boolean isCorrectEmail(String email) {
+    public boolean isCorrectEmail(String email, PersonRep rep) {
         if(isCorrect(email, REGEX_CORRECT_EMAIL)){
             Log.info(this.getClass().getName(), "isCorrectEmail mtd");
-            return !personRep.isDuplicate(email);
+                return !rep.isDuplicate(email);
         }
         return false;
     }

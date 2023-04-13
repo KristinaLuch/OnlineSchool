@@ -19,7 +19,7 @@ public class CourseService implements SchoolService {
 
     private final CourseRep courseRep;
     private final LectureService lectureService;
-    private final PersonService personService;
+    private final StudentService studentService;
     private final ConversationService conversationService;
 
     public static final String PRINT_COURSE_NAME = "Please, print course name";
@@ -29,9 +29,9 @@ public class CourseService implements SchoolService {
             If you want to create new lecture enter 1,\s
             finish adding lectures enter 2""";
 
-    public static final String PRINT_ADD_PERSON = "Please, add persons. \n" +
-            "If you want to create new person enter 1, \n" +
-            "finish adding persons enter 2";
+    public static final String PRINT_ADD_PERSON = "Please, add student. \n" +
+            "If you want to create new student enter 1, \n" +
+            "finish adding student enter 2";
 
     public static final String LECTURE_ADDED = "Lecture added";
 
@@ -40,11 +40,11 @@ public class CourseService implements SchoolService {
     public static final String CASE_1 = "1";
     public static final String CASE_2 = "2";
 
-    public CourseService(CourseRep courseRep, LectureService lectureService, PersonService personService,
+    public CourseService(CourseRep courseRep, LectureService lectureService, StudentService studentService,
                          ConversationService conversationService) {
         this.courseRep = courseRep;
         this.lectureService = lectureService;
-        this.personService = personService;
+        this.studentService = studentService;
         this.conversationService = conversationService;
     }
 
@@ -108,12 +108,12 @@ public class CourseService implements SchoolService {
             String response = conversationService.getResponse(PRINT_ADD_PERSON, ValidationType.ANYTHING);
             switch (response) {
                 case CASE_1:
-                    Person person = personService.create();
+                    Person person = studentService.create();
                     person.setCourseID(course.getId());
                     Optional<List<Person>> personsOpt = course.getPersons();
                     List<Person> persons = personsOpt.orElse(new ArrayList<>());
                     persons.add(person);
-                    System.out.println("Person added");
+                    System.out.println("Student added");
                     break;
                 case CASE_2:
                     return;

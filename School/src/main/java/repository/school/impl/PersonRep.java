@@ -1,8 +1,6 @@
 package repository.school.impl;
 
 
-import exceptions.EntityNotFoundException;
-import models.Role;
 import models.school_object.Person;
 import repository.school.IPersonRep;
 
@@ -18,5 +16,7 @@ abstract public class PersonRep implements IPersonRep {
         this.students = students;
 
     }
+
+    public abstract boolean isDuplicate(String email);
 
 }

@@ -19,24 +19,26 @@ public class CommandService {
     private final ConversationService conversationService;
     private final CourseService courseService;
     private final LectureService lectureService;
-    private final PersonService personService;
+    private final StudentService studentService;
+    private final TeacherService teacherService;
     private final AdditionalMaterialsService additionalMaterialsService;
 
     private final LogService logService;
 
     public CommandService(ConversationService conversationService, CourseService courseService,
-                          LectureService lectureService, PersonService personService,
+                          LectureService lectureService, StudentService studentService, TeacherService teacherService,
                           AdditionalMaterialsService additionalMaterialsService, LogService logService) {
         this.conversationService = conversationService;
         this.courseService = courseService;
         this.lectureService = lectureService;
-        this.personService = personService;
+        this.studentService = studentService;
+        this.teacherService = teacherService;
         this.additionalMaterialsService = additionalMaterialsService;
         this.logService = logService;
     }
 
-    private static final String START = "Select \"1\" for course, \"2\" for lecture, \"3\" for person, " +
-            "\n\"4\" for additional_materials\", \"5\" for another function or \"exit\"";
+    private static final String START = "Select \"1\" for course, \"2\" for lecture, \"3\" for teacher, " +
+            "\n\"4\" for student, \"5\" for additional_materials\", \"6\" for another function or \"exit\"";
     private static final String PRINT_COMMAND = "Print command:";
     private static final String RESPONSE_CREATE = "create";
     private static final String RESPONSE_READ_ALL = "read_all";
@@ -47,8 +49,9 @@ public class CommandService {
             "\"back\" to return to the main menu, \"exit\" to end the program";
     private static final String RESPONSE_COURSE = "1";
     private static final String RESPONSE_LECTURE = "2";
-    private static final String RESPONSE_PERSON = "3";
-    private static final String RESPONSE_ADD_MATERIALS = "4";
+    private static final String RESPONSE_TEACHER = "3";
+    private static final String RESPONSE_STUDENT = "4";
+    private static final String RESPONSE_ADD_MATERIALS = "5";
     private static final String RESPONSE_BACK = "back";
     private static final String RESPONSE_EXIT = "exit";
     private static final String ANSWER_WRONG_RESPONSE = "Wrong response! ";
@@ -56,8 +59,7 @@ public class CommandService {
     public static final String CREATED_MAX_LECTURES = "You already created 8 lectures. Stop it! I'm done";
     public static final String MAIN_MENU = "Main menu";
     public static final String EXIT_MESSAGE = "Well, it's your choice";
-
-    public static final String ANOTHER_FUNCTION = "5";
+    public static final String ANOTHER_FUNCTION = "6";
 
     private static final int MAX_COUNT_OF_LECTURES = 8;
 
@@ -92,8 +94,10 @@ public class CommandService {
                 return courseService;
             case RESPONSE_LECTURE:
                 return lectureService;
-            case RESPONSE_PERSON:
-                return personService;
+            case RESPONSE_TEACHER:
+                return teacherService;
+            case RESPONSE_STUDENT:
+                return studentService;
             case RESPONSE_ADD_MATERIALS:
                 return additionalMaterialsService;
             case ANOTHER_FUNCTION:
@@ -117,7 +121,7 @@ public class CommandService {
                 "\"7\" - save students email in file",
                 ValidationType.ANYTHING);
         switch (response) {
-            case "1" -> personService.printTeacherBeforeN();
+            case "1" -> teacherService.printTeacherBeforeN();
             case "2" -> logService.showMessage();
             case "3" -> lectureService.printLectureCreatedEarliestWithMostAddMaterials();
             case "4" -> lectureService.printLectureGroupByTeacher();

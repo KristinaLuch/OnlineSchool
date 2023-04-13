@@ -9,9 +9,10 @@ import java.util.Optional;
 
 public class Lecture implements Serializable {
     private static int count = 0;
-    private final Integer id;
+    private Integer id;
     private int idCourse;
-    private int personId;
+
+    private int teacherId;
     private String name;
     private String description;
     private ArrayList<Homework> homework;
@@ -20,10 +21,10 @@ public class Lecture implements Serializable {
 
     private LocalDateTime lectureDate;
 
-    public Lecture(Integer id, int idCourse, int personId, String name, String description, ArrayList<Homework> homework, Materials materials, LocalDateTime creationDate, LocalDateTime lectureDate) {
+    public Lecture(Integer id, int idCourse, int teacherId, String name, String description, ArrayList<Homework> homework, Materials materials, LocalDateTime creationDate, LocalDateTime lectureDate) {
         this.id = id;
         this.idCourse = idCourse;
-        this.personId = personId;
+        this.teacherId = teacherId;
         this.name = name;
         this.description = description;
         this.homework = homework;
@@ -65,8 +66,9 @@ public class Lecture implements Serializable {
         return count;
     }
 
-    public int getPersonId() {
-        return personId;
+
+    public int getTeacherId() {
+        return teacherId;
     }
 
     public int getId() {
@@ -90,8 +92,8 @@ public class Lecture implements Serializable {
         this.materials = materials;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
     public Optional<ArrayList<Homework>> getHomework() {
@@ -107,14 +109,16 @@ public class Lecture implements Serializable {
         return "Lecture{" +
                 "id=" + id +
                 ", idCourse=" + idCourse +
-                ", personId=" + personId +
+                ", teacherId=" + teacherId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", homework=" + homework +
                 ", materials=" + materials +
-                lectureDate() +
+                ", creationDate=" + creationDate +
+                ", lectureDate=" + lectureDate +
                 '}';
     }
+
     private String lectureDate(){
         if(creationDate == null){
             return "";

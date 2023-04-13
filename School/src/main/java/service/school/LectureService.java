@@ -4,11 +4,10 @@ import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import loger.Log;
-import models.Role;
 import models.school_object.*;
 import repository.school.impl.CourseRep;
 import repository.school.impl.LectureRep;
-import repository.school.impl.PersonRep;
+import repository.school.impl.TeacherRep;
 import service.conversation.ConversationService;
 
 import java.time.LocalDateTime;
@@ -23,7 +22,7 @@ public class LectureService implements SchoolService {
     private final HomeworkService homeworkService;
     private final MaterialService materialService;
     private final CourseRep courseRep;
-    private final PersonRep personRep;
+    private final TeacherRep teacherRep;
 
     private final LectureAssociatedService lectureAssociatedService;
 
@@ -37,14 +36,14 @@ public class LectureService implements SchoolService {
     public LectureService(LectureRep lectureRep, ConversationService conversationService,
                           HomeworkService homeworkService, MaterialService materialService,
                           LectureAssociatedService lectureAssociatedService, CourseRep courseRep,
-                          PersonRep personRep) {
+                           TeacherRep teacherRep) {
         this.lectureRep = lectureRep;
         this.conversationService = conversationService;
         this.homeworkService = homeworkService;
         this.materialService = materialService;
         this.lectureAssociatedService = lectureAssociatedService;
         this.courseRep = courseRep;
-        this.personRep = personRep;
+        this.teacherRep = teacherRep;
     }
 
     public Lecture create() {
@@ -145,7 +144,7 @@ public class LectureService implements SchoolService {
                         conversationService.print("A value less than 0, is not a number or the id of a non-existing object");
                         addPerson(lecture);
                     } else {
-                        lecture.setPersonId(person.getId());
+                        lecture.setTeacherId(person.getId());
                     }
                     break;
                 case "no":
@@ -167,20 +166,12 @@ public class LectureService implements SchoolService {
         }
 
         try {
-            person = personRep.get(id);
+            person = teacherRep.get(id);
         } catch (EntityNotFoundException e) {
             Log.error(this.getClass().getName(), "method addedPerson", e);
         }
 
-        if (person != null) {
-            if (person.getRole() == Role.TEACHER) {
-                return person;
-            } else {
-                conversationService.print("Person must be a teacher");
-                return null;
-            }
-        }
-        return null;
+        return person;
     }
 
     private Course getCourseFromId() {
@@ -251,7 +242,7 @@ public class LectureService implements SchoolService {
 
     private Person getTeacherForGroup(int id){
         try {
-            return personRep.get(id);
+            return teacherRep.get(id);
         } catch (EntityNotFoundException e) {
             Log.error(this.getClass().getName(), "getTeacherForGroup mtd", e);
         }

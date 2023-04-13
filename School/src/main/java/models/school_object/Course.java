@@ -10,14 +10,14 @@ public class Course implements Comparable<Course>, Serializable {
     private final Integer id;
     private static int count = 0;
     private String name;
-    private List<Person> persons;
+    private List<Person> students;
     private List<Lecture> lectures;
 
-    public Course(String name, List<Person> persons, List<Lecture> lectures) {
+    public Course(String name, List<Person> students, List<Lecture> lectures) {
         this.id = ++count;
         this.name = name;
         this.lectures = lectures;
-        this.persons = persons;
+        this.students = students;
     }
 
     public Course() {
@@ -41,11 +41,11 @@ public class Course implements Comparable<Course>, Serializable {
     }
 
     public Optional<List<Person>> getPersons() {
-        return Optional.ofNullable(persons);
+        return Optional.ofNullable(students);
     }
 
     public void setPersons(List<Person> persons) {
-        this.persons = persons;
+        this.students = persons;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Course implements Comparable<Course>, Serializable {
                 "id=" + id +",\n" +
                 " name='" + name + '\'' +",\n" +
                 " lectures=" + lectures +",\n" +
-                " persons=" + persons +
+                " persons=" + students +
                 '}';
     }
 
@@ -62,12 +62,12 @@ public class Course implements Comparable<Course>, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Course course)) return false;
-        return Objects.equals(id, course.id) && Objects.equals(name, course.name) && Objects.equals(persons, course.persons) && Objects.equals(lectures, course.lectures);
+        return Objects.equals(id, course.id) && Objects.equals(name, course.name) && Objects.equals(students, course.students) && Objects.equals(lectures, course.lectures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, persons, lectures);
+        return Objects.hash(id, name, students, lectures);
     }
 
     @Override
