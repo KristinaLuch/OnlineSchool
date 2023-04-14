@@ -9,17 +9,19 @@ import repository.school.impl.TeacherRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TeacherService extends PersonService{
-
 
     public TeacherService(StudentRep studentRep, TeacherRep teacherRep, ConversationService conversationService) {
         super(studentRep, teacherRep, conversationService);
     }
 
     public Person create() {
-        Role role = getRole();
+        Role role = Role.TEACHER;
         String firstName = conversationService.getResponse(PRINT_FIRSTNAME, ValidationType.NAME);
         String lastName = conversationService.getResponse(PRINT_LASTNAME, ValidationType.NAME);
         String phone = conversationService.getResponse(PRINT_PHONE_NUMBER, ValidationType.PHONE);
@@ -29,7 +31,6 @@ public class TeacherService extends PersonService{
         teacherRep.add(person);
         System.out.println("Person created");
         return person;
-
     }
     @Override
     public void read_by_id(int id) throws EntityNotFoundException {
@@ -57,4 +58,10 @@ public class TeacherService extends PersonService{
 
     public void printTeacherBeforeN(){
         teacherRep.printTeacherBeforeN(); }
+
+    public void printEmailLastnameMap(){
+        Map<String, ArrayList<String>> emailLastnameMap = studentRep.getAll().stream()
+                .collect(Collectors.toMap(Person::getEmail, person -> new ArrayList<>(Arrays.asList(person.getFirstname(), person.getLastname()))));
+        System.out.println(emailLastnameMap);
+    }
 }

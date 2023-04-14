@@ -92,4 +92,5 @@ public class StudentRep extends PersonRep{
     public boolean isDuplicate(String email){
         return students.stream().anyMatch(p -> p.getEmail().equals(email));
     }
+
 }

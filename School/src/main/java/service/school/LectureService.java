@@ -236,7 +236,7 @@ public class LectureService implements SchoolService {
 
     public void printLectureGroupByTeacher() {
         Map<Person, List<Lecture>> lectureGroupByTeacher  = lectureRep.getAll()
-                .stream().collect(Collectors.groupingBy(lecture -> getTeacherForGroup(lecture.getPersonId())));
+                .stream().collect(Collectors.groupingBy(lecture -> getTeacherForGroup(lecture.getTeacherId())));
         System.out.println(lectureGroupByTeacher);
     }
 

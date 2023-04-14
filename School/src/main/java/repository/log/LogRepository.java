@@ -10,7 +10,7 @@ public class LogRepository {
 
     private static ArrayList<Log> logs = new ArrayList<>();
 
-    public static LogService logServiceSt = new LogService("src/main/java/file/log.txt");
+    public static LogService logServiceSt = new LogService("School/src/main/java/file/log.txt");
 
     private static Level writeLevel = Level.OFF;
 
@@ -20,7 +20,6 @@ public class LogRepository {
         logs = new ArrayList<>();
         loadLogs();
     }
-
 
     public static void add(Log log) {
         if (log.getLevel().ordinal() >= writeLevel.ordinal()) {

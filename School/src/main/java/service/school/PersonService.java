@@ -1,8 +1,6 @@
 package service.school;
 
-import constants.ValidationType;
 import loger.Log;
-import models.Role;
 import models.school_object.Person;
 import models.school_object.StudentContr;
 import repository.school.impl.StudentRep;
@@ -42,25 +40,25 @@ abstract public class PersonService implements SchoolService{
         this.conversationService = conversationService;
     }
 
-    protected Role getRole(){
-
-        String roleAnswer = conversationService.getResponse(PRINT_ROLE, ValidationType.NAME);
-        if (roleAnswer == null){
-            System.out.println("Wrong command(null)");
-            return getRole();
-        }
-        if (roleAnswer.equalsIgnoreCase(ANSWER_ROLE_TEACHER)) {
-            return Role.TEACHER;
-        }
-        else if (roleAnswer.equalsIgnoreCase(ANSWER_ROLE_STUDENT)) {
-
-            return Role.STUDENT;
-        }
-        else {
-            System.out.println("Wrong command");
-            return getRole();
-        }
-    }
+//    protected Role getRole(){
+//
+//        String roleAnswer = conversationService.getResponse(PRINT_ROLE, ValidationType.NAME);
+//        if (roleAnswer == null){
+//            System.out.println("Wrong command(null)");
+//            return getRole();
+//        }
+//        if (roleAnswer.equalsIgnoreCase(ANSWER_ROLE_TEACHER)) {
+//            return Role.TEACHER;
+//        }
+//        else if (roleAnswer.equalsIgnoreCase(ANSWER_ROLE_STUDENT)) {
+//
+//            return Role.STUDENT;
+//        }
+//        else {
+//            System.out.println("Wrong command");
+//            return getRole();
+//        }
+//    }
 
     public StudentContr createSystemStudent(String firstname, String lastname, String phone, String email){
         StudentContr student = new StudentContr(firstname, lastname, phone, email);
@@ -89,10 +87,7 @@ abstract public class PersonService implements SchoolService{
     }
 
     public void saveStudentsInFile(){
-        ArrayList<Person> persons = new ArrayList<>();
-        Stream.of(studentRep.getAll(), teacherRep.getAll()).forEach(persons::addAll);
-        List<String> emails = persons.stream()
-                .filter(person -> person.getRole().equals(Role.STUDENT))
+        List<String> emails = studentRep.getAll().stream()
                 .map(Person::getEmail)
                 .sorted(Comparator.comparing(email -> email.charAt(0))).toList();
         if(file==null||!file.exists()){

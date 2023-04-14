@@ -9,7 +9,10 @@ import repository.school.impl.TeacherRep;
 import service.conversation.ConversationService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StudentService extends PersonService{
 
@@ -19,7 +22,7 @@ public class StudentService extends PersonService{
 
 
     public Person create() {
-        Role role = getRole();
+        Role role = Role.STUDENT;
         String firstName = conversationService.getResponse(PRINT_FIRSTNAME, ValidationType.NAME);
         String lastName = conversationService.getResponse(PRINT_LASTNAME, ValidationType.NAME);
         String phone = conversationService.getResponse(PRINT_PHONE_NUMBER, ValidationType.PHONE);
@@ -53,6 +56,12 @@ public class StudentService extends PersonService{
         Person person = new Person(courseID, Role.STUDENT, firstname, lastname, phone, email);
         studentRep.add(person);
         return person;
+    }
+
+    public void printEmailLastnameMap(){
+        Map<String, ArrayList<String>> emailLastnameMap = studentRep.getAll().stream()
+                .collect(Collectors.toMap(Person::getEmail, person -> new ArrayList<>(Arrays.asList(person.getFirstname(), person.getLastname()))));
+        System.out.println(emailLastnameMap);
     }
 
 }

@@ -4,15 +4,10 @@ import constants.ValidationType;
 import exceptions.EntityNotFoundException;
 import exceptions.IncorrectSymbolException;
 import loger.Log;
-import models.ResourceType;
-import models.school_object.*;
+import models.school_object.Lecture;
 import service.conversation.ConversationService;
 import service.log.LogService;
 import service.school.*;
-import util.serialization.ReserveCopy;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class CommandService {
 
@@ -66,7 +61,7 @@ public class CommandService {
     private boolean play = true;
 
     public void startApp() {
-        startCreate();
+//        startCreate();
         while (play) {
             if (Lecture.getCount() == MAX_COUNT_OF_LECTURES) {
                 System.out.println(CREATED_MAX_LECTURES);
@@ -117,8 +112,9 @@ public class CommandService {
                 "\"3\" - print lecture created the earliest with the most additional materials\n" +
                 "\"4\" - print lecture group by teacher\n" +
                 "\"5\" - print additionalMaterials group by lecture\n"+
-                "\"6\" - print email with firstname and lastname\n"+
-                "\"7\" - save students email in file",
+                "\"6\" - print email student with firstname and lastname\n"+
+                "\"7\" - print email student with firstname and lastname\n"+
+                "\"8\" - save students email in file",
                 ValidationType.ANYTHING);
         switch (response) {
             case "1" -> teacherService.printTeacherBeforeN();
@@ -126,8 +122,9 @@ public class CommandService {
             case "3" -> lectureService.printLectureCreatedEarliestWithMostAddMaterials();
             case "4" -> lectureService.printLectureGroupByTeacher();
             case "5" -> lectureService.printAddMatGroupByLecture();
-            case "6" -> personService.printEmailLastnameMap();
-            case "7" -> personService.saveStudentsInFile();
+            case "6" -> studentService.printEmailLastnameMap();
+            case "7" -> teacherService.printEmailLastnameMap();
+            case "8" -> studentService.saveStudentsInFile();
             default -> {
                 conversationService.print(ANSWER_WRONG_RESPONSE);
                 Log.warning(this.getClass().getName(), "anotherFunction method");
@@ -177,91 +174,91 @@ public class CommandService {
         }
     }
 
-    public void startCreate() {
-        System.out.println("Created one course with three lectures: ");
-        Course course = new Course();
-        course.setName("for zero");
-        Materials materials1 = new Materials("materials");
-        Person teacher = personService.createTeacherAdmin(course.getId(), "Stepan", "Bandera", "+3806660666",
-                "bandera666@moskaliv.net");
-
-        Person teacher1 = personService.createTeacherAdmin(course.getId(), "Taras", "Shevchenko", "+38025021814",
-                "ne.z.moskalyamy@moskaliv.net");
-        Person teacher2 = personService.createTeacherAdmin(course.getId(), "Ivan", "Franko", "+38027081856",
-                "kamenjar@moskaliv.net");
-        Person teacher3 = personService.createTeacherAdmin(course.getId(), "Lesya", "Ukrajinka", "+38025021871",
-                "bezNadiiSpodivajus@moskaliv.net");
-        Person teacher4 = personService.createTeacherAdmin(course.getId(), "Olha", "Knyaginya", "+380945964",
-                "ne.tilky@moskaliv.net");
-
-        Person student1 = personService.createStudentAdmin(course.getId(), "Dmytro", "Kuleba",
-                "+380484214449", "dajte.tanky.dlja@moskaliv.net");
-        Person student2 = personService.createStudentAdmin(course.getId(), "Volodymyr", "Zelenskyj",
-                "+380333333333", "malo.zbroji.dlja@moskaliv.net");
-        Person student3 = personService.createStudentAdmin(course.getId(), "Valerij", "Zaluznyj",
-                "+380200300200", "teper_v_Ukraini@moskaliv.net");
-
-        courseService.addPerson(course, teacher);
-        courseService.addPerson(course, teacher1);
-        courseService.addPerson(course, teacher2);
-        courseService.addPerson(course, teacher3);
-        courseService.addPerson(course, teacher4);
-        courseService.addPerson(course, student1);
-        courseService.addPerson(course, student2);
-        courseService.addPerson(course, student3);
-
-        Lecture lecture1 = new Lecture();
-        lecture1.setName("math");
-        lecture1.setDescription("For those who are not humanitarian");
-        lecture1.setIdCourse(course.getId());
-        lecture1.setMaterials(materials1);
-        lecture1.setPersonId(teacher.getId());
-        lecture1.setLectureDate(LocalDateTime.of(2011,01,11,12,00));
-        Homework homework1 = new Homework(lecture1.getId(), "1 hw");
-        ArrayList<Homework> homeworks1 = new ArrayList<>();
-        homeworks1.add(homework1);
-        lecture1.setHomework(homeworks1);
-        AdditionalMaterials adMat1 = additionalMaterialsService.createAdmin(lecture1.getId(), "hz", ResourceType.URL);
-
-        Lecture lecture2 = new Lecture();
-        lecture2.setName("history");
-        lecture2.setDescription("Dates and events");
-        lecture2.setIdCourse(course.getId());
-        lecture2.setMaterials(materials1);
-        lecture2.setPersonId(teacher.getId());
-        lecture2.setLectureDate(LocalDateTime.of(2012,01,11,12,00));
-        Homework homework2 = new Homework(lecture2.getId(), "2 hw");
-        ArrayList<Homework> homeworks2 = new ArrayList<>();
-        homeworks2.add(homework2);
-        lecture2.setHomework(homeworks2);
-
-        Lecture lecture3 = new Lecture();
-        lecture3.setName("literature");
-        lecture3.setDescription("Where do you think the person thought, although he may not have thought");
-        lecture3.setIdCourse(course.getId());
-        lecture3.setMaterials(materials1);
-        lecture3.setPersonId(teacher.getId());
-        lecture3.setLectureDate(LocalDateTime.of(2013,01,11,12,00));
-        Homework homework3 = new Homework(lecture3.getId(), "3 hw");
-        ArrayList<Homework> homeworks3 = new ArrayList<>();
-        homeworks3.add(homework3);
-        lecture3.setHomework(homeworks3);
-
-        AdditionalMaterials adMat2 = additionalMaterialsService.createAdmin(lecture2.getId(), "hz2", ResourceType.BOOK);
-        AdditionalMaterials adMat3 = additionalMaterialsService.createAdmin(lecture3.getId(), "hz3", ResourceType.VIDEO);
-
-        lectureService.addLectureToRep(lecture1);
-        lectureService.addLectureToRep(lecture2);
-        lectureService.addLectureToRep(lecture3);
-        courseService.addLectureToList(course, lecture1);
-        courseService.addLectureToList(course, lecture2);
-        courseService.addLectureToList(course, lecture3);
-        courseService.addToRep(course);
-
-        ReserveCopy serializator = new ReserveCopy();
-        serializator.backupCourse(course);
-        System.out.println("Course: ");
-        System.out.println(serializator.deserializationCourse());
-    }
+//    public void startCreate() {
+//        System.out.println("Created one course with three lectures: ");
+//        Course course = new Course();
+//        course.setName("for zero");
+//        Materials materials1 = new Materials("materials");
+//        Person teacher = personService.createTeacherAdmin(course.getId(), "Stepan", "Bandera", "+3806660666",
+//                "bandera666@moskaliv.net");
+//
+//        Person teacher1 = personService.createTeacherAdmin(course.getId(), "Taras", "Shevchenko", "+38025021814",
+//                "ne.z.moskalyamy@moskaliv.net");
+//        Person teacher2 = personService.createTeacherAdmin(course.getId(), "Ivan", "Franko", "+38027081856",
+//                "kamenjar@moskaliv.net");
+//        Person teacher3 = personService.createTeacherAdmin(course.getId(), "Lesya", "Ukrajinka", "+38025021871",
+//                "bezNadiiSpodivajus@moskaliv.net");
+//        Person teacher4 = personService.createTeacherAdmin(course.getId(), "Olha", "Knyaginya", "+380945964",
+//                "ne.tilky@moskaliv.net");
+//
+//        Person student1 = personService.createStudentAdmin(course.getId(), "Dmytro", "Kuleba",
+//                "+380484214449", "dajte.tanky.dlja@moskaliv.net");
+//        Person student2 = personService.createStudentAdmin(course.getId(), "Volodymyr", "Zelenskyj",
+//                "+380333333333", "malo.zbroji.dlja@moskaliv.net");
+//        Person student3 = personService.createStudentAdmin(course.getId(), "Valerij", "Zaluznyj",
+//                "+380200300200", "teper_v_Ukraini@moskaliv.net");
+//
+//        courseService.addPerson(course, teacher);
+//        courseService.addPerson(course, teacher1);
+//        courseService.addPerson(course, teacher2);
+//        courseService.addPerson(course, teacher3);
+//        courseService.addPerson(course, teacher4);
+//        courseService.addPerson(course, student1);
+//        courseService.addPerson(course, student2);
+//        courseService.addPerson(course, student3);
+//
+//        Lecture lecture1 = new Lecture();
+//        lecture1.setName("math");
+//        lecture1.setDescription("For those who are not humanitarian");
+//        lecture1.setIdCourse(course.getId());
+//        lecture1.setMaterials(materials1);
+//        lecture1.setPersonId(teacher.getId());
+//        lecture1.setLectureDate(LocalDateTime.of(2011,01,11,12,00));
+//        Homework homework1 = new Homework(lecture1.getId(), "1 hw");
+//        ArrayList<Homework> homeworks1 = new ArrayList<>();
+//        homeworks1.add(homework1);
+//        lecture1.setHomework(homeworks1);
+//        AdditionalMaterials adMat1 = additionalMaterialsService.createAdmin(lecture1.getId(), "hz", ResourceType.URL);
+//
+//        Lecture lecture2 = new Lecture();
+//        lecture2.setName("history");
+//        lecture2.setDescription("Dates and events");
+//        lecture2.setIdCourse(course.getId());
+//        lecture2.setMaterials(materials1);
+//        lecture2.setPersonId(teacher.getId());
+//        lecture2.setLectureDate(LocalDateTime.of(2012,01,11,12,00));
+//        Homework homework2 = new Homework(lecture2.getId(), "2 hw");
+//        ArrayList<Homework> homeworks2 = new ArrayList<>();
+//        homeworks2.add(homework2);
+//        lecture2.setHomework(homeworks2);
+//
+//        Lecture lecture3 = new Lecture();
+//        lecture3.setName("literature");
+//        lecture3.setDescription("Where do you think the person thought, although he may not have thought");
+//        lecture3.setIdCourse(course.getId());
+//        lecture3.setMaterials(materials1);
+//        lecture3.setPersonId(teacher.getId());
+//        lecture3.setLectureDate(LocalDateTime.of(2013,01,11,12,00));
+//        Homework homework3 = new Homework(lecture3.getId(), "3 hw");
+//        ArrayList<Homework> homeworks3 = new ArrayList<>();
+//        homeworks3.add(homework3);
+//        lecture3.setHomework(homeworks3);
+//
+//        AdditionalMaterials adMat2 = additionalMaterialsService.createAdmin(lecture2.getId(), "hz2", ResourceType.BOOK);
+//        AdditionalMaterials adMat3 = additionalMaterialsService.createAdmin(lecture3.getId(), "hz3", ResourceType.VIDEO);
+//
+//        lectureService.addLectureToRep(lecture1);
+//        lectureService.addLectureToRep(lecture2);
+//        lectureService.addLectureToRep(lecture3);
+//        courseService.addLectureToList(course, lecture1);
+//        courseService.addLectureToList(course, lecture2);
+//        courseService.addLectureToList(course, lecture3);
+//        courseService.addToRep(course);
+//
+//        ReserveCopy serializator = new ReserveCopy();
+//        serializator.backupCourse(course);
+//        System.out.println("Course: ");
+//        System.out.println(serializator.deserializationCourse());
+//    }
 
 }

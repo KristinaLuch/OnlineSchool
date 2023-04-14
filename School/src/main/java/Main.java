@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+import static constants.FilesAddresses.PATH_PROPERTIES;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -26,7 +28,6 @@ public class Main {
         ComparatorId comparatorId = new ComparatorId();
         ComparatorLectureId comparatorIdLecture = new ComparatorLectureId();
         ComparatorResourceType comparatorResourceType = new ComparatorResourceType();
-
 
         CourseRep courses = new CourseRep(new ArrayList<>());
         LectureRep lectures = new LectureRep(new ArrayList<>());
@@ -41,11 +42,9 @@ public class Main {
         AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>());
 
        // String path = "C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\file\\log.txt";
-        String path = "src/main/java/file/log.txt";
 
-       LogRepository logRep = new LogRepository();
+//       LogRepository logRep = new LogRepository();
         LogService logService = LogRepository.logServiceSt;
-
 
         ValidationService validationService = new ValidationService(studentRep, teacherRep);
         ConversationService conversationService = new ConversationService(scanner, validationService);
@@ -65,20 +64,16 @@ public class Main {
         LectureService lectureService = new LectureService(lectures, conversationService, homeworkService, materialService,
                 lectureAssociatedService, courses, teacherRep);
 
-
-
-
         StudentService studentService = new StudentService(studentRep, teacherRep, conversationService);
 
-
+        TeacherService teacherService = new TeacherService(studentRep, teacherRep, conversationService);
         CourseService courseService = new CourseService(courses, lectureService, studentService, conversationService);
 
 //        TestService testService = new TestService(personService);
 //        testService.runTest();
-        String pathProperties = "src\\main\\java\\resources\\logLevel.properties";
-        PropertyLevel.setPath(pathProperties);
+        PropertyLevel.setPath(PATH_PROPERTIES);
 
-        Path path1 = Path.of("src\\main\\java\\resources");
+        Path path1 = Path.of("School\\src\\main\\java\\resources");
         LevelControl lc = new LevelControl(path1);
 
         LogRepository.setWriteLevel(PropertyLevel.getLevel());
@@ -87,9 +82,9 @@ public class Main {
         control.start();
 
         CommandService commandService = new CommandService(conversationService, courseService, lectureService,
-                personService, additionalMaterialsService, logService);
+                studentService, teacherService, additionalMaterialsService, logService);
 
-        logService.printInfoCountOfMiddleOfFile();
+//        logService.printInfoCountOfMiddleOfFile();
 
         commandService.startApp();
 //        System.out.println("before");
