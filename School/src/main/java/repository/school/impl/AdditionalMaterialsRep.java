@@ -1,5 +1,6 @@
 package repository.school.impl;
 
+import dao.DBAdditionalMaterialsService;
 import exceptions.EntityNotFoundException;
 import models.school_object.AdditionalMaterials;
 import repository.school.IAdditionalMaterialsRep;
@@ -7,15 +8,22 @@ import repository.school.IAdditionalMaterialsRep;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 public class AdditionalMaterialsRep implements IAdditionalMaterialsRep {
 
-    private final Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
+    private final DBAdditionalMaterialsService dbAdditionalMaterialsService;
 
-    public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap) {
+    private Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap;
+
+    public AdditionalMaterialsRep(Map<Integer, ArrayList<AdditionalMaterials>> additionalMaterialsMap, DBAdditionalMaterialsService dbAdditionalMaterialsService) {
         this.additionalMaterialsMap = additionalMaterialsMap;
+        this.dbAdditionalMaterialsService = dbAdditionalMaterialsService;
+        download();
+    }
+
+    private void download(){
+        additionalMaterialsMap = dbAdditionalMaterialsService.getAllFromBD();
+        System.out.println("download"+additionalMaterialsMap);
     }
 
     @Override

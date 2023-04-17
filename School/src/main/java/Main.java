@@ -1,6 +1,10 @@
 import comparator_add_materials.ComparatorId;
 import comparator_add_materials.ComparatorLectureId;
 import comparator_add_materials.ComparatorResourceType;
+import dao.DBAdditionalMaterialsService;
+import dao.DBHomeworkService;
+import dao.DBLectureService;
+import dao.DBMaterialsService;
 import models.school_object.Person;
 import repository.log.LogRepository;
 import repository.school.impl.*;
@@ -29,17 +33,23 @@ public class Main {
         ComparatorLectureId comparatorIdLecture = new ComparatorLectureId();
         ComparatorResourceType comparatorResourceType = new ComparatorResourceType();
 
+        DBAdditionalMaterialsService dbAdditionalMaterialsService = new DBAdditionalMaterialsService();
+        DBHomeworkService dbHomeworkService = new DBHomeworkService();
+        DBMaterialsService dbMaterialsService = new DBMaterialsService();
+
+        DBLectureService dbLectureService = new DBLectureService(dbAdditionalMaterialsService, dbHomeworkService, dbMaterialsService);
+
         CourseRep courses = new CourseRep(new ArrayList<>());
-        LectureRep lectures = new LectureRep(new ArrayList<>());
-        HomeworkRep homeworks = new HomeworkRep(new HashMap<>());
-        MaterialsRep materials = new MaterialsRep(new ArrayList<>());
+        LectureRep lectures = new LectureRep(new ArrayList<>(), dbLectureService);
+        HomeworkRep homeworks = new HomeworkRep(new HashMap<>(), dbHomeworkService);
+        MaterialsRep materials = new MaterialsRep(new ArrayList<>(), dbMaterialsService);
         ArrayList<Person> students = new ArrayList<>();
         ArrayList<Person> teachers = new ArrayList<>();
 
         StudentRep studentRep = new StudentRep(teachers, students);
         TeacherRep teacherRep = new TeacherRep(teachers, students);
 
-        AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>());
+        AdditionalMaterialsRep additionalMaterialsRep = new AdditionalMaterialsRep(new TreeMap<>(), dbAdditionalMaterialsService);
 
        // String path = "C:\\StartIT_Academy\\Homework3\\School\\src\\main\\java\\file\\log.txt";
 

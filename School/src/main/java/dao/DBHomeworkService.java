@@ -28,6 +28,7 @@ public class DBHomeworkService extends AbsDBService {
                 return new TreeMap<>();
             }
             int key;
+            int idMax = 0;
             ResultSet rs;
             ArrayList<Homework> value = new ArrayList<>();
             Map<Integer, ArrayList<Homework>> map = new TreeMap<>();
@@ -36,6 +37,7 @@ public class DBHomeworkService extends AbsDBService {
                 rs = statement.executeQuery("SELECT * FROM school.homework WHERE lecture_id = "+key);
                 while (rs.next()) {
                     int id = rs.getInt("id");
+                    if (id>idMax){idMax = id;}
                     String task = rs.getString("task");
                     int lectureId = rs.getInt("lecture_id");
                     Homework homework = new Homework(id, lectureId, task);
@@ -44,6 +46,7 @@ public class DBHomeworkService extends AbsDBService {
                 map.put(key, value);
                 value = new ArrayList<>();
             }
+            Homework.setCount(idMax);
             connectionToDb.closeConnection(connection);
             return map;
         } catch (SQLException e) {

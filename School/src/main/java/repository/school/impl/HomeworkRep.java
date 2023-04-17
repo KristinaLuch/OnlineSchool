@@ -1,5 +1,6 @@
 package repository.school.impl;
 
+import dao.DBHomeworkService;
 import exceptions.EntityNotFoundException;
 import models.school_object.Homework;
 import repository.school.IHomeworkRep;
@@ -10,9 +11,16 @@ import java.util.Set;
 
 public class HomeworkRep implements IHomeworkRep {
     private Map<Integer, ArrayList<Homework>> homeworks;
+    private DBHomeworkService dbHomeworkService;
 
-    public HomeworkRep(Map<Integer, ArrayList<Homework>> homeworks) {
+    public HomeworkRep(Map<Integer, ArrayList<Homework>> homeworks, DBHomeworkService dbHomeworkService) {
         this.homeworks = homeworks;
+        this.dbHomeworkService = dbHomeworkService;
+        download();
+    }
+
+    private void download(){
+        homeworks = dbHomeworkService.getAllFromBD();
     }
 
     @Override

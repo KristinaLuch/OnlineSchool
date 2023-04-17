@@ -1,5 +1,6 @@
 package repository.school.impl;
 
+import dao.DBLectureService;
 import exceptions.EntityNotFoundException;
 import models.school_object.Lecture;
 import repository.school.ILectureRep;
@@ -13,8 +14,16 @@ public class LectureRep implements ILectureRep {
 
     protected ArrayList<Lecture> lectures;
 
-    public LectureRep(ArrayList<Lecture> lectures) {
+    private DBLectureService dbLectureService;
+
+    public LectureRep(ArrayList<Lecture> lectures, DBLectureService dbLectureService) {
         this.lectures = lectures;
+        this.dbLectureService = dbLectureService;
+        download();
+    }
+
+    private void download(){
+        lectures = dbLectureService.getAllFromDB();
     }
 
     @Override

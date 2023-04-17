@@ -16,12 +16,15 @@ public class DBMaterialsService {
             ResultSet rs = statement.executeQuery("SELECT * FROM school.materials");
             ArrayList<Materials> materialsArrayList = new ArrayList<>();
 
+            int idMax = 0;
             while (rs.next()) {
                 int id = rs.getInt("id");
+                if(id>idMax){idMax = id;}
                 String material = rs.getString("material");
                 Materials materials = new Materials(id, material);
                 materialsArrayList.add(materials);
             }
+            Materials.setCount(idMax);
             connectionToDb.closeConnection(connection);
             return materialsArrayList;
         } catch (SQLException e) {

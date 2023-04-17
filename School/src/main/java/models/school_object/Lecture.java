@@ -21,7 +21,9 @@ public class Lecture implements Serializable {
 
     private LocalDateTime lectureDate;
 
-    public Lecture(Integer id, int idCourse, int teacherId, String name, String description, ArrayList<Homework> homework, Materials materials, LocalDateTime creationDate, LocalDateTime lectureDate) {
+    public Lecture(Integer id, int idCourse, int teacherId, String name,
+                   String description, ArrayList<Homework> homework, Materials materials,
+                   LocalDateTime creationDate, LocalDateTime lectureDate) {
         this.id = id;
         this.idCourse = idCourse;
         this.teacherId = teacherId;
@@ -31,6 +33,7 @@ public class Lecture implements Serializable {
         this.materials = materials;
         this.creationDate = creationDate;
         this.lectureDate = lectureDate;
+
     }
 
     public Lecture() {
@@ -65,7 +68,6 @@ public class Lecture implements Serializable {
     public static int getCount() {
         return count;
     }
-
 
     public int getTeacherId() {
         return teacherId;

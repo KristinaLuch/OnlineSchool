@@ -1,12 +1,7 @@
 package models.school_object;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Materials implements Serializable {
     private static int count = 0;
@@ -33,6 +28,19 @@ public class Materials implements Serializable {
                 "id=" + id +
                 ", materials='" + materials + '\'' +
                 '}';
+    }
+
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Materials.count = count;
+    }
+
+    public String getMaterials() {
+        return materials;
     }
 
     @Override

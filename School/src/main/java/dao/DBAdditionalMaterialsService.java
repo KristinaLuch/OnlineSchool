@@ -30,6 +30,7 @@ public class DBAdditionalMaterialsService extends AbsDBService{
                 return new TreeMap<>();
             }
             int key;
+            int idMax = 0;
             ResultSet rs;
             ArrayList<AdditionalMaterials> value = new ArrayList<>();
             Map<Integer, ArrayList<AdditionalMaterials>> map = new TreeMap<>();
@@ -38,6 +39,7 @@ public class DBAdditionalMaterialsService extends AbsDBService{
                 rs = statement.executeQuery("SELECT * FROM school.additional_materials WHERE lecture_id = "+key);
                 while (rs.next()) {
                     int id = rs.getInt("id");
+                    if(id>idMax){idMax = id;}
                     String name = rs.getString("add_mat_name");
 
                     ResourceType resourceType = ResourceType.valueOf(rs.getString("resource_type").toUpperCase());
@@ -48,6 +50,7 @@ public class DBAdditionalMaterialsService extends AbsDBService{
                 map.put(key, value);
                 value = new ArrayList<>();
             }
+            AdditionalMaterials.setCount(idMax);
             connectionToDb.closeConnection(connection);
             return map;
         } catch (SQLException e) {

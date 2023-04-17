@@ -1,5 +1,6 @@
 package repository.school.impl;
 
+import dao.DBMaterialsService;
 import exceptions.EntityNotFoundException;
 import models.school_object.Materials;
 import repository.school.IMaterialsRep;
@@ -9,8 +10,16 @@ import java.util.ArrayList;
 public class MaterialsRep implements IMaterialsRep {
     protected ArrayList<Materials> materialsRep;
 
-    public MaterialsRep(ArrayList<Materials> materialsRep) {
+    private DBMaterialsService dbMaterialsService;
+
+    public MaterialsRep(ArrayList<Materials> materialsRep, DBMaterialsService dbMaterialsService) {
         this.materialsRep = materialsRep;
+        this.dbMaterialsService = dbMaterialsService;
+        download();
+    }
+
+    private void download(){
+        materialsRep = dbMaterialsService.getAllFromDB();
     }
 
     @Override
